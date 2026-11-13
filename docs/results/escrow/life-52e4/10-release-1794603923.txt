@@ -1,0 +1,23 @@
+├  Unsigned transaction:
+│    signer_id:    encore-stranger-6b4dad.testnet
+│    receiver_id:  encroe-life-52e4.testnet
+│    actions:
+│       -- function call:      
+│                       method name:  release
+│                       args:         {}
+│                       gas:          100.0 Tgas
+│                       deposit:      0 NEAR
+│     
+├  Your transaction was signed successfully.
+│    Public key: ed25519:Gq7j8FgMQZZkggjtSPRv54rvqy8Ws6WcJJdW5BnkfsdG
+│    Signature:  ed25519:2RYHcaeLbKVG9AeH45GiJLEZ22wqhybSPCLTsX9Yn7qdrTAMmmn2RRoTL5RqaBkszBg35C7kmTuUNATxNu7kX5ps
+│     
+
+Here is your console command if you need to script it or re-run:
+    /Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near contract call-function as-transaction encroe-life-52e4.testnet release json-args {} prepaid-gas '100.0 Tgas' attached-deposit '0 NEAR' sign-as encore-stranger-6b4dad.testnet network-config testnet sign-with-legacy-keychain send
+
+Error: 
+   0: Error: Transaction nonce (277260856000023) must be account[access_key].nonce (277260856000023) + 1.
+
+Location:
+   src/transaction_signature_options/send/mod.rs:185

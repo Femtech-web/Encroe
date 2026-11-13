@@ -1,0 +1,5 @@
+ESCROW=encroe-kill-5609.testnet
+OWNER=encore-pub-6b4dad.testnet
+PATH_=encroe/kill-5609/1
+GRACE_S=120
+CODE_SHA256=08d9174fedb6374971b076591d915423d2fab6bc7f5bb056be308178b3901fbf

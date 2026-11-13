@@ -1,0 +1,11 @@
+{"at": 1794609145, "step": "01-create", "tx": "7GWwjyJ1ghTnvmzi1jbqi3ZyWTjQiiNYiL3uZWGh7FEy", "refused": null, "request_id": null}
+{"at": 1794609157, "step": "02-deploy", "tx": "GHYumZsd5zMh1pzws1VnL6NpWWr3kzLmfk6H8CU5FLJT", "refused": null, "request_id": null}
+{"at": 1794609162, "step": "03-lock", "tx": "CjVYcnbcJ79PW8JMTRUUfX4H3fBZQFAtWBQQcwJDxEEk", "refused": null, "request_id": null}
+{"at": 1794609170, "step": "04-refresh", "tx": "AhufQV3LhvnL2Aojaa12s7NpPqB8jKNBpoqeScKRywNU", "refused": null, "request_id": null}
+{"at": 1794609209, "step": "05-commit-1", "tx": "4gqFBSLqdovSa587HGRw1FyFuY3G1kn8KXLKnVeN9WAT", "refused": null, "request_id": null}
+{"at": 1794609218, "step": "05-package-1", "tx": "GGzmFbCpJ8rFXYdhqhe9Sdzb5XwtzHkvcsXZ1q3SCsUg", "refused": null, "request_id": null}
+{"at": 1794609227, "step": "06-secret-1", "tx": "8df8qzEd1b6STBnTnKoJfq5aWqPTpN3eTgNEJzvE5bob", "refused": null, "request_id": null}
+{"at": 1794609243, "step": "07-verify-1-1794609227", "tx": "5DMVmpVpkmFo3j4GFeBDQBZ19rjJq6NppjotC3bm1prW", "refused": null, "request_id": 41193}
+{"at": 1794609258, "step": "08-prove-41193-run0", "tx": "Aj7jHsQovct9z7Uf6PFPWuSNB4wrqMjCQV9kWgqTYe7J", "refused": null, "request_id": 41193}
+{"at": 1794609272, "step": "10-release-1794609267", "tx": "KcRxiYe5MT96RmDFCc2kKvVmEHhydQU4QL1qX1AT6qv", "refused": "release condition not met: publisher heartbeat is live and no end of life is due", "request_id": null}
+{"at": 1794609289, "step": "10-release-1794609280", "tx": "6voVxsnVmfzRnkmcv51HFth4SSaMMFQ21AJedGnphtZ6", "refused": null, "request_id": null}

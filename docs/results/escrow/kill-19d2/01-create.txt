@@ -1,0 +1,21 @@
+├  Your transaction:
+│    signer_id:    testnet
+│    actions:
+│       -- create account:      encroe-kill-19d2.testnet
+│       -- add access key:     
+│                       public key:   ed25519:Fh1q3X1UDSuYB2WVmRrFPCQASpuVNSHNHsfamrB58Vgh
+│                       permission:   FullAccess
+│     
+├  Transaction Execution Info:
+│    Transaction ID: 6yuLAQJzDeKBXdq7YmX5kmdVg68QdGXku4ct8VhZK45c
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/6yuLAQJzDeKBXdq7YmX5kmdVg68QdGXku4ct8VhZK45c
+
+New account <encroe-kill-19d2.testnet> created successfully.
+The data for the access key is saved in a file /Users/mac/.near-credentials/testnet/encroe-kill-19d2.testnet/ed25519_Fh1q3X1UDSuYB2WVmRrFPCQASpuVNSHNHsfamrB58Vgh.json
+The data for the access key is saved in a file /Users/mac/.near-credentials/testnet/encroe-kill-19d2.testnet.json
+
+
+Here is your console command if you need to script it or re-run:
+    /Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near account create-account sponsor-by-faucet-service encroe-kill-19d2.testnet autogenerate-new-keypair --signature-scheme ed25519 save-to-legacy-keychain network-config testnet create
+

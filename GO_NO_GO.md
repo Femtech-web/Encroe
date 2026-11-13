@@ -1,4 +1,4 @@
-# Encore: Proof of Continuity, go/no-go
+# Encroe: Proof of Continuity, go/no-go
 
 **Date:** 2026-11-11 (UTC). Every on-chain step ran on **NEAR testnet**, against the live MPC contract `v1.signer-prod.testnet` and OutLayer's `outlayer.testnet` with its TDX workers. Nothing is mocked: no simulated transactions, secrets or attestations.
 
@@ -11,7 +11,7 @@
 
 **Decision: GO** for the core mechanism.
 
-The three dependencies Encore relies on work on real infrastructure today:
+The three dependencies Encroe relies on work on real infrastructure today:
 1. A sealed package whose key only a contract can release.
 2. A pre-release check of that package by an attested program that alone can read it.
 3. After release, a public re-run that reproduces the attested result.
@@ -105,7 +105,7 @@ The main limit above was that on-chain acceptance of an OutLayer result trusted 
 
 | Step | Evidence |
 |---|---|
-| Encore's E2 run, re-checked on NEAR | Run #25728's TDX quote, with fresh Intel PCS collateral, returns **Verified / `UpToDate`** from NEAR's DCAP verifier `tee-verifier-2026-07-22.testnet` (`verify_quote`, a free view). The returned report's `report_data` is our recomputed task hash `93f4eaec…`, which binds the verifier build, input, output, caller and secret row (`docs/results/t1/verify-quote-view-25728.borsh`). |
+| Encroe's E2 run, re-checked on NEAR | Run #25728's TDX quote, with fresh Intel PCS collateral, returns **Verified / `UpToDate`** from NEAR's DCAP verifier `tee-verifier-2026-07-22.testnet` (`verify_quote`, a free view). The returned report's `report_data` is our recomputed task hash `93f4eaec…`, which binds the verifier build, input, output, caller and secret row (`docs/results/t1/verify-quote-view-25728.borsh`). |
 | The contract | `contracts/encore-t1` (`encore-poc` is untouched, so E1–E3 still reproduce). A verification run is accepted **only** after `prove_run` succeeds. `prove_run` checks three things: (1) the attestation's fields equal the contract's own record of the run (pinned build, the SHA-256 of the input it sent and of the output it received, the caller, the secret row); (2) NEAR's DCAP verifier accepts the quote with TCB `UpToDate`; (3) the worker image is among OutLayer's approved measurements, which `refresh_measurements` copies on-chain (129 on testnet). 4 tests run on the real verifier output. |
 | Deployment | `t1.encore-pub-6b4dad.testnet` (code sha256 `332d1ad0…`, `docs/results/t1/contract-sha256.txt`). Epoch committed `B2p6UV83…`; images loaded `31gvdEsf…`; secret row stored `APicrNZb…` (encrypted locally, so the coordinator saw `"{}"`). |
 | Live run 0 | The stranger's `verify` became OutLayer request **30468**. Its output passed every content check, but the run stayed `accepted: false`. `prove_run` (`97CW3VJ2…`) logged *"run 0 T1: quote verified on NEAR (UpToDate)"*, and the run became `accepted: true`. |
@@ -118,7 +118,7 @@ Reproduce: `scripts/testnet/t1.sh status`. To re-check any run: `scripts/testnet
 1. **On-chain acceptance still trusts OutLayer's operator.**
    - `encore-e2` accepted the result because it came back from `outlayer.testnet`, and OutLayer resolves runs from any key on `worker.outlayer.testnet`. That account has **3 full-access keys** next to 60 TDX-registered function-call keys.
    - The cryptographic guarantee comes only from the quote check, which we do **off-chain**.
-   - For Encore's on-chain logic (heartbeats requiring a verified epoch, bonds) the contract must verify the quote itself, which is custom work. dcap-qvl has a `contract` feature, and OutLayer's register contract already verifies quotes on-chain.
+   - For Encroe's on-chain logic (heartbeats requiring a verified epoch, bonds) the contract must verify the quote itself, which is custom work. dcap-qvl has a `contract` feature, and OutLayer's register contract already verifies quotes on-chain.
 2. **OutLayer governance and availability.**
    - Approved measurements are set by `owner.outlayer.testnet` alone.
    - Attestation records and the pubkey come from OutLayer's closed-source coordinator. Quotes are self-verifying once fetched, and we keep copies in `docs/results/`.

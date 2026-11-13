@@ -1,0 +1,18 @@
+{
+  "v": 1,
+  "game": "kill-beaa",
+  "epoch": 1,
+  "predecessor": "encroe-kill-beaa.testnet",
+  "path": "encroe/kill-beaa/1",
+  "domain_id": 2,
+  "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj",
+  "app_id": "869083b19d605a8d12a93145b781885d3e6be16cc468127fd70cbaa89bffc056",
+  "sealed_key": {
+    "u": "a1a0283beb9bef5720f5fb722e1b43364cea8e7e2b2cc409882cc6f6da811c98a456087af30de96a3b2372a4d456704b17911de9d3086dc0ac539adb45744b384823b3ee2b4030992fabc96f4e594dfff36626692ce0f094fa107734c7d5024c",
+    "v": "2ce69e1b5df1edb8842d7613461628b20abd5e75cf5671385f3b8ace24dde9d2"
+  },
+  "pkg_sha256": "29f0cfa48cfa6719bc22915a5e4b9b922e62e942aa02dd6dc3e55d41ada29540",
+  "root": "239a6b3aaa57cdb8115795dc356b866995c2cef507add1aae6b301a486f7882c",
+  "core_sha256": "49ff0c57f10f24b9091eae3bd218b28a642d581f698871f6b3c65b7effa9cb62",
+  "players": 5
+}

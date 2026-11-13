@@ -1,0 +1,18 @@
+{
+  "v": 1,
+  "game": "kill-da6a",
+  "epoch": 1,
+  "predecessor": "encroe-kill-da6a.testnet",
+  "path": "encroe/kill-da6a/1",
+  "domain_id": 2,
+  "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj",
+  "app_id": "474e3f2fcc0792effa2a188c2fcc1847ec1ad3f803ef1eadc6363cae796442a7",
+  "sealed_key": {
+    "u": "b502447cf0abab1666a14ddaaddf1162d7da92818482fc828bd1b9b930182d8be95802cde08a5d659104657f886dd4a119355ff9f37028bcac78dd4881c832236c9742e1e755f35028b2f91b060869ba063d3d3cefc6c904b03dc41ad3e6b6b2",
+    "v": "023a73d4edbac46e2d09f5617b6b54f87be09491b06fe50019bb319d0e467bf7"
+  },
+  "pkg_sha256": "a589be92ea72bc586834f0eba799e31cf6a0d112af4e9add1d3835e465e34291",
+  "root": "94f97142498edfcabbeafa8c9b77587c65c685b260a088ee0028af46d3e72ae1",
+  "core_sha256": "49ff0c57f10f24b9091eae3bd218b28a642d581f698871f6b3c65b7effa9cb62",
+  "players": 5
+}

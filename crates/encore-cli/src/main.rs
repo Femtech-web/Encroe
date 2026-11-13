@@ -47,6 +47,10 @@ enum Cmd {
         core: PathBuf,
         #[arg(long, default_value_t = 24)]
         players: usize,
+        /// The live world's players, `[{"pk": hex, "items": [[id, qty], …]}, …]`, instead of `players` random ones.
+        /// Each epoch gets fresh salts, so a leaf hides a player's items until they show their own proof.
+        #[arg(long)]
+        players_file: Option<PathBuf>,
         /// Public outputs: commitment.json, package.sealed, package.b64, players-public.json.
         #[arg(long)]
         out: PathBuf,
@@ -106,6 +110,11 @@ enum Cmd {
         file: PathBuf,
         #[arg(long)]
         out_dir: PathBuf,
+        /// The file's name on FastFS: `<sha256>.<ext>`.
+        #[arg(long, default_value = "wasm")]
+        ext: String,
+        #[arg(long, default_value = "application/wasm")]
+        mime: String,
     },
     /// Check one player's inclusion proof against the commitment root.
     PlayerCheck {
@@ -146,6 +155,35 @@ fn random_players(n: usize) -> Vec<Player> {
     players
 }
 
+#[derive(serde::Deserialize)]
+struct WorldPlayer {
+    #[serde(with = "hex::serde")]
+    pk: [u8; 32],
+    items: Vec<(u32, u32)>,
+}
+
+fn world_players(file: &PathBuf) -> Result<Vec<Player>> {
+    let world: Vec<WorldPlayer> = read_json(file)?;
+    if world.is_empty() || world.len() > 64 {
+        return Err(anyhow!("a world has 1 to 64 players, not {}", world.len()));
+    }
+    let mut players: Vec<Player> = world
+        .into_iter()
+        .map(|w| {
+            let mut items: Vec<(u32, u32)> = w.items.into_iter().filter(|(_, q)| *q > 0).collect();
+            items.sort_by_key(|(id, _)| *id);
+            let mut salt = [0u8; 32];
+            OsRng.fill_bytes(&mut salt);
+            Player { pk: w.pk, items, salt }
+        })
+        .collect();
+    if players.iter().any(|p| p.items.len() > 16) {
+        return Err(anyhow!("a player holds at most 16 item types"));
+    }
+    players.sort_by_key(|p| p.pk);
+    Ok(players)
+}
+
 fn parse_g1_any(s: &str) -> Result<ark_bls12_381::G1Affine> {
     let bytes = if s.starts_with("bls12381g1:") { parse_near_bls(s, "bls12381g1", 48)? } else { hex::decode(s)? };
     Ok(g1_from_bytes(&bytes)?)
@@ -153,11 +191,14 @@ fn parse_g1_any(s: &str) -> Result<ark_bls12_381::G1Affine> {
 
 fn main() -> Result<()> {
     match Cli::parse().cmd {
-        Cmd::Seal { predecessor, path, domain_id, ckd_pk, game, epoch, core, players, out, secret_out } => {
+        Cmd::Seal { predecessor, path, domain_id, ckd_pk, game, epoch, core, players, players_file, out, secret_out } => {
             let pk: [u8; 96] = parse_near_bls(&ckd_pk, "bls12381g2", 96)?.try_into().unwrap();
             let app_id = derive_app_id(&predecessor, &path);
             let core_bytes = fs::read(&core)?;
-            let players = random_players(players);
+            let players = match &players_file {
+                Some(f) => world_players(f)?,
+                None => random_players(players),
+            };
             let package = Package { v: PACKAGE_VERSION, game: game.clone(), epoch, core_wasm_b64: B64.encode(&core_bytes), players };
             let mut k = [0u8; 32];
             let mut r = [0u8; 32];
@@ -296,7 +337,7 @@ fn main() -> Result<()> {
             let s: SealSecret = read_json(&secret)?;
             println!("{}", serde_json::to_string_pretty(&run(&i, Some(&Secret { k: s.k, r: s.r })))?);
         }
-        Cmd::FastfsPayloads { file, out_dir } => {
+        Cmd::FastfsPayloads { file, out_dir, ext, mime } => {
             #[derive(borsh::BorshSerialize)]
             struct FileContent { mime_type: String, content: Vec<u8> }
             #[derive(borsh::BorshSerialize)]
@@ -306,8 +347,7 @@ fn main() -> Result<()> {
             const CHUNK: usize = 1 << 20;
             let content = fs::read(&file)?;
             let hash = hex::encode(sha256(&content));
-            let rel = format!("{hash}.wasm");
-            let mime = "application/wasm".to_string();
+            let rel = format!("{hash}.{ext}");
             fs::create_dir_all(&out_dir)?;
             let mut payloads = Vec::new();
             if content.len() <= CHUNK {

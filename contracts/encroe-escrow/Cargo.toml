@@ -1,0 +1,25 @@
+[package]
+name = "encroe-escrow"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Encroe: a game's sealed server, verified in an enclave while the studio lives, released to its players when the studio goes silent"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+near-sdk = "5.17"
+sha2 = "0.10"
+hex = "0.4"
+
+[dev-dependencies]
+near-sdk = { version = "5.17", features = ["unit-testing"] }
+
+[profile.release]
+codegen-units = 1
+opt-level = "z"
+lto = true
+debug = false
+panic = "abort"
+overflow-checks = true

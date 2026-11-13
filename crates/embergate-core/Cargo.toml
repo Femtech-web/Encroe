@@ -1,0 +1,16 @@
+[package]
+name = "embergate-core"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Embergate's game server core: inventories, gathering, forging and trades, sealed inside an Encroe package (wasm32-unknown-unknown, no imports)"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

@@ -14,3 +14,6 @@ target-broken/
 **/target-broken/
 node_modules/
 __pycache__/
+
+# Local toolchains (zig for the C/C++ game cores)
+.tools/

@@ -1,0 +1,18 @@
+{
+  "v": 1,
+  "game": "kill-827e",
+  "epoch": 1,
+  "predecessor": "encroe-kill-827e.testnet",
+  "path": "encroe/kill-827e/1",
+  "domain_id": 2,
+  "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj",
+  "app_id": "96bc693b3d09566161106bac15e353a4b6dbe5adafe6b060a2b4f0143a20705b",
+  "sealed_key": {
+    "u": "ac9016992e1643eca7d6cc5eb672cace99f151abfea12b3a532c5d38e27aa1d7860f8da7c3102ce3352071ae5ef7bd9c0af12c8b109e1c74768b1e883c2c477d7d8a53756acd5f402a0f9455eba641631f8b5a9f9214b27349f0f32725cd64a1",
+    "v": "33cfde6b7c33f398f54f105203c3a4bb8bfb09ccb611c6c06bf8ab17af583ee1"
+  },
+  "pkg_sha256": "7764460a370b47558fb27f96c843d386e2a265b4374907fb34ea89f1ac0c63df",
+  "root": "fec986481630d591fff71ebac704bdadbdc191e299791d0963432acfd90fccb0",
+  "core_sha256": "49ff0c57f10f24b9091eae3bd218b28a642d581f698871f6b3c65b7effa9cb62",
+  "players": 5
+}

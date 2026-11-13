@@ -1,0 +1,35 @@
+├  Unsigned transaction:
+│    signer_id:    encore-stranger-6b4dad.testnet
+│    receiver_id:  encroe-life-52e4.testnet
+│    actions:
+│       -- function call:      
+│                       method name:  release
+│                       args:         {}
+│                       gas:          100.0 Tgas
+│                       deposit:      0 NEAR
+│     
+├  Your transaction was signed successfully.
+│    Public key: ed25519:Gq7j8FgMQZZkggjtSPRv54rvqy8Ws6WcJJdW5BnkfsdG
+│    Signature:  ed25519:5haNXD9LmamCEX5nuUTUT53nKBAiS2ZVyhQJZxAh3Bmv5cGXT6ovyL6TBu18gJHqBGAcFsazTi8MUyVSi3FmgWsD
+│     
+├  ERROR Transaction failed
+│    Gas used: 3.7 Tgas
+│    Transaction fee: 0.0003422816589666 NEAR
+│    Transaction ID: 44Jvj33HAfmarEmUyTJx5vfns75Rv9e9FroEWMXFYXfv
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/44Jvj33HAfmarEmUyTJx5vfns75Rv9e9FroEWMXFYXfv
+│     
+├  Function execution logs:
+│    Logs [encroe-life-52e4.testnet] (failed):   No logs
+│    Logs [encore-stranger-6b4dad.testnet]:   No logs
+│     
+
+Here is your console command if you need to script it or re-run:
+    /Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near contract call-function as-transaction encroe-life-52e4.testnet release json-args {} prepaid-gas '100.0 Tgas' attached-deposit '0 NEAR' sign-as encore-stranger-6b4dad.testnet network-config testnet sign-with-legacy-keychain send
+
+Error: 
+   0: Error: An error occurred during a `FunctionCall` action.
+      ExecutionError("Smart contract panicked: release condition not met: publisher heartbeat is live and no end of life is due")
+
+Location:
+   src/common.rs:1864

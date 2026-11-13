@@ -1,0 +1,46 @@
+├  Unsigned transaction:
+│    signer_id:    encore-stranger-6b4dad.testnet
+│    receiver_id:  encroe-kill-827e.testnet
+│    actions:
+│       -- function call:      
+│                       method name:  release
+│                       args:         {}
+│                       gas:          100.0 Tgas
+│                       deposit:      0 NEAR
+│     
+├  Your transaction was signed successfully.
+│    Public key: ed25519:Gq7j8FgMQZZkggjtSPRv54rvqy8Ws6WcJJdW5BnkfsdG
+│    Signature:  ed25519:3QWjhYHRpXKSmiydB1T1gCGrKz2D8ySAddufgVchQCGjere1xLVCSjU1yVgPBkPhXUmj8e9cbVd3Ej14JVc58gph
+│     
+├  Transaction Execution Info:
+│    Gas used: 34.9 Tgas
+│    Transaction fee: 0.0033961718868963 NEAR
+│    Transaction ID: 6voVxsnVmfzRnkmcv51HFth4SSaMMFQ21AJedGnphtZ6
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/6voVxsnVmfzRnkmcv51HFth4SSaMMFQ21AJedGnphtZ6
+│     
+├  Function execution logs:
+│    Logs [encroe-kill-827e.testnet]:   No logs
+│    Logs [v1.signer-prod.testnet]:
+│      request_app_private_key: predecessor=AccountId("encroe-kill-827e.testnet"), request=CKDRequestArgs { derivation_path: "encroe/kill-827e/1", app_public_key: AppPublicKeyPV(CKDAppPublicKeyPV { pk1: Bls12381G1PublicKey([192, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), pk2: Bls12381G2PublicKey([192, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]) }), domain_id: DomainId(2) }
+│    Logs [v1.signer-prod.testnet]:   No logs
+│    Logs [encore-stranger-6b4dad.testnet]:   No logs
+│    Logs [encore-stranger-6b4dad.testnet]:   No logs
+│    Logs [encroe-kill-827e.testnet]:
+│      released by encore-stranger-6b4dad.testnet: big_c=bls12381g1:6Co7soHbVGjLjmqjJj5yuXvXh4rnSJbAYvGyY42YFrp9Drz479mRHMujVxPAoyx1C7
+│    Logs [encore-stranger-6b4dad.testnet]:   No logs
+│    Logs [encore-stranger-6b4dad.testnet]:   No logs
+│     
+
+Function execution return value (printed to stdout):
+true
+
+
+The "release" call to <encroe-kill-827e.testnet> on behalf of <encore-stranger-6b4dad.testnet> succeeded.
+
+
+
+
+Here is your console command if you need to script it or re-run:
+    /Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near contract call-function as-transaction encroe-kill-827e.testnet release json-args {} prepaid-gas '100.0 Tgas' attached-deposit '0 NEAR' sign-as encore-stranger-6b4dad.testnet network-config testnet sign-with-legacy-keychain send
+

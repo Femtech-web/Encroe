@@ -1,0 +1,51 @@
+├  Unsigned transaction:
+│    signer_id:    encore-pub-6b4dad.testnet
+│    receiver_id:  encroe-kill-5609.testnet
+│    actions:
+│       -- function call:      
+│                       method name:  commit
+│                       args:         {
+│                                       "commitment": {
+│                                         "app_id": "d8b65efe4513cfaf58ec4a4368cfc6365261a02994fe2c28b1f16f342e6995cf",
+│                                         "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj",
+│                                         "core_sha256": "49ff0c57f10f24b9091eae3bd218b28a642d581f698871f6b3c65b7effa9cb62",
+│                                         "epoch": 1,
+│                                         "game": "kill-5609",
+│                                         "pkg_sha256": "8b48f2ddc775cd31c1c96d490c757a0d1c046c56c25db8d69ccf9b9a07be2a22",
+│                                         "players": 5,
+│                                         "root": "5d48aa80e646e54c927a9b8f751010a76fbea131e8ebbf211c294bde44bc23cc",
+│                                         "sealed_u": "90ca47c1afa87340da9bdef6b6eea9c1b846ff3c250a9886a2c21fbd75d04a93e5585d53694312bd361e7602047778211541e829d7e4ca5b351c59add6cefd072529494078feb0a6c3cc21efdf1f86b3f190a8d88fdfd03d5c25fd0f7b1355cf",
+│                                         "sealed_v": "52475737fab5d740b454475f9d75c0c19793fdf8e0c8c87fef48d060e012c1a7"
+│                                       }
+│                                     }
+│                       gas:          50.0 Tgas
+│                       deposit:      0 NEAR
+│     
+├  Your transaction was signed successfully.
+│    Public key: ed25519:454aDeGXb1XDHWKwZTgFS5w75hmdQVyBW1PMn7XAWW8X
+│    Signature:  ed25519:5chmeC3dm4tjzrkgdMoTfyQjiNvxhCaq3EaBwFCxwtAgXq5XjEkXfUQTionmrdHfRFKo8GaEcB5GMKN72Ed8iygx
+│     
+├  Transaction Execution Info:
+│    Gas used: 8.8 Tgas
+│    Transaction fee: 0.0008563383695892 NEAR
+│    Transaction ID: FtAGwAqhJgeTKPGjeDKYyAnCzakRQpHtCeaQbV1NmeGW
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/FtAGwAqhJgeTKPGjeDKYyAnCzakRQpHtCeaQbV1NmeGW
+│     
+├  Function execution logs:
+│    Logs [encroe-kill-5609.testnet]:   No logs
+│    Logs [encore-pub-6b4dad.testnet]:   No logs
+│     
+├  Function execution return value:
+│    Empty return value
+│     
+
+
+The "commit" call to <encroe-kill-5609.testnet> on behalf of <encore-pub-6b4dad.testnet> succeeded.
+
+
+
+
+Here is your console command if you need to script it or re-run:
+    /Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near contract call-function as-transaction encroe-kill-5609.testnet commit json-args '{"commitment": {"game": "kill-5609", "epoch": 1, "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj", "app_id": "d8b65efe4513cfaf58ec4a4368cfc6365261a02994fe2c28b1f16f342e6995cf", "pkg_sha256": "8b48f2ddc775cd31c1c96d490c757a0d1c046c56c25db8d69ccf9b9a07be2a22", "root": "5d48aa80e646e54c927a9b8f751010a76fbea131e8ebbf211c294bde44bc23cc", "core_sha256": "49ff0c57f10f24b9091eae3bd218b28a642d581f698871f6b3c65b7effa9cb62", "players": 5, "sealed_u": "90ca47c1afa87340da9bdef6b6eea9c1b846ff3c250a9886a2c21fbd75d04a93e5585d53694312bd361e7602047778211541e829d7e4ca5b351c59add6cefd072529494078feb0a6c3cc21efdf1f86b3f190a8d88fdfd03d5c25fd0f7b1355cf", "sealed_v": "52475737fab5d740b454475f9d75c0c19793fdf8e0c8c87fef48d060e012c1a7"}}' prepaid-gas '50.0 Tgas' attached-deposit '0 NEAR' sign-as encore-pub-6b4dad.testnet network-config testnet sign-with-legacy-keychain send
+

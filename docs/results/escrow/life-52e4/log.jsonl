@@ -1,0 +1,24 @@
+{"at": 1794602980, "step": "01-create", "tx": "G2oNhT2t7g5VqyejecW5M2LgdtYRxj4BANvcprnseRf9", "refused": null, "request_id": null}
+{"at": 1794602992, "step": "02-deploy", "tx": "3TgQ8qjcfWudLHaoeLw8JA1gb7nx5hpsKVFFqKRSCesX", "refused": null, "request_id": null}
+{"at": 1794602998, "step": "03-lock", "tx": "BxD8ZomQH8ufTP8M43GBTcPKXvQG3o3bqMGpGXkovuER", "refused": null, "request_id": null}
+{"at": 1794603014, "step": "04-refresh", "tx": "E4XEoB5z6nJtmaKHnsTfqs3UkmVK849EA5yv6QMAits3", "refused": null, "request_id": null}
+{"at": 1794603031, "step": "09-heartbeat-1794603026", "tx": "crCC4PNZoBJtF9KUH3woJaV68rScY2SWmH1ic18FCt6", "refused": null, "request_id": null}
+{"at": 1794603038, "step": "05-commit-1", "tx": "GK7LvR1rjML7k2JpXikvfe59YUhKkUV5D35XBsHK8Vzc", "refused": null, "request_id": null}
+{"at": 1794603045, "step": "06-secret-1", "tx": "ZA8eZM9VHUgE84Bcd9wWUz85KyLBWEzgX5AEcF1e8yh", "refused": null, "request_id": null}
+{"at": 1794603148, "step": "07-verify-1", "tx": "EBT3yeEemVeurrvCuVkhKzYfas8uCTqTAdxnphL5HmYE", "refused": null, "request_id": null}
+{"at": 1794603171, "step": "09-heartbeat-1794603165", "tx": "DweDd28fLvipv4qwqFjvEcP6qotZnQA6yL7Q3F729zDF", "refused": null, "request_id": null}
+{"at": 1794603178, "step": "05-commit-2", "tx": "HCnZf9dybxN78d7hokPdawEuYsqXThTNajxhDn8nptZf", "refused": null, "request_id": null}
+{"at": 1794603186, "step": "06-secret-2", "tx": "8RRr6pxskhiL12GXg1eRYC8gAv7rU9HpSCwPNpwCgDW4", "refused": null, "request_id": null}
+{"at": 1794603273, "step": "07-verify-2", "tx": "EiikfzPtsm7hGEKpUkhnAG6orsDZYGYAUuZy7bZkncQS", "refused": null, "request_id": 40727}
+{"at": 1794603289, "step": "09-heartbeat-1794603283", "tx": "6HQpGWShbGJ5wdeszaX1bprkf3oxZoQ2S6zys5Hi1B89", "refused": null, "request_id": null}
+{"at": 1794603301, "step": "08-prove-40727-run1", "tx": "97uUG9v9stDYpz5o9j8LdVDCzb36idnvopwdEdSQFahQ", "refused": null, "request_id": 40727}
+{"at": 1794603317, "step": "09-heartbeat-1794603310", "tx": "C9aGCH7WjhSMtVX2vmu1q3abqBoqgByGN2EbBxbeqkb8", "refused": null, "request_id": null}
+{"at": 1794603438, "step": "07-verify-2", "tx": "2UZswTYpvGSevGCMwFf6M3yKNdyq77Yjb3P3J46S3i83", "refused": null, "request_id": 40739}
+{"at": 1794603464, "step": "08-prove-40727-run2", "tx": "8dX9evB9Rx1uEnazShjE18RAW1yfm8QqyKDNdfzBWf9h", "refused": "attestation: input differs from what this contract sent", "request_id": 40727}
+{"at": 1794603472, "step": "10-release-1794603464", "tx": "44Jvj33HAfmarEmUyTJx5vfns75Rv9e9FroEWMXFYXfv", "refused": "release condition not met: publisher heartbeat is live and no end of life is due", "request_id": null}
+{"at": 1794603925, "step": "10-release-1794603923", "tx": null, "refused": null, "request_id": null}
+{"at": 1794603932, "step": "10-release-1794603921", "tx": "4qATdQ1DkYgUVWKnmxELMu4b6xCmB2wDYTQPXyL2U8AB", "refused": null, "request_id": null}
+{"at": 1794603924, "step": "10-release-1794603923", "tx": "4qATdQ1DkYgUVWKnmxELMu4b6xCmB2wDYTQPXyL2U8AB", "refused": null, "request_id": null, "note": "the CLI reported a nonce error after sending; the release succeeded on chain (logged by hand)"}
+{"at": 1794603971, "step": "09-heartbeat-1794603965", "tx": "3KhBvrirqrAKEhQuot6hVCEsbkr5nVqU4DDrL2Gduz74", "refused": "already released", "request_id": null}
+{"at": 1794603975, "step": "13-reseal-after-release", "tx": "3gZ7ZBhzr19Fn4P5yxZdM23ax2hJQhvypzmCu1FAN2b9", "refused": "already released", "request_id": null}
+{"at": 1794608706, "step": "05-package-2", "tx": "55txWXWqA696CFLCUkfiTWocTqUA8Wn3o7LYdT1aDNRy", "refused": null, "request_id": null}

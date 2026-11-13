@@ -1,8 +1,8 @@
-# Encore: what is left, and what would make it exceptional
+# Encroe: what is left, and what would make it exceptional
 
 *Written 2026-11-12, to resume after Keel's live run. Deadline: the NEAR hackathon, 2026-11-14.*
 
-## Where Encore stands
+## Where Encroe stands
 
 | Gate | Status | Evidence |
 |---|---|---|

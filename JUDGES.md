@@ -1,0 +1,88 @@
+# For judges
+
+**Encroe**: a studio seals its game server into a NEAR contract with no keys. While the studio lives, anyone can
+check the sealed build is real. If it goes silent, anyone can release it, and the game goes to its players. The
+thesis, in one page: [docs/thesis.md](docs/thesis.md).
+
+Everything below runs on NEAR testnet with real transactions. Nothing is mocked; where a run simulates something
+(a studio going silent, scripted test players), it says so.
+
+## Five minutes on the site
+
+1. **Play.** Open `/play`, enter a name. Your browser makes an ed25519 key; every move you make is signed with it.
+   Gather from the six nodes, forge a Lantern. Every rule runs in one wasm core, the same bytes the studio seals
+   (its sha256 is printed under the live feed).
+2. **Check the vault.** On `/play`, press **Check** under "Is my stuff in the vault?". If you joined before the
+   studio's last seal, your browser fetches your proof (salt and Merkle path) and checks it against the root it reads
+   **from NEAR itself**, not from us. If you joined after, it says so.
+3. **Kill a studio.** On the home page, **Kill a studio**. The studio behind it sealed its world, got it verified
+   green, and then stopped its heartbeat. Press **Release it**: the site sends the escrow's permissionless `release`
+   from a throwaway account that only pays the gas. The contract checks the silence; NEAR's MPC network publishes
+   the key.
+4. **Bring it back.** The page then rebuilds the game from public data only and shows each check pass:
+
+   | Check | How |
+   |---|---|
+   | The escrow is released | `get_state` from NEAR's RPC |
+   | The key belongs to this contract | app id = SHA3("near-mpc v0.1.0 app_id derivation:" ‖ escrow ‖ "," ‖ path) |
+   | NEAR's MPC network signed the release | BLS pairing `e(sig, g2) = e(H(pk‖app id), pk)` |
+   | The package is the committed one | fetched from FastFS, sha256 = committed `pkg_sha256` |
+   | The released key opens it | IBE unwrap `e(sig, U)`, then AES-256-GCM |
+   | The core is the build the enclave verified | sha256 = committed `core_sha256` |
+   | Every player's items are there | Merkle root over every leaf = committed root |
+   | It runs | the core compiles in the browser with **zero imports** |
+
+5. **Play on.** Press **Play on**. It is the same game screen, now run by your browser on the core that came out of
+   the escrow. The game's server is never called. A player who backed up their key imports it at the gate and
+   finds their items.
+
+## Check it without our site
+
+```bash
+# Any escrow's state, straight from NEAR:
+curl -s https://test.rpc.fastnear.com -H 'content-type: application/json' -d '{"jsonrpc":"2.0","id":1,"method":"query","params":{"request_type":"call_function","finality":"final","account_id":"encroe-kill-beaa.testnet","method_name":"status","args_base64":"e30="}}' \
+  | python3 -c 'import json,sys;print(json.loads(bytes(json.load(sys.stdin)["result"]["result"])))'
+
+# Locked: no access keys, so nobody (including us) can change its code.
+curl -s https://test.rpc.fastnear.com -H 'content-type: application/json' -d '{"jsonrpc":"2.0","id":1,"method":"query","params":{"request_type":"view_access_key_list","finality":"final","account_id":"encroe-kill-beaa.testnet"}}'
+
+make test            # Rust: CKD vectors, IBE, verifier determinism; the escrow contract's lifecycle tests
+cd web && npm ci && npm test   # the browser code, against real released data from the chain
+```
+
+## Claims and their evidence
+
+| Claim | Evidence |
+|---|---|
+| The key exists only in NEAR's MPC network until the contract asks for it | [GO_NO_GO.md](GO_NO_GO.md) §E1; the release check above |
+| Only the pinned verifier, run through the contract, can use the studio's secret | [GO_NO_GO.md](GO_NO_GO.md) §E2: a thief build and a direct call were refused |
+| The contract trusts the enclave only after NEAR's DCAP verifier checks its quote; a replayed quote is refused | [life-52e4](docs/results/escrow/life-52e4/README.md) steps 7 and 8 |
+| A broken build turns the badge red | [life-52e4](docs/results/escrow/life-52e4/README.md) steps 3 and 4 |
+| Nobody can release while the studio lives | [life-52e4](docs/results/escrow/life-52e4/README.md) step 9, [kill-827e](docs/results/escrow/kill-827e/README.md) step 8 |
+| A played world is sealed and verified green, and a player checks their items from the browser | [ember-3924](docs/results/escrow/ember-3924/README.md) |
+| Anyone releases a silent studio; the game comes back in a browser and play goes on | [kill-827e](docs/results/escrow/kill-827e/README.md) |
+| A visitor does it from the site, with no wallet | [kill-beaa](docs/results/escrow/kill-beaa/README.md) |
+| The browser code matches the Rust tools | `web/lib/encroe/release.test.ts`, `web/lib/game/proof.test.ts`: real released epochs and on-chain roots |
+
+## Where to look in the code
+
+| What | Where |
+|---|---|
+| The escrow: commit, verify, `prove_run` (NEAR DCAP), heartbeat, `release`, `status` | [`contracts/encroe-escrow/src/lib.rs`](contracts/encroe-escrow/src/lib.rs) |
+| The verifier the enclave runs (pinned by hash `9c0eb2e7…`) | [`crates/encore-verifier`](crates/encore-verifier) |
+| Sealing: CKD identity, IBE, AES-GCM package, salted player leaves | [`crates/encore-crypto`](crates/encore-crypto), [`crates/encore-cli`](crates/encore-cli) |
+| The game's server core (every rule of Embergate) | [`crates/embergate-core/src/lib.rs`](crates/embergate-core/src/lib.rs) |
+| The game server: signed moves into the core | [`web/lib/game/world.ts`](web/lib/game/world.ts), [`web/app/api/move`](web/app/api/move/route.ts) |
+| Reviving in the browser | [`web/lib/encroe/release.ts`](web/lib/encroe/release.ts), [`web/lib/encroe/revive.ts`](web/lib/encroe/revive.ts) |
+| The studio's side, scripted | [`scripts/studio/bot.sh`](scripts/studio/bot.sh), [`scripts/testnet/escrow.sh`](scripts/testnet/escrow.sh) |
+
+## What we disclose
+
+- **Testnet only.** No mainnet transaction was sent.
+- **Simulated silence.** In every recorded release we stop the studio's heartbeat ourselves; that is the only way to
+  show a studio disappearing on demand. The contract cannot tell the difference, which is the point.
+- **Scripted players.** The sealed worlds hold one player played by hand and four scripted through the same signed API.
+- **The enclave is OutLayer's.** Its operator keys are not trusted: a run counts only after NEAR's own DCAP verifier
+  accepts the quote bound to that exact run.
+- **Limits.** A world holds 64 players (the snapshot and the enclave's checks are sized for it). A revived world runs
+  in each player's browser; shared hosting after a release, and paying hosts on proof, are not built.

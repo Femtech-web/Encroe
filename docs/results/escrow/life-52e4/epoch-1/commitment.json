@@ -1,0 +1,18 @@
+{
+  "v": 1,
+  "game": "life-52e4",
+  "epoch": 1,
+  "predecessor": "encroe-life-52e4.testnet",
+  "path": "encroe/life-52e4/1",
+  "domain_id": 2,
+  "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj",
+  "app_id": "cb126db23323e1e89ff3149e867b243f3aed4e6ad5060690a51f0b943ff29349",
+  "sealed_key": {
+    "u": "8f9a2830e2399303eef37f7b976712d139c9fb29f5f82903326afd66df012c4bb5cf7158514ec45375ba8a26420e24eb01913be2f1e201bcd4de67a8986b03ba335742d8bc75b968ade44cd0039fb13c1e4820317da2b60d11bbcf2f0454b17a",
+    "v": "73d9c5b8c60944b9b4bdcaeea24f10e0d4afffc94d83393e2afbe5a15d06098a"
+  },
+  "pkg_sha256": "7545042611bdab437c2743e2f8bd804315431ae50784d751905f4c5053b60244",
+  "root": "8caee0aec45ef0ef78c2ffe601ec67bd52501c3d857551835257db8eb8c9d74f",
+  "core_sha256": "13071433c350c908641a8e66bf85ca6f9d9121d33736911ca7185577efdb501f",
+  "players": 24
+}

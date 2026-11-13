@@ -1,0 +1,18 @@
+{
+  "v": 1,
+  "game": "ember-3924",
+  "epoch": 1,
+  "predecessor": "encroe-ember-3924.testnet",
+  "path": "encroe/ember-3924/1",
+  "domain_id": 2,
+  "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj",
+  "app_id": "f4383e2f388a2cb3d0683ebe5eb7e9f325d53c2e074b1bc69106b6e3fdfbe25f",
+  "sealed_key": {
+    "u": "ad1ce40c54aaf9ee3e8dd8fa2d12a0a9c52ab3654fc234f7e842282ec0c535c0bbb0b8ba5d9e8da1055b5db6ad85bbce10b3db800efb3c1b6995bfc27204c92f79203c7f7f8c763c43a036f44e5581340cd59ff6d24d83a421c91946f43d7eca",
+    "v": "fdf37e3b8c72d310d518c80bfacb54e9bef53c24111b6061418a4e672aca62c9"
+  },
+  "pkg_sha256": "c1be03e197dc5eb4fedcdccd708149ea93b6a39f9029d144bddbafbad0db3a93",
+  "root": "9b274064def2cf247a5285b1f77edf592628b92ac4c3ab3a65055c9fe47f49b5",
+  "core_sha256": "49ff0c57f10f24b9091eae3bd218b28a642d581f698871f6b3c65b7effa9cb62",
+  "players": 5
+}
