@@ -4,7 +4,7 @@ import { useCallback, useMemo, useState } from "react";
 import { Game } from "@/components/game/Game";
 import { Glyph } from "@/components/game/Glyph";
 import { loadKey, loadName } from "@/lib/game/client";
-import { ITEMS, type ItemId } from "@/lib/game/items";
+import { CATALOGS } from "@/lib/cores/catalog";
 import { publicKeyOf } from "@/lib/game/moves";
 import { local } from "@/lib/game/transport";
 import type { World } from "@/lib/game/world";
@@ -89,6 +89,7 @@ export function Revive({ initial }: { initial?: string }) {
 
   const playable =
     revived && PLAYABLE.every((f) => WebAssembly.Module.exports(revived.module).some((e) => e.name === f));
+  const catalog = revived ? CATALOGS[revived.state.commitment!.core_sha256] : undefined;
 
   return (
     <div className="mx-auto max-w-page px-5 py-14 lg:py-20">
@@ -194,6 +195,13 @@ export function Revive({ initial }: { initial?: string }) {
             <h2 id="back" className="font-display text-h1 font-black">
               It&rsquo;s back.
             </h2>
+            {catalog && (
+              <p className="mt-3 inline-flex flex-wrap gap-2 font-mono text-xs">
+                <span className="rounded-sm bg-gold-soft px-2 py-1 text-gold">{catalog.game}</span>
+                <span className="rounded-sm bg-acid-soft px-2 py-1 text-acid">{catalog.language} server core</span>
+                <span className="rounded-sm border border-line px-2 py-1 text-ink-3">{catalog.genre}</span>
+              </p>
+            )}
             <p className="mt-3 text-ink-2">
               <span className="font-mono text-sm">{revived.pkg.game}</span>, epoch {revived.pkg.epoch}:{" "}
               {revived.pkg.players.length} players and every item they held, released by{" "}
@@ -213,7 +221,7 @@ export function Revive({ initial }: { initial?: string }) {
                     {p.items.map(([id, q]) => (
                       <span key={id} className="flex items-center gap-1 font-mono text-xs">
                         {playable && <Glyph id={id} size={13} />}
-                        {q} {(playable && ITEMS[id as ItemId]?.name) || `item ${id}`}
+                        {q} {catalog?.items[id] ?? `item ${id}`}
                       </span>
                     ))}
                   </span>
@@ -241,7 +249,9 @@ export function Revive({ initial }: { initial?: string }) {
             </div>
             {!playable && (
               <p className="mt-4 text-sm text-ink-3">
-                This core is the go/no-go test core: it holds and trades items, but has no game moves to play.
+                {catalog
+                  ? `${catalog.game}'s ${catalog.language} core runs here and serves every player's items. This site's playable screen is Embergate's; download the core and the world to host ${catalog.game} anywhere.`
+                  : "This core is the go/no-go test core: it holds and trades items, but has no game moves to play."}
               </p>
             )}
           </section>

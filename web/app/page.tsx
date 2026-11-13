@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Heartbeat } from "@/components/home/Heartbeat";
-import { REPO, killTarget, liveEscrows, type Live } from "@/lib/encroe/escrows";
-import type { EscrowStatus } from "@/lib/game/near";
+import { CORE_RUNS, REPO, killTarget, liveEscrows, type Live } from "@/lib/encroe/escrows";
+import { viewStatus, type EscrowStatus } from "@/lib/game/near";
 import { readWorld } from "@/lib/game/server";
 
 const STEPS = [
@@ -47,7 +47,12 @@ const BADGE: Record<EscrowStatus["badge"], string> = {
 };
 
 export default async function Home() {
-  const [escrows, target, world] = await Promise.all([liveEscrows(), killTarget(), readWorld().catch(() => null)]);
+  const [escrows, target, world, cores] = await Promise.all([
+    liveEscrows(),
+    killTarget(),
+    readWorld().catch(() => null),
+    Promise.all(CORE_RUNS.map((c) => viewStatus(c.escrow).catch(() => null))),
+  ]);
   const killHref = target ? `/revive?escrow=${target.escrow}` : "/revive";
   const released = escrows.filter((e) => e.status?.phase === "released").length;
 
@@ -194,6 +199,62 @@ export default async function Home() {
           {escrows.map((e) => (
             <EscrowRow key={e.id} e={e} />
           ))}
+        </div>
+      </section>
+
+      <section className="mx-auto mt-28 max-w-page px-5" aria-labelledby="engines">
+        <p className="font-mono text-xs tracking-[0.3em] text-gold uppercase">Any engine, any language</p>
+        <h2 id="engines" className="mt-4 max-w-4xl font-display text-h1 font-black">
+          The escrow seals bytes, not a framework.
+        </h2>
+        <p className="mt-4 max-w-2xl text-ink-2">
+          A game server compiled to WebAssembly is just bytes: the enclave runs them, the verifier judges how they
+          behave, and a browser brings them back. Three games in three languages, each sealed into its own locked
+          escrow, checked by the same pinned verifier, released and revived.
+        </p>
+        <div className="mt-10 grid gap-4 lg:grid-cols-3">
+          {CORE_RUNS.map((c, i) => {
+            const s = cores[i];
+            return (
+              <article key={c.game} className="flex flex-col rounded-xl border border-line bg-panel p-6">
+                <p className="font-display text-5xl font-black text-gold">{c.language}</p>
+                <h3 className="mt-4 font-display text-h2 font-black">{c.game}</h3>
+                <p className="mt-2 flex-1 text-sm text-ink-2">{c.genre}</p>
+                <dl className="mt-5 space-y-1 font-mono text-[11px] text-ink-3">
+                  <div>
+                    <dt className="inline">built </dt>
+                    <dd className="inline text-ink-2">{c.toolchain}</dd>
+                  </div>
+                  <div>
+                    <dt className="inline">core </dt>
+                    <dd className="inline text-ink-2">{c.sha256.slice(0, 16)}…</dd>
+                  </div>
+                  <div className="truncate">
+                    <dt className="inline">escrow </dt>
+                    <dd className="inline text-ink-2">{c.escrow}</dd>
+                  </div>
+                  <div>
+                    <dt className="inline">on NEAR now </dt>
+                    <dd className={`inline ${s ? BADGE[s.badge] : ""}`}>{s ? `${s.phase} · ${s.badge}` : "unknown"}</dd>
+                  </div>
+                </dl>
+                <div className="mt-5 flex flex-wrap gap-2 text-xs">
+                  <Link
+                    href={`/revive?escrow=${c.escrow}`}
+                    className="rounded-sm bg-gold px-3 py-2 font-display font-bold tracking-wide text-void uppercase"
+                  >
+                    Bring it back
+                  </Link>
+                  <a
+                    href={`${REPO}/blob/main/${c.source}`}
+                    className="rounded-sm border border-line px-3 py-2 text-ink-2 hover:border-gold hover:text-gold"
+                  >
+                    The {c.language} source
+                  </a>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </section>
 

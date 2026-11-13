@@ -14,12 +14,15 @@
 #
 # The escrow is ESCROW_NAME (or docs/results/escrow/current). The game is ENCROE_GAME_URL (default
 # http://localhost:3000), reached with ENCROE_STUDIO_TOKEN from .env; both stay out of the log.
+# ENCROE_CORE seals another game's core (default Embergate's); WORLD_FILE seals a players file instead of the
+# game's export (scripts/studio/world.mjs plays one); POOL_PREFIX names pool escrows, POOL_SITE=0 keeps them
+# off the site's pool.
 set -euo pipefail
 cd "$(dirname "$0")/../.."
 source .env
 GAME=${ENCROE_GAME_URL:-http://localhost:3000}
 : "${ENCROE_STUDIO_TOKEN:?set ENCROE_STUDIO_TOKEN in .env (the same value the game has)}"
-export ENCROE_CORE=web/public/core/embergate.wasm
+export ENCROE_CORE=${ENCROE_CORE:-web/public/core/embergate.wasm}
 ESC=scripts/testnet/escrow.sh
 NAME=${ESCROW_NAME:-$(cat docs/results/escrow/current)}
 export ESCROW_NAME=$NAME
@@ -32,8 +35,9 @@ seal() {
   local epoch world request badge
   epoch=$(( $(status | field epoch | sed 's/^$/0/') + 1 ))
   world=".secrets/escrow/$NAME-$epoch-world.json"
-  curl -sf -m 30 -H "authorization: Bearer $ENCROE_STUDIO_TOKEN" "$GAME/api/studio/world" > "$world"
-  echo "epoch $epoch: $(python3 -I -c "import json;print(len(json.load(open('$world'))))" ) players from $GAME"
+  if [ -n "${WORLD_FILE:-}" ]; then cp "$WORLD_FILE" "$world"
+  else curl -sf -m 30 -H "authorization: Bearer $ENCROE_STUDIO_TOKEN" "$GAME/api/studio/world" > "$world"; fi
+  echo "epoch $epoch: $(python3 -I -c "import json;print(len(json.load(open('$world'))))" ) players from ${WORLD_FILE:-$GAME}, core $ENCROE_CORE"
 
   PLAYERS_FILE=$world "$ESC" seal "$epoch"
   "$ESC" secret "$epoch"
@@ -87,14 +91,14 @@ run)
 pool)
   keep=$NAME
   for _ in $(seq "${2:?how many}"); do
-    NAME="kill-$(python3 -I -c 'import secrets;print(secrets.token_hex(2))')"
+    NAME="${POOL_PREFIX:-kill}-$(python3 -I -c 'import secrets;print(secrets.token_hex(2))')"
     ESCROW_NAME=$NAME "$ESC" deploy "$NAME" "${GRACE_S:-120}"
     export ESCROW_NAME=$NAME
     OUT=docs/results/escrow/$NAME
     "$ESC" refresh
     PUBLISH=0 seal
     echo "encroe-$NAME.testnet" >> docs/results/escrow/pool.txt
-    python3 -I -c "import json,sys;p='web/lib/encroe/pool.json';l=json.load(open(p));l.append(sys.argv[1]);json.dump(l,open(p,'w'))" "encroe-$NAME.testnet"
+    [ "${POOL_SITE:-1}" = 1 ] && python3 -I -c "import json,sys;p='web/lib/encroe/pool.json';l=json.load(open(p));l.append(sys.argv[1]);json.dump(l,open(p,'w'))" "encroe-$NAME.testnet"
   done
   echo "$keep" > docs/results/escrow/current
   ;;

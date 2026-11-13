@@ -1,0 +1,28 @@
+├  Unsigned transaction:
+│    signer_id:    encroe-matchday-b565.testnet
+│    receiver_id:  encroe-matchday-b565.testnet
+│    actions:
+│       -- delete access key:  
+│                       public key:   ed25519:Fc1FECZ88td7ry1LPr6ogJMb5HGvQ2xdEks3J2E413cL
+│     
+├  Your transaction was signed successfully.
+│    Public key: ed25519:Fc1FECZ88td7ry1LPr6ogJMb5HGvQ2xdEks3J2E413cL
+│    Signature:  ed25519:3Nauj8JC28mnB7cREPnpgPxy7kXYNyrcEMxsk1A2PsgShHtoJJ5zDa8scnfV1YHbAjays7SmzxvSLgeqPxmw1C4n
+│     
+├  Transaction Execution Info:
+│    Gas used: 0.630 Tgas
+│    Transaction fee: 0.000040601225 NEAR
+│    Transaction ID: 7mP9NeiC9SPyb3h4k3aJzm49GnNGzE651nnNZHTDnJDL
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/7mP9NeiC9SPyb3h4k3aJzm49GnNGzE651nnNZHTDnJDL
+│     
+
+
+Access key <ed25519:Fc1FECZ88td7ry1LPr6ogJMb5HGvQ2xdEks3J2E413cL> for account <encroe-matchday-b565.testnet> has been successfully deleted.
+
+
+
+
+Here is your console command if you need to script it or re-run:
+    /Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near account delete-keys encroe-matchday-b565.testnet public-keys ed25519:Fc1FECZ88td7ry1LPr6ogJMb5HGvQ2xdEks3J2E413cL network-config testnet sign-with-legacy-keychain send
+

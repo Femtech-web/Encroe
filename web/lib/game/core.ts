@@ -102,6 +102,24 @@ export class Core {
     this.x.restore_tick(player, tick);
   }
 
+  /** Whether the core exports `name`: what a game can do beyond the shared ABI. */
+  has(name: string): boolean {
+    return typeof (this.x as unknown as Record<string, unknown>)[name] === "function";
+  }
+
+  /** Any of a game's own moves, by export name; returns the core's code. */
+  call(name: string, ...args: number[]): number {
+    const f = (this.x as unknown as Record<string, (...a: number[]) => number>)[name];
+    if (typeof f !== "function") throw new Error(`the core has no ${name}`);
+    return f(...args);
+  }
+
+  /** The first `n` u32s a move wrote to the output buffer. */
+  out(n: number): number[] {
+    const view = new DataView(this.x.memory.buffer, this.x.output_ptr(), 4 * n);
+    return Array.from({ length: n }, (_, i) => view.getUint32(4 * i, true));
+  }
+
   private input(): Uint8Array {
     return new Uint8Array(this.x.memory.buffer, this.x.input_ptr(), INPUT_CAP);
   }

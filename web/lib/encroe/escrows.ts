@@ -67,3 +67,42 @@ export async function killTarget(): Promise<{ escrow: string; fresh: boolean } |
   if (i >= 0) return { escrow: pool[i], fresh: true };
   return pool.length ? { escrow: pool[0], fresh: false } : null;
 }
+
+/** The same escrow, three languages: each game's core sealed, verified by the enclave, released and revived. */
+export const CORE_RUNS: {
+  game: string;
+  language: string;
+  toolchain: string;
+  genre: string;
+  source: string;
+  sha256: string;
+  escrow: string;
+}[] = [
+  {
+    game: "Embergate",
+    language: "Rust",
+    toolchain: "rustc → wasm32",
+    genre: "a crafting world: six nodes, forged relics, the Phoenix",
+    source: "crates/embergate-core/src/lib.rs",
+    sha256: "49ff0c57f10f24b9091eae3bd218b28a642d581f698871f6b3c65b7effa9cb62",
+    escrow: "encroe-kill-827e.testnet",
+  },
+  {
+    game: "Matchday",
+    language: "C++",
+    toolchain: "clang (Zig 0.17) → wasm32",
+    genre: "a football card club, the Ultimate Team genre: packs, rated cards, matches, a transfer market",
+    source: "cores/matchday/matchday.cpp",
+    sha256: "7c5c8e3f05cc624bc154d7b6f17f4364c05068398038ee14ec0f201ed69458fe",
+    escrow: "encroe-matchday-b565.testnet",
+  },
+  {
+    game: "Neon City",
+    language: "C",
+    toolchain: "clang (Zig 0.17) → wasm32",
+    genre: "an open-world city economy, the GTA Online genre: jobs, vehicles, heists, property",
+    source: "cores/neon-city/neon_city.c",
+    sha256: "165e920322f1307799696a4b682763a01d500b08763a0e997357da1e9d51f891",
+    escrow: "NEON_ESCROW",
+  },
+];
