@@ -1,0 +1,40 @@
+├  Unsigned transaction:
+│    signer_id:    encore-pub-6b4dad.testnet
+│    receiver_id:  encore-e2-6b4dad.testnet
+│    actions:
+│       -- function call:      
+│                       method name:  declare_end_of_life
+│                       args:         {
+│                                       "notice_ns": 0
+│                                     }
+│                       gas:          300.0 Tgas
+│                       deposit:      0 NEAR
+│     [0m
+├  Your transaction was signed successfully.
+│    Public key: ed25519:454aDeGXb1XDHWKwZTgFS5w75hmdQVyBW1PMn7XAWW8X
+│    Signature:  ed25519:5URJGsptW8skR5ZiTrgXTpp3erWoNBKd6ZphVrEQis2nBM1aUazLzF7B22649KSVbFxumuVvvaqotMCMSnTHUeW5
+│     [0m
+├  Transaction Execution Info:
+│    Gas used: 2.1 Tgas
+│    Transaction fee: 0.000187254323504 NEAR
+│    Transaction ID: 9jfaoAtsoaePVS8Pub1Dgp1w9AVQX8viUj1C9vHxdcJb
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/9jfaoAtsoaePVS8Pub1Dgp1w9AVQX8viUj1C9vHxdcJb
+│     [0m
+├  Function execution logs:
+│    [36mLogs [encore-e2-6b4dad.testnet]:[39m   [2mNo logs[0m
+│    [36mLogs [encore-pub-6b4dad.testnet]:[39m   [2mNo logs[0m
+│     [0m
+├  Function execution return value:
+│    Empty return value
+│     [0m
+
+
+The "declare_end_of_life" call to <encore-e2-6b4dad.testnet> on behalf of <encore-pub-6b4dad.testnet> succeeded.
+
+
+
+
+Here is your console command if you need to script it or re-run:
+    [33m/Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near contract call-function as-transaction encore-e2-6b4dad.testnet declare_end_of_life json-args '{"notice_ns":0}' prepaid-gas '300.0 Tgas' attached-deposit '0 NEAR' sign-as encore-pub-6b4dad.testnet network-config testnet sign-with-legacy-keychain send[39m
+

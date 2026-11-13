@@ -1,0 +1,24 @@
+[package]
+name = "encore-verifier"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+description = "Encore readiness verifier: OutLayer guest (wasm32-wasip2) and native library"
+
+[[bin]]
+name = "encore-verifier"
+path = "src/main.rs"
+
+[dependencies]
+encore-crypto = { path = "../encore-crypto" }
+wasmi = { version = "0.40", default-features = false, features = ["std"] }
+sha2.workspace = true
+hex.workspace = true
+base64.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+
+[dev-dependencies]
+ark-bls12-381.workspace = true
+ark-ec.workspace = true
+ark-ff.workspace = true

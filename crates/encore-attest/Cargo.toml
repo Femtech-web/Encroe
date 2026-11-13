@@ -1,0 +1,15 @@
+[package]
+name = "encore-attest"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+description = "Independent check of an OutLayer per-execution TDX attestation (dcap-qvl + Intel PCS collateral)"
+
+[dependencies]
+dcap-qvl = "0.7.1"
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+sha2.workspace = true
+hex.workspace = true
+base64.workspace = true
+serde_json.workspace = true
+anyhow = "1"

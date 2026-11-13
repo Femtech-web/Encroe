@@ -1,0 +1,15 @@
+# gitleaks configuration (used by .githooks/pre-commit).
+title = "encore"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Public experiment records and upstream reference sources"
+regexTarget = "line"
+paths = [
+  # Recorded public testnet outputs: transaction ids, public keys, hashes, sealed (encrypted) packages.
+  '''docs/results/.*''',
+  # Upstream source files and test vectors kept for interface matching.
+  '''third_party/.*''',
+]

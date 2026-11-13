@@ -1,0 +1,11 @@
+[package]
+name = "encore-thief"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+description = "Rejection-test guest: reports whether OutLayer gave it the Encore secret row (hashes only)"
+
+[dependencies]
+sha2.workspace = true
+hex.workspace = true
+serde_json.workspace = true

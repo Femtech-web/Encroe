@@ -1,0 +1,28 @@
+├  Unsigned transaction:
+│    signer_id:    encore-e2-6b4dad.testnet
+│    receiver_id:  encore-e2-6b4dad.testnet
+│    actions:
+│       -- delete access key:  
+│                       public key:   ed25519:DfbQ55YAWL3cGWXHp4c8e2ETphyKoffr2jehZginAAfn
+│     [0m
+├  Your transaction was signed successfully.
+│    Public key: ed25519:DfbQ55YAWL3cGWXHp4c8e2ETphyKoffr2jehZginAAfn
+│    Signature:  ed25519:3KY4fPXUoCAFpk9g9jEADUtkJyNTBabDqg5LE6dgyeuHk8cAaQWCc3uLTw1x3f3NGFoSojSPKXcAH2oSnZn6XfPE
+│     [0m
+├  Transaction Execution Info:
+│    Gas used: 0.630 Tgas
+│    Transaction fee: 0.000040601225 NEAR
+│    Transaction ID: HTTwdDLLHPp3DdtSYCiom2A7vHNia7jfSAMJBK16fMex
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/HTTwdDLLHPp3DdtSYCiom2A7vHNia7jfSAMJBK16fMex
+│     [0m
+
+
+Access key <ed25519:DfbQ55YAWL3cGWXHp4c8e2ETphyKoffr2jehZginAAfn> for account <encore-e2-6b4dad.testnet> has been successfully deleted.
+
+
+
+
+Here is your console command if you need to script it or re-run:
+    [33m/Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near account delete-keys encore-e2-6b4dad.testnet public-keys ed25519:DfbQ55YAWL3cGWXHp4c8e2ETphyKoffr2jehZginAAfn network-config testnet sign-with-legacy-keychain send[39m
+

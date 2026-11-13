@@ -1,0 +1,12 @@
+1. contract is locked, released, and recorded the attested run
+   access keys: []
+2. released key verifies for (contract, path) and opens the exact committed package
+{"core_sha256_matches":true,"epoch":1,"game":"g1","pkg_sha256_matches":true,"players":24,"recovered_key_sha256":"c3c0f33ee6e481127e33ad4e75e13e6907bd2ac4e3639135407204ff69ec7c1b","root_matches":true}
+3. OutLayer attestation of the pre-release run is genuine and binds this output
+   tcb UpToDate | approved True | report_data binds task True | output bound True | wasm 9c0eb2e7a47e
+4. same verifier build, outside OutLayer, release mode, same seed
+   verifier sha256 ok
+   attested (OutLayer, secret mode): secret True f9231e74d0c1840114f32c54536a77a04e7eb78ab4973ac307ab69db0c6a3e1b
+   reproduced (wasmtime, release mode): release True f9231e74d0c1840114f32c54536a77a04e7eb78ab4973ac307ab69db0c6a3e1b
+   fields that differ: ['mode']
+REPRODUCED

@@ -1,0 +1,55 @@
+├  Unsigned transaction:
+│    signer_id:    encore-stranger-6b4dad.testnet
+│    receiver_id:  v1.signer-prod.testnet
+│    actions:
+│       -- function call:      
+│                       method name:  request_app_private_key
+│                       args:         {
+│                                       "request": {
+│                                         "app_public_key": {
+│                                           "AppPublicKeyPV": {
+│                                             "pk1": "bls12381g1:83VnBdpeT9ioHuUTBD2zcitXg7JqNiebUs5yxDaYaLgZYDLLk2gayHrJKNyRt4vBQB",
+│                                             "pk2": "bls12381g2:2995BcogDeU9PQxbssLWhG9J76ubezYVpjbceWnwcmRs9ypA2vYDikf8mpuzankQX6WMsDockieKarmDerS2xTPzR1dktiHiGkjvPpRYpDip6unu4WgtPqeCPtxqppMzuGwy"
+│                                           }
+│                                         },
+│                                         "derivation_path": "encore/g1/1",
+│                                         "domain_id": 2
+│                                       }
+│                                     }
+│                       gas:          50.0 Tgas
+│                       deposit:      1 yoctoNEAR
+│     [0m
+├  Your transaction was signed successfully.
+│    Public key: ed25519:Gq7j8FgMQZZkggjtSPRv54rvqy8Ws6WcJJdW5BnkfsdG
+│    Signature:  ed25519:2PyJBCYf9H5PC19sYxA7nUaRraSYbeVkVwyb48Av86mk934p337Bq3uCZgFyVGv2kcfsoMPHm73YRBY8qGyuX3YC
+│     [0m
+├  Transaction Execution Info:
+│    Gas used: 16.9 Tgas
+│    Transaction fee: 0.0016354712031449 NEAR
+│    Transaction ID: C2WN1euvJEzfsqARG6JhAMbad169um8yFzYJgbVMycU8
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/C2WN1euvJEzfsqARG6JhAMbad169um8yFzYJgbVMycU8
+│     [0m
+├  Function execution logs:
+│    [36mLogs [v1.signer-prod.testnet]:[39m
+│      request_app_private_key: predecessor=AccountId("encore-stranger-6b4dad.testnet"), request=CKDRequestArgs { derivation_path: "encore/g1/1", app_public_key: AppPublicKeyPV(CKDAppPublicKeyPV { pk1: Bls12381G1PublicKey([192, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), pk2: Bls12381G2PublicKey([192, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]) }), domain_id: DomainId(2) }
+│    [36mLogs [v1.signer-prod.testnet]:[39m   [2mNo logs[0m
+│    [36mLogs [encore-stranger-6b4dad.testnet]:[39m   [2mNo logs[0m
+│    [36mLogs [encore-stranger-6b4dad.testnet]:[39m   [2mNo logs[0m
+│     [0m
+
+Function execution return value (printed to stdout):
+{
+  "big_c": "bls12381g1:689HNAvePArRGYLGRo11d6ZuebnW2eVvpiwbsZUdisB31zk6CQFvqkf2CUsEDcs2sX",
+  "big_y": "bls12381g1:7PFoy3FP68gqAQsJ2vwTDT6hPcE7BY116HyWqJuzua4xQW8dz1ZdPVjwj8r7g9Towk"
+}
+
+
+The "request_app_private_key" call to <v1.signer-prod.testnet> on behalf of <encore-stranger-6b4dad.testnet> succeeded.
+
+
+
+
+Here is your console command if you need to script it or re-run:
+    [33m/Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near contract call-function as-transaction v1.signer-prod.testnet request_app_private_key json-args '{"request":{"derivation_path":"encore/g1/1","app_public_key":{"AppPublicKeyPV":{"pk1":"bls12381g1:83VnBdpeT9ioHuUTBD2zcitXg7JqNiebUs5yxDaYaLgZYDLLk2gayHrJKNyRt4vBQB","pk2":"bls12381g2:2995BcogDeU9PQxbssLWhG9J76ubezYVpjbceWnwcmRs9ypA2vYDikf8mpuzankQX6WMsDockieKarmDerS2xTPzR1dktiHiGkjvPpRYpDip6unu4WgtPqeCPtxqppMzuGwy"}},"domain_id":2}}' prepaid-gas '50.0 Tgas' attached-deposit '1 yoctoNEAR' sign-as encore-stranger-6b4dad.testnet network-config testnet sign-with-legacy-keychain send[39m
+

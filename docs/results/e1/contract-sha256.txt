@@ -1,0 +1,1 @@
+3374715fb5fb23440bd8798b716c9e974f1083499521b7490d8368f6fbc97477  contracts/encore-poc/target/near/encore_poc.wasm

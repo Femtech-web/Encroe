@@ -1,0 +1,16 @@
+# ---- secrets and local configuration: never committed ----
+.env
+.env.*
+!.env.example
+.secrets/
+*.secret.json
+*.key
+*.pem
+
+# ---- build outputs, caches, tools ----
+target/
+target-broken/
+**/target/
+**/target-broken/
+node_modules/
+__pycache__/

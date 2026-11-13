@@ -1,0 +1,38 @@
+├  Unsigned transaction:
+│    signer_id:    encore-pub-6b4dad.testnet
+│    receiver_id:  encore-e1-6b4dad.testnet
+│    actions:
+│       -- function call:      
+│                       method name:  heartbeat
+│                       args:         {}
+│                       gas:          300.0 Tgas
+│                       deposit:      0 NEAR
+│     [0m
+├  Your transaction was signed successfully.
+│    Public key: ed25519:454aDeGXb1XDHWKwZTgFS5w75hmdQVyBW1PMn7XAWW8X
+│    Signature:  ed25519:5dvgkMDNQsfYThU7cgzHHgUkCUshthaM3kuQK6MqAoq8CneedKJG3MLhHx6kFGw7NMCa7aPyK5Nj5FCEjLAT7HSn
+│     [0m
+├  Transaction Execution Info:
+│    Gas used: 2.0 Tgas
+│    Transaction fee: 0.0001698602040565 NEAR
+│    Transaction ID: GeCzs6VK9MPbwspT2BEvqYGYGvFnADYM6gHcAGUJbUa4
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/GeCzs6VK9MPbwspT2BEvqYGYGvFnADYM6gHcAGUJbUa4
+│     [0m
+├  Function execution logs:
+│    [36mLogs [encore-e1-6b4dad.testnet]:[39m   [2mNo logs[0m
+│    [36mLogs [encore-pub-6b4dad.testnet]:[39m   [2mNo logs[0m
+│     [0m
+├  Function execution return value:
+│    Empty return value
+│     [0m
+
+
+The "heartbeat" call to <encore-e1-6b4dad.testnet> on behalf of <encore-pub-6b4dad.testnet> succeeded.
+
+
+
+
+Here is your console command if you need to script it or re-run:
+    [33m/Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near contract call-function as-transaction encore-e1-6b4dad.testnet heartbeat json-args {} prepaid-gas '300.0 Tgas' attached-deposit '0 NEAR' sign-as encore-pub-6b4dad.testnet network-config testnet sign-with-legacy-keychain send[39m
+

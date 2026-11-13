@@ -1,0 +1,97 @@
+--- /tmp/e1rev/src/lib.rs	2026-11-11 21:53:52
++++ contracts/encore-poc/src/lib.rs	2026-11-11 21:44:48
+@@ -7,6 +7,7 @@
+ //! E2: `verify` asks OutLayer to run the pinned verifier build on a committed sealed epoch,
+ //! with the publisher's secret row; the guest's JSON comes back through yield/resume.
+ 
++use near_sdk::json_types::Base64VecU8;
+ use near_sdk::serde_json::{self, json, Value};
+ use near_sdk::{env, log, near, require, AccountId, Gas, NearToken, PanicOnDefault, Promise, PromiseError};
+ use sha2::{Digest, Sha256};
+@@ -68,6 +69,7 @@
+     path: String,
+     grace_ns: u64,
+     last_heartbeat_ns: u64,
++    eol_at_ns: Option<u64>,
+     release_pending: bool,
+     released: Option<CkdResponse>,
+     released_by: Option<AccountId>,
+@@ -104,6 +106,7 @@
+             path,
+             grace_ns,
+             last_heartbeat_ns: env::block_timestamp(),
++            eol_at_ns: None,
+             release_pending: false,
+             released: None,
+             released_by: None,
+@@ -124,6 +127,13 @@
+         self.last_heartbeat_ns = env::block_timestamp();
+     }
+ 
++    /// The publisher ends service: release becomes possible `notice_ns` from now.
++    pub fn declare_end_of_life(&mut self, notice_ns: u64) {
++        self.assert_owner();
++        require!(self.released.is_none() && !self.release_pending, "already released");
++        self.eol_at_ns = Some(env::block_timestamp().saturating_add(notice_ns));
++    }
++
+     pub fn commit(&mut self, commitment: Commitment) {
+         self.assert_owner();
+         require!(self.released.is_none() && !self.release_pending, "already released");
+@@ -137,14 +147,15 @@
+     // ---------- E1: release ----------
+ 
+     pub fn release_condition_met(&self) -> bool {
+-        env::block_timestamp() > self.last_heartbeat_ns.saturating_add(self.grace_ns)
++        let now = env::block_timestamp();
++        now > self.last_heartbeat_ns.saturating_add(self.grace_ns) || self.eol_at_ns.is_some_and(|t| now >= t)
+     }
+ 
+     /// Anyone may call; only succeeds once the heartbeat has lapsed.
+     pub fn release(&mut self) -> Promise {
+         require!(self.released.is_none(), "already released");
+         require!(!self.release_pending, "release in flight");
+-        require!(self.release_condition_met(), "release condition not met: publisher heartbeat is live");
++        require!(self.release_condition_met(), "release condition not met: publisher heartbeat is live and no end of life is due");
+         self.release_pending = true;
+         let app_public_key = if self.key_mode == "pv_identity" {
+             json!({"AppPublicKeyPV": {"pk1": G1_IDENTITY_B58, "pk2": G2_IDENTITY_B58}})
+@@ -186,7 +197,7 @@
+ 
+     /// Runs the pinned verifier on the committed epoch. `package_b64` must hash to the commitment.
+     #[payable]
+-    pub fn verify(&mut self, package_b64: String) -> Promise {
++    pub fn verify(&mut self, package_b64: Base64VecU8) -> Promise {
+         let url = self.verifier_url.clone();
+         let hash = self.verifier_hash.clone();
+         self.request_run("verify", url, hash, package_b64)
+@@ -194,7 +205,7 @@
+ 
+     /// TEST ONLY (owner): the same secret reference with another build, to show the keystore refuses it.
+     #[payable]
+-    pub fn probe(&mut self, wasm_url: String, wasm_hash: String, package_b64: String) -> Promise {
++    pub fn probe(&mut self, wasm_url: String, wasm_hash: String, package_b64: Base64VecU8) -> Promise {
+         self.assert_owner();
+         self.request_run("probe", wasm_url, wasm_hash, package_b64)
+     }
+@@ -234,6 +245,7 @@
+             "path": self.path,
+             "grace_ns": self.grace_ns.to_string(),
+             "last_heartbeat_ns": self.last_heartbeat_ns.to_string(),
++            "eol_at_ns": self.eol_at_ns.map(|t| t.to_string()),
+             "now_ns": env::block_timestamp().to_string(),
+             "release_condition_met": self.release_condition_met(),
+             "release_pending": self.release_pending,
+@@ -257,10 +269,10 @@
+         require!(env::predecessor_account_id() == self.owner, "owner only");
+     }
+ 
+-    fn request_run(&mut self, kind: &str, wasm_url: String, wasm_hash: String, package_b64: String) -> Promise {
++    fn request_run(&mut self, kind: &str, wasm_url: String, wasm_hash: String, package_b64: Base64VecU8) -> Promise {
+         require!(self.released.is_none(), "already released");
+         let c = self.commitment.clone().unwrap_or_else(|| env::panic_str("no commitment"));
+-        let got = hex::encode(Sha256::digest(package_b64.as_bytes()));
++        let got = hex::encode(Sha256::digest(&package_b64.0));
+         require!(got == c.pkg_sha256, "package does not match the committed pkg_sha256");
+         let seed = hex::encode(env::random_seed_array());
+         let input = json!({

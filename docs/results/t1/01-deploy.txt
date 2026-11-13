@@ -1,0 +1,52 @@
+├  Unsigned transaction:
+│    signer_id:    t1.encore-pub-6b4dad.testnet
+│    receiver_id:  t1.encore-pub-6b4dad.testnet
+│    actions:
+│       -- deploy code <76CgRrC87xVTnr2r85zVKFV7N6JevuwB2C26GKQLot4d> to a account <t1.encore-pub-6b4dad.testnet>
+│       -- function call:      
+│                       method name:  new
+│                       args:         {
+│                                       "dcap_verifier": "tee-verifier-2026-07-22.testnet",
+│                                       "domain_id": 2,
+│                                       "grace_ns": 86400000000000,
+│                                       "key_mode": "pv_identity",
+│                                       "mpc": "v1.signer-prod.testnet",
+│                                       "outlayer": "outlayer.testnet",
+│                                       "owner": "encore-pub-6b4dad.testnet",
+│                                       "path": "encore/g1/1",
+│                                       "registry": "worker.outlayer.testnet",
+│                                       "secret_profile": "encore-t1-1",
+│                                       "verifier_hash": "9c0eb2e7a47e83c8feaa3d54780bf8848eb5ec13659d4e925b010e4faf756aad",
+│                                       "verifier_url": "https://test.fastfs.io/encore-pub-6b4dad.testnet/outlayer.testnet/9c0eb2e7a47e83c8feaa3d54780bf8848eb5ec13659d4e925b010e4faf756aad.wasm"
+│                                     }
+│                       gas:          100.0 Tgas
+│                       deposit:      0 NEAR
+│     [0m
+├  Your transaction was signed successfully.
+│    Public key: ed25519:6mzgS3iRUh8e9rEnh1NLGTLfhgnC78fnmT5byQtGUbqa
+│    Signature:  ed25519:aLvnSaT73J87x3hmMkRWCxxwGcBLXSfnj3qr8xYYgm7qi97MHMDAabXXeXwJH6j95Jmao2cuTGjLKXv8s7tXcGJ
+│     [0m
+├  Transaction Execution Info:
+│    Gas used: 19.0 Tgas
+│    Transaction fee: 0.0018693498090983 NEAR
+│    Transaction ID: 45KuDw3BwGwcRXwp5wWdzxiN2PGsvJ9iBTp3pmiBDeVU
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/45KuDw3BwGwcRXwp5wWdzxiN2PGsvJ9iBTp3pmiBDeVU
+│     [0m
+├  Function execution logs:
+│    [36mLogs [t1.encore-pub-6b4dad.testnet]:[39m   [2mNo logs[0m
+│    [36mLogs [t1.encore-pub-6b4dad.testnet]:[39m   [2mNo logs[0m
+│     [0m
+├  Function execution return value:
+│    Empty return value
+│     [0m
+
+Contract code has been successfully deployed.
+The "new" call to <t1.encore-pub-6b4dad.testnet> on behalf of <t1.encore-pub-6b4dad.testnet> succeeded.
+
+
+
+
+Here is your console command if you need to script it or re-run:
+    [33m/Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near contract deploy t1.encore-pub-6b4dad.testnet use-file contracts/encore-t1/target/near/encore_t1.wasm with-init-call new json-args '{"owner": "encore-pub-6b4dad.testnet", "mpc": "v1.signer-prod.testnet", "domain_id": 2, "key_mode": "pv_identity", "path": "encore/g1/1", "grace_ns": 86400000000000, "outlayer": "outlayer.testnet", "verifier_url": "https://test.fastfs.io/encore-pub-6b4dad.testnet/outlayer.testnet/9c0eb2e7a47e83c8feaa3d54780bf8848eb5ec13659d4e925b010e4faf756aad.wasm", "verifier_hash": "9c0eb2e7a47e83c8feaa3d54780bf8848eb5ec13659d4e925b010e4faf756aad", "secret_profile": "encore-t1-1", "dcap_verifier": "tee-verifier-2026-07-22.testnet", "registry": "worker.outlayer.testnet"}' prepaid-gas '100.0 Tgas' attached-deposit '0 NEAR' network-config testnet sign-with-legacy-keychain send[39m
+

@@ -1,0 +1,18 @@
+{
+  "v": 1,
+  "game": "g1",
+  "epoch": 1,
+  "predecessor": "encore-e1-6b4dad.testnet",
+  "path": "encore/g1/1",
+  "domain_id": 2,
+  "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj",
+  "app_id": "240e760583fb7abf25932c6bbe89d1a7d2ad4692f7483f86c0d9a8ae0b905130",
+  "sealed_key": {
+    "u": "8bb01a3a6f67948dccf610e947064743403b6b1e36b8fdb6b933cbfebc9010c7d742b5ae4cacecf8901dc366d3fff250174f69fcde2f063c8711d93497e31152cb8a127333e911dc949ea6187fe282de37835c82d315f46d99036c1112aaa626",
+    "v": "8f532e4657e77a04cc460cdb276e50e48c35000bc1ee7ca33c9f04d44b1496bf"
+  },
+  "pkg_sha256": "5e89b4e0fc90f89e070267c38385b2e9e97cfd7c8a75cdd2b99a15d465e3346c",
+  "root": "3a52f482ca0c949375f0761df0046a2d0deaf6c716d0af32907b54d5425dd3ac",
+  "core_sha256": "3c83b9b7c83eccde5720a4c833a6c7531b36ad20c6e91afdf2052795324f23c0",
+  "players": 24
+}

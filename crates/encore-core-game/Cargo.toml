@@ -1,0 +1,19 @@
+[package]
+name = "encore-core-game"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Toy deterministic game core sealed inside an Encore package (wasm32-unknown-unknown, no imports)"
+
+[lib]
+crate-type = ["cdylib"]
+
+[features]
+broken = []
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

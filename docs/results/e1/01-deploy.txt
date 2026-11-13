@@ -1,0 +1,50 @@
+├  Unsigned transaction:
+│    signer_id:    encore-e1-6b4dad.testnet
+│    receiver_id:  encore-e1-6b4dad.testnet
+│    actions:
+│       -- deploy code <4Trmxw5DakVdZeUAW7qcP4CYBQVcBrnE72L2AoJmWAdc> to a account <encore-e1-6b4dad.testnet>
+│       -- function call:      
+│                       method name:  new
+│                       args:         {
+│                                       "domain_id": 2,
+│                                       "grace_ns": 240000000000,
+│                                       "key_mode": "pv_identity",
+│                                       "mpc": "v1.signer-prod.testnet",
+│                                       "outlayer": "outlayer.testnet",
+│                                       "owner": "encore-pub-6b4dad.testnet",
+│                                       "path": "encore/g1/1",
+│                                       "secret_profile": "encore-g1-1",
+│                                       "verifier_hash": "9c0eb2e7a47e83c8feaa3d54780bf8848eb5ec13659d4e925b010e4faf756aad",
+│                                       "verifier_url": "https://unused.invalid/e1-instance-runs-no-verifier.wasm"
+│                                     }
+│                       gas:          100.0 Tgas
+│                       deposit:      0 NEAR
+│     [0m
+├  Your transaction was signed successfully.
+│    Public key: ed25519:96qSsvxfCNm8pZrJkpESXBDnEE3NxLJ4WtJMzGeYwEsg
+│    Signature:  ed25519:3Nuk21mnHbwywUq67sWumAykcNtt377R2ByPHemv2mhpcpXM3TJUJKVh2pJEAUgahS8dGt6Lbdp17FnWN166ZVKJ
+│     [0m
+├  Transaction Execution Info:
+│    Gas used: 14.8 Tgas
+│    Transaction fee: 0.0014493750420857 NEAR
+│    Transaction ID: EbbkmtYsUGx9EXFGFb4LhjULKG7QxSEPXtqRW74vUpnd
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/EbbkmtYsUGx9EXFGFb4LhjULKG7QxSEPXtqRW74vUpnd
+│     [0m
+├  Function execution logs:
+│    [36mLogs [encore-e1-6b4dad.testnet]:[39m   [2mNo logs[0m
+│    [36mLogs [encore-e1-6b4dad.testnet]:[39m   [2mNo logs[0m
+│     [0m
+├  Function execution return value:
+│    Empty return value
+│     [0m
+
+Contract code has been successfully deployed.
+The "new" call to <encore-e1-6b4dad.testnet> on behalf of <encore-e1-6b4dad.testnet> succeeded.
+
+
+
+
+Here is your console command if you need to script it or re-run:
+    [33m/Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near contract deploy encore-e1-6b4dad.testnet use-file contracts/encore-poc/target/near/encore_poc.wasm with-init-call new json-args '{"owner": "encore-pub-6b4dad.testnet", "mpc": "v1.signer-prod.testnet", "domain_id": 2, "key_mode": "pv_identity", "path": "encore/g1/1", "grace_ns": 240000000000, "outlayer": "outlayer.testnet", "verifier_url": "https://unused.invalid/e1-instance-runs-no-verifier.wasm", "verifier_hash": "9c0eb2e7a47e83c8feaa3d54780bf8848eb5ec13659d4e925b010e4faf756aad", "secret_profile": "encore-g1-1"}' prepaid-gas '100.0 Tgas' attached-deposit '0 NEAR' network-config testnet sign-with-legacy-keychain send[39m
+

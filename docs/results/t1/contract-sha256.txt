@@ -1,0 +1,1 @@
+332d1ad023b1eb1ca03bd987ee5ccb18df8953e673295bbbce3f73a729cbf9a1  contracts/encore-t1/target/near/encore_t1.wasm

@@ -1,0 +1,35 @@
+├  Unsigned transaction:
+│    signer_id:    encore-stranger-6b4dad.testnet
+│    receiver_id:  encore-e1-6b4dad.testnet
+│    actions:
+│       -- function call:      
+│                       method name:  release
+│                       args:         {}
+│                       gas:          300.0 Tgas
+│                       deposit:      0 NEAR
+│     [0m
+├  Your transaction was signed successfully.
+│    Public key: ed25519:Gq7j8FgMQZZkggjtSPRv54rvqy8Ws6WcJJdW5BnkfsdG
+│    Signature:  ed25519:5mpBgDFbMHvDmKhhiJZ9qu4JxydgPwRC5Gn16XNr7owayLfyC2w6SKmaHeMjTyMvQ1TdSTmQnrFJwzKDf1ENccdB
+│     [0m
+[31m├  ERROR Transaction failed
+│    Gas used: 1.8 Tgas
+│    Transaction fee: 0.0001519846781494 NEAR
+│    Transaction ID: EoippMwHTte64LdH6tCnxLYromMDgPQx4rMm7F2PgcaN
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/EoippMwHTte64LdH6tCnxLYromMDgPQx4rMm7F2PgcaN
+│     [0m
+├  Function execution logs:
+│    [31mLogs [encore-e1-6b4dad.testnet] (failed):[39m   [2mNo logs[0m
+│    [36mLogs [encore-stranger-6b4dad.testnet]:[39m   [2mNo logs[0m
+│     [0m
+
+Here is your console command if you need to script it or re-run:
+    [33m/Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near contract call-function as-transaction encore-e1-6b4dad.testnet release json-args {} prepaid-gas '300.0 Tgas' attached-deposit '0 NEAR' sign-as encore-stranger-6b4dad.testnet network-config testnet sign-with-legacy-keychain send[39m
+
+Error: 
+   0: [91mError: An error occurred during a `FunctionCall` action.
+      ExecutionError("Smart contract panicked: release condition not met: publisher heartbeat is live")[0m
+
+Location:
+   [35msrc/common.rs[0m:[35m1864[0m

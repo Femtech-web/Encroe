@@ -1,0 +1,42 @@
+├  Unsigned transaction:
+│    signer_id:    encore-stranger-6b4dad.testnet
+│    receiver_id:  t1.encore-pub-6b4dad.testnet
+│    actions:
+│       -- function call:      
+│                       method name:  refresh_measurements
+│                       args:         {}
+│                       gas:          200.0 Tgas
+│                       deposit:      0 NEAR
+│     [0m
+├  Your transaction was signed successfully.
+│    Public key: ed25519:Gq7j8FgMQZZkggjtSPRv54rvqy8Ws6WcJJdW5BnkfsdG
+│    Signature:  ed25519:4zowDFLz2ms39c1cr5YfzvTRMy8zyo7wSTu5wWjNCN9ZsFyJquzPAaEDCCWC1iPzjUR8R5F5ruyP7PvETVcm1qtL
+│     [0m
+├  Transaction Execution Info:
+│    Gas used: 22.9 Tgas
+│    Transaction fee: 0.0022202367633645 NEAR
+│    Transaction ID: 31gvdEsfi7bqBJnKSUQDu589osEd556v8bDQrMfjf5vj
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/31gvdEsfi7bqBJnKSUQDu589osEd556v8bDQrMfjf5vj
+│     [0m
+├  Function execution logs:
+│    [36mLogs [t1.encore-pub-6b4dad.testnet]:[39m   [2mNo logs[0m
+│    [36mLogs [worker.outlayer.testnet]:[39m   [2mNo logs[0m
+│    [36mLogs [encore-stranger-6b4dad.testnet]:[39m   [2mNo logs[0m
+│    [36mLogs [t1.encore-pub-6b4dad.testnet]:[39m   [2mNo logs[0m
+│    [36mLogs [encore-stranger-6b4dad.testnet]:[39m   [2mNo logs[0m
+│    [36mLogs [encore-stranger-6b4dad.testnet]:[39m   [2mNo logs[0m
+│     [0m
+
+Function execution return value (printed to stdout):
+129
+
+
+The "refresh_measurements" call to <t1.encore-pub-6b4dad.testnet> on behalf of <encore-stranger-6b4dad.testnet> succeeded.
+
+
+
+
+Here is your console command if you need to script it or re-run:
+    [33m/Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near contract call-function as-transaction t1.encore-pub-6b4dad.testnet refresh_measurements json-args {} prepaid-gas '200.0 Tgas' attached-deposit '0 NEAR' sign-as encore-stranger-6b4dad.testnet network-config testnet sign-with-legacy-keychain send[39m
+

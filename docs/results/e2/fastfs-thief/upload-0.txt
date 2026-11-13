@@ -1,0 +1,35 @@
+├  Unsigned transaction:
+│    signer_id:    encore-pub-6b4dad.testnet
+│    receiver_id:  outlayer.testnet
+│    actions:
+│       -- function call:      
+│                       method name:  __fastdata_fastfs
+│                       args:         <non-printable data (123.2 KB)>
+│                       gas:          <0.001 Tgas
+│                       deposit:      0 NEAR
+│     [0m
+├  Your transaction was signed successfully.
+│    Public key: ed25519:454aDeGXb1XDHWKwZTgFS5w75hmdQVyBW1PMn7XAWW8X
+│    Signature:  ed25519:533zxNSaqYzu5m558Voa6N47Da7YSBoVb3pd8TicE9phxTdzMcMj4ScnHCgVZCqcPmpevudApB18rhKqwE16Ek2g
+│     [0m
+[31m├  ERROR Transaction failed
+│    Gas used: 7.6 Tgas
+│    Transaction fee: 0.0007348116703463 NEAR
+│    Transaction ID: 5o674h6RGVpUyPYt7XQEsGgjzCxq1XUYoMPpjbjfcBGB
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/5o674h6RGVpUyPYt7XQEsGgjzCxq1XUYoMPpjbjfcBGB
+│     [0m
+├  Function execution logs:
+│    [31mLogs [outlayer.testnet] (failed):[39m   [2mNo logs[0m
+│    [36mLogs [encore-pub-6b4dad.testnet]:[39m   [2mNo logs[0m
+│     [0m
+
+Here is your console command if you need to script it or re-run:
+    [33m/Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near contract call-function as-transaction outlayer.testnet __fastdata_fastfs file-args /tmp/fastfs-thief/payload-0.bin prepaid-gas '<0.001 Tgas' attached-deposit '0 NEAR' sign-as encore-pub-6b4dad.testnet network-config testnet sign-with-legacy-keychain send[39m
+
+Error: 
+   0: [91mError: An error occurred during a `FunctionCall` action.
+      ExecutionError("Exceeded the prepaid gas.")[0m
+
+Location:
+   [35msrc/common.rs[0m:[35m1864[0m
