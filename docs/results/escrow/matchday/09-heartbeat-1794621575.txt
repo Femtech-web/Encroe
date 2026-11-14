@@ -1,0 +1,38 @@
+├  Unsigned transaction:
+│    signer_id:    encore-pub-6b4dad.testnet
+│    receiver_id:  matchday.encroe.testnet
+│    actions:
+│       -- function call:      
+│                       method name:  heartbeat
+│                       args:         {}
+│                       gas:          30.0 Tgas
+│                       deposit:      0 NEAR
+│     
+├  Your transaction was signed successfully.
+│    Public key: ed25519:454aDeGXb1XDHWKwZTgFS5w75hmdQVyBW1PMn7XAWW8X
+│    Signature:  ed25519:3Yws7zJQuLTU31ZQ22gn8bFvsEn9GWGaFncjNDPRLnMpF1QRTMvxCUeS6RR19kawC6YXoWdoQvutA4tbuC5kTPT5
+│     
+├  Transaction Execution Info:
+│    Gas used: 8.9 Tgas
+│    Transaction fee: 0.0008643640591206 NEAR
+│    Transaction ID: 3uzhQJ2Z41VXWrfzndAVeQLXufjAYf35L41uTQBTYtfs
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/3uzhQJ2Z41VXWrfzndAVeQLXufjAYf35L41uTQBTYtfs
+│     
+├  Function execution logs:
+│    Logs [matchday.encroe.testnet]:   No logs
+│    Logs [encore-pub-6b4dad.testnet]:   No logs
+│     
+├  Function execution return value:
+│    Empty return value
+│     
+
+
+The "heartbeat" call to <matchday.encroe.testnet> on behalf of <encore-pub-6b4dad.testnet> succeeded.
+
+
+
+
+Here is your console command if you need to script it or re-run:
+    /home/runner/work/Encroe/Encroe/node_modules/near-cli-rs/node_modules/.bin_real/near contract call-function as-transaction matchday.encroe.testnet heartbeat json-args {} prepaid-gas '30.0 Tgas' attached-deposit '0 NEAR' sign-as encore-pub-6b4dad.testnet network-config testnet sign-with-legacy-keychain send
+
