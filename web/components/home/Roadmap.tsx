@@ -5,8 +5,8 @@ const NEXT = [
     body: "A revived game needs somewhere to run for everyone at once. Community hosts run the released core in an enclave; the escrow pays them from a pool only for the hours NEAR's DCAP verifier confirms they served it.",
   },
   {
-    title: "Items handed over on other chains",
-    body: "A player's sealed items can follow them out of the game. With NEAR Chain Signatures, the escrow itself signs a transfer on Ethereum or Solana, so a Phoenix relic becomes a token its owner holds anywhere.",
+    title: "Items on more chains",
+    body: "A released world's items already leave the game: NEAR Chain Signatures signs a player's claim and Base Sepolia mints it, once. The same MPC key signs for Ethereum next, and an Ed25519 domain would reach Solana.",
   },
   {
     title: "Unity's C#",

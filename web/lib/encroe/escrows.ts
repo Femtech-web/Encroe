@@ -12,6 +12,27 @@ export const ESCROWS: { id: string; results: string; story: string }[] = [
     story: "This site's public world: the studio's bot seals it, the enclave verifies it, players check their items",
   },
   {
+    id: "handover.encroe.testnet",
+    results: "handover",
+    story:
+      "Released, then its items handed over: a player's sealed items minted on Base Sepolia through Chain Signatures",
+  },
+  {
+    id: "neon-city.encroe.testnet",
+    results: "browser-seal",
+    story: "Neon City's world, sealed by the browser's own code and verified green",
+  },
+  {
+    id: "starhaul.encroe.testnet",
+    results: "engines",
+    story: "Starhaul, a 3D space game whose server is Zig: its world sealed and verified green",
+  },
+  {
+    id: "orchard.encroe.testnet",
+    results: "engines",
+    story: "Orchard, a farm game whose server is Go: its world sealed and verified green",
+  },
+  {
     id: "encroe-ember-3924.testnet",
     results: "ember-3924",
     story: "Embergate's played world: sealed, verified green, checked by its own players",

@@ -1,0 +1,18 @@
+{
+  "v": 1,
+  "game": "handover",
+  "epoch": 1,
+  "predecessor": "handover.encroe.testnet",
+  "path": "encroe/handover/1",
+  "domain_id": 2,
+  "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj",
+  "app_id": "9bb22337148b03d111693688cc6c52a3e43848bd02952253f3f62271f0a9dfa4",
+  "sealed_key": {
+    "u": "95a3a84be264259e248e8b0bc4fc31df1ace5b4d139e91a3249e354ad60a0af86af8b3485ff105dbc8d2d75b94c9656b18c8b966d52c003c54f7c8d28bf244ddbc5f2e94452140aa09c12c2ae931b7c83eca241caf839389cff28b268b9382ad",
+    "v": "d3353c28d4b120125b060e3b4fbbb1f7d1517cdad48e5164499b1f3a538dba82"
+  },
+  "pkg_sha256": "a7b9a8368946cbd28779685d9d19bd4ebd918a28a417c3f8701ac1de389783c4",
+  "root": "41ed07e0b45bfddbdda862115f1c032396b3a80c1e98c1e9d7b7202ff82e822b",
+  "core_sha256": "49ff0c57f10f24b9091eae3bd218b28a642d581f698871f6b3c65b7effa9cb62",
+  "players": 5
+}

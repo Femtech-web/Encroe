@@ -17,3 +17,6 @@ __pycache__/
 
 # Local toolchains (zig for the C/C++ game cores)
 .tools/
+
+# ---- the launch film: media, renders and its project (the brief and narration live there too) ----
+marketing/

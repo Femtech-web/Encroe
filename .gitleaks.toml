@@ -15,3 +15,10 @@ paths = [
   # Meteor's vendored wallet connector (MIT, see its LICENSE): public bundled code, no secrets.
   '''web/public/wallet-connectors/meteor\.js$''',
 ]
+regexes = [
+  # Public on-chain identifiers of the item handover: a NEAR account name and Base Sepolia contract and signer
+  # addresses. Named "token" and "keyless" in the source, so the generic rule mistakes them for keys.
+  '''encroe-items-ba9e16\.testnet''',
+  '''0x94365D73B3C539680622E681aEAcefeC01c8a2e1''',
+  '''0x30e6f17b3fBCbD12aF69bBebD2D0c25EfE8AbbCd''',
+]

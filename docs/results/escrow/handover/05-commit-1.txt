@@ -1,0 +1,51 @@
+├  Unsigned transaction:
+│    signer_id:    encore-pub-6b4dad.testnet
+│    receiver_id:  handover.encroe.testnet
+│    actions:
+│       -- function call:      
+│                       method name:  commit
+│                       args:         {
+│                                       "commitment": {
+│                                         "app_id": "9bb22337148b03d111693688cc6c52a3e43848bd02952253f3f62271f0a9dfa4",
+│                                         "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj",
+│                                         "core_sha256": "49ff0c57f10f24b9091eae3bd218b28a642d581f698871f6b3c65b7effa9cb62",
+│                                         "epoch": 1,
+│                                         "game": "handover",
+│                                         "pkg_sha256": "a7b9a8368946cbd28779685d9d19bd4ebd918a28a417c3f8701ac1de389783c4",
+│                                         "players": 5,
+│                                         "root": "41ed07e0b45bfddbdda862115f1c032396b3a80c1e98c1e9d7b7202ff82e822b",
+│                                         "sealed_u": "95a3a84be264259e248e8b0bc4fc31df1ace5b4d139e91a3249e354ad60a0af86af8b3485ff105dbc8d2d75b94c9656b18c8b966d52c003c54f7c8d28bf244ddbc5f2e94452140aa09c12c2ae931b7c83eca241caf839389cff28b268b9382ad",
+│                                         "sealed_v": "d3353c28d4b120125b060e3b4fbbb1f7d1517cdad48e5164499b1f3a538dba82"
+│                                       }
+│                                     }
+│                       gas:          50.0 Tgas
+│                       deposit:      0 NEAR
+│     
+├  Your transaction was signed successfully.
+│    Public key: ed25519:454aDeGXb1XDHWKwZTgFS5w75hmdQVyBW1PMn7XAWW8X
+│    Signature:  ed25519:4q6H1TQf5swFmFrRzHyksR8BXLvFfZg7ECFK8dhXk6JttMeYhZqqEwswYwAsG2tNdyghMfJwAbnUQc3GjN7echjT
+│     
+├  Transaction Execution Info:
+│    Gas used: 8.8 Tgas
+│    Transaction fee: 0.0008567621897997 NEAR
+│    Transaction ID: Fu7APfSiHGaA2aUDaSnhAot5ysuJ5hLmYTzYgL6FNy9w
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/Fu7APfSiHGaA2aUDaSnhAot5ysuJ5hLmYTzYgL6FNy9w
+│     
+├  Function execution logs:
+│    Logs [handover.encroe.testnet]:   No logs
+│    Logs [encore-pub-6b4dad.testnet]:   No logs
+│     
+├  Function execution return value:
+│    Empty return value
+│     
+
+
+The "commit" call to <handover.encroe.testnet> on behalf of <encore-pub-6b4dad.testnet> succeeded.
+
+
+
+
+Here is your console command if you need to script it or re-run:
+    /Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near contract call-function as-transaction handover.encroe.testnet commit json-args '{"commitment": {"game": "handover", "epoch": 1, "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj", "app_id": "9bb22337148b03d111693688cc6c52a3e43848bd02952253f3f62271f0a9dfa4", "pkg_sha256": "a7b9a8368946cbd28779685d9d19bd4ebd918a28a417c3f8701ac1de389783c4", "root": "41ed07e0b45bfddbdda862115f1c032396b3a80c1e98c1e9d7b7202ff82e822b", "core_sha256": "49ff0c57f10f24b9091eae3bd218b28a642d581f698871f6b3c65b7effa9cb62", "players": 5, "sealed_u": "95a3a84be264259e248e8b0bc4fc31df1ace5b4d139e91a3249e354ad60a0af86af8b3485ff105dbc8d2d75b94c9656b18c8b966d52c003c54f7c8d28bf244ddbc5f2e94452140aa09c12c2ae931b7c83eca241caf839389cff28b268b9382ad", "sealed_v": "d3353c28d4b120125b060e3b4fbbb1f7d1517cdad48e5164499b1f3a538dba82"}}' prepaid-gas '50.0 Tgas' attached-deposit '0 NEAR' sign-as encore-pub-6b4dad.testnet network-config testnet sign-with-legacy-keychain send
+

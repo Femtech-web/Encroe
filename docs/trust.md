@@ -16,6 +16,8 @@ transaction has ever been sent.
 | **The studio** | To seal its real world: all its players, their real items, and the core its live server runs | Each player checks their own items against the root NEAR holds ("Is my stuff in the vault?"); the site serves its core's sha256 for comparison with the committed `core_sha256`; the enclave checks the core serves every sampled player exactly as committed |
 | **The players' privacy** | Salted leaves and the package's encryption, until the release | A leaf is SHA-256 over the player's key, items and a fresh 32-byte salt; the site hands a player their salt only for a request signed by their key |
 | **The site, its relayer, the agent, the MCP server** | Nothing for safety: they send calls anyone may send and show data anyone may read. For liveness, a release waits for someone to ask: the agent, a visitor, or anyone with a NEAR account | Everything they show is re-derivable from NEAR views and FastFS; `/break` shows the contract refusing what it should |
+| **Sealing from the browser** | The studio's own tab, running this repository's code; the package key leaves it only encrypted to OutLayer's keystore. The site's relayer only uploads a package the escrow already committed, and the prover only relays a quote NEAR checks itself | `seal.test.ts` opens browser-sealed packages with the Rust CLI; `/api/seal/fastfs` refuses an uncommitted package |
+| **Items on another chain** | NEAR's MPC network (domain 0, path `encroe/items/1`) to sign only what `encroe-items` asks; `encroe-items`, keyless, to ask only for a released factory escrow's own leaf, signed by the player's key, once; `EncroeItems` on Base Sepolia to mint only that signer's claims, once | `encroe-items-ba9e16.testnet` has no keys and code `fc69492e…`; `EncroeItems.signer()` is the MPC-derived address; both digests match in tests; [items](results/items/README.md) |
 | **The browser that brings a game back** | Its own code, which is this repository's | `release.test.ts` and `revive.test.ts` hold it to the Rust tools on real released data |
 
 ## By actor
@@ -28,6 +30,7 @@ transaction has ever been sent.
 | NEAR's DCAP verifier | Checking Intel TDX quotes | Its contract is NEAR's; `encore-attest` checks the same quote against Intel PCS independently |
 | The escrow | Nothing: keyless | Its keys and code hash |
 | Our relayer, agent and site | Nothing for safety | Every action they take is permissionless and recorded on chain |
+| Whoever relays an item claim to Base | Nothing: they can only submit the MPC's signature as it is | `EncroeItems` recovers the signer from the claim itself |
 
 ## What the escrow cannot know
 
@@ -37,4 +40,7 @@ transaction has ever been sent.
 - **Whether the live server runs the sealed core.** The site shows the sha256 of the core it serves; the escrow
   holds the sha256 of the sealed one. Any difference is visible to anyone who looks.
 - **Whether a released game is hosted.** After a release every player can run the world in their browser;
-  shared hosting, paid only while a host provably serves it, is designed and not built (README, "Next").
+  shared hosting, paid only while a host provably serves it, is designed and not built
+  ([design](design/hosting.md)).
+- **Whether a claimed world was verified.** `encroe-items` mints what the escrow's committed root says; the enclave's
+  verdict on that epoch is on the escrow for anyone to read, but the handover does not require it.

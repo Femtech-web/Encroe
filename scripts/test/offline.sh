@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 # Offline test suite: CKD vectors, IBE, package and verifier rejection tests, native-vs-WASM determinism, the escrow
-# contract's lifecycle (real DCAP bytes) and the Embergate core.
+# contract's lifecycle (real DCAP bytes), the factory, the item handover on NEAR and on the EVM, and the Embergate core.
 set -euo pipefail
 cd "$(dirname "$0")/../.."
 scripts/build/all.sh >/dev/null
 cargo test -q --release -p encore-crypto -p encore-verifier
 (cd contracts/encroe-escrow && cargo test -q)
 (cd contracts/encroe-factory && cargo test -q)
+(cd contracts/encroe-items && cargo test -q)
+(cd contracts/evm && forge test -q)
 (cd crates/embergate-core && cargo test -q)
 echo "native vs wasm32-wasip2 (wasmtime) determinism on the E1 package:"
 SEED=$(cat docs/results/e1/preflight-seed.txt)

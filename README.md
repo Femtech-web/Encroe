@@ -15,9 +15,9 @@
 [![Studio](https://github.com/Femtech-web/Encroe/actions/workflows/studio.yml/badge.svg)](https://github.com/Femtech-web/Encroe/actions/workflows/studio.yml)
 [![Preserve](https://github.com/Femtech-web/Encroe/actions/workflows/preserve.yml/badge.svg)](https://github.com/Femtech-web/Encroe/actions/workflows/preserve.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-c6ff3d)](LICENSE)
-![Tests](https://img.shields.io/badge/tests-121%20passing-c6ff3d)
+![Tests](https://img.shields.io/badge/tests-130%20passing-c6ff3d)
 ![Keyless](https://img.shields.io/badge/escrows-keyless%20·%200%20access%20keys-c6ff3d)
-![NEAR](https://img.shields.io/badge/NEAR-MPC%20key%20derivation%20·%20DCAP%20verifier%20·%20FastFS-ff5a1f)
+![NEAR](https://img.shields.io/badge/NEAR-MPC%20key%20derivation%20·%20Chain%20Signatures%20·%20DCAP%20verifier%20·%20FastFS-ff5a1f)
 
 </div>
 
@@ -44,6 +44,9 @@ Encroe makes that promise enforce itself, with code nobody controls.
 4. **Silence opens it.** If the heartbeat stops for longer than the grace period, anyone can press release. NEAR's MPC
    network publishes the key. Any browser rebuilds the game from NEAR alone, checks every hash, and keeps playing,
    with everyone's items.
+
+5. **The items can leave.** Each player can take what they earned to another chain: NEAR Chain Signatures signs a
+   claim with a key nobody holds, and a token contract on Base Sepolia mints exactly the player's sealed items, once.
 
 No lawyer, no escrow agent, no permission. Not even we can stop it.
 
@@ -73,6 +76,7 @@ simulates something (a studio going silent, scripted test players), its write-up
 | A live world stays sealed, with nobody at the keyboard | [embergate](docs/results/escrow/embergate/README.md): the public world, sealed every six hours by a GitHub workflow, now at epoch 4 |
 | A studio needs nothing but a browser | [browser-seal](docs/results/escrow/browser-seal/README.md): Neon City's world sealed by the page's own code, verified green |
 | Any language works | [Rust, C++, C](docs/results/escrow/cores/README.md) sealed, released and revived; [Zig and Go](docs/results/escrow/engines/README.md) sealed and verified green |
+| A released world's items leave the game, signed by a key nobody holds | [items](docs/results/items/README.md): a player's sealed items minted on Base Sepolia through NEAR Chain Signatures; a forged, an inflated, a live-escrow and a repeated claim all refused |
 | An escrow can be keyless from its first block | [factory](docs/results/factory/README.md): `encroe.testnet` creates each escrow with no access key, ever |
 | The rules hold under attack | [/break](https://encroe.vercel.app/break): six attacks, six refusals, in the contract's own words |
 
@@ -160,6 +164,7 @@ flowchart LR
 
 | NEAR | Used for |
 |---|---|
+| **Chain Signatures** | A keyless contract signs a player's item claim for Base Sepolia, with a key NEAR's MPC network derives for it alone |
 | **MPC network, confidential key derivation** | The escrow's key: derived for the contract's identity, published only when the contract asks |
 | **DCAP verifier** (`tee-verifier-2026-07-22.testnet`) | The contract checks Intel TDX quotes on chain, so it trusts the hardware, not an operator |
 | **Contracts with no access keys** | The release rule an escrow is born with is the one it dies with |
@@ -175,7 +180,8 @@ flowchart LR
   **[What you trust](docs/trust.md):** what you rely on in each part, and how to check it yourself.
 - **Attacked live:** [/break](https://encroe.vercel.app/break) sends six attacks to locked escrows. A test checks every
   refusal it expects is written in the contract's source.
-- **Tested:** 27 Rust tests (CKD vectors, IBE, the verifier, the escrow, the factory, the game core) and 94 site tests
+- **Tested:** 31 Rust tests (CKD vectors, IBE, the verifier, the escrow, the factory, the item handover, the game
+  core), 5 Solidity tests (the item token) and 94 site tests
   (the browser's crypto against real released epochs, browser sealing against the Rust sealer, all five cores held to
   the enclave's checks, the RPC fallback). CI runs them with a secret scan on every push.
 - **Built to stay up:** the site reads NEAR through three public RPCs and falls back when one is rate-limited or down;
@@ -191,12 +197,16 @@ flowchart LR
 | `encroe-life-52e4`, `-ember-3924`, `-kill-827e`, `-kill-beaa`, `-matchday-5d60`, `-neon-city-19f9` | Recorded runs ([`docs/results/escrow`](docs/results/escrow)) |
 | `encroe-kill-5609`, `-kill-da6a`, `-kill-19d2` | Silent studios, left for visitors to release |
 | `encore-pub-6b4dad.testnet`, `encore-stranger-6b4dad.testnet` | The studio, and an unrelated account that verifies, proves and releases |
+| [`encroe-items-ba9e16.testnet`](docs/results/items/README.md) | The item handover: keyless; its MPC-derived EVM signer is `0x30e6…AbbCd` |
+| [`EncroeItems` on Base Sepolia](https://sepolia.basescan.org/address/0x94365D73B3C539680622E681aEAcefeC01c8a2e1) | `0x94365D73…a2e1`: mints only claims that signer signed |
+| `handover.encroe.testnet` | A world released to show the handover |
 | `encroe-relay-3778.testnet` | The site's throwaway relayer: gas for releases, attacks and FastFS uploads sent from the site |
 | `v1.signer-prod.testnet`, `tee-verifier-2026-07-22.testnet`, `outlayer.testnet` | NEAR's MPC network, NEAR's DCAP verifier, OutLayer |
 
 | Build | sha256 |
 |---|---|
 | The escrow contract | `08d9174fedb6374971b076591d915423d2fab6bc7f5bb056be308178b3901fbf` |
+| The item handover contract | `fc69492e95e52bf27cd09bf0b9344b6ea9c9fc27a92ad998ea95a46bae088863` |
 | The pinned verifier (wasm32-wasip2) | `9c0eb2e7a47e83c8feaa3d54780bf8848eb5ec13659d4e925b010e4faf756aad` |
 | Embergate (Rust) | `49ff0c57f10f24b9091eae3bd218b28a642d581f698871f6b3c65b7effa9cb62` |
 | Matchday (C++) | `f149751774f754b956636225c79d294494e1b5dc2c523867eeb2d5b3f96dba4a` |
@@ -211,7 +221,7 @@ Python 3. `npm install` at the root provides `near-cli-rs` and `cargo-near`.
 
 ```bash
 npm install
-make test                        # 27 Rust tests, plus native-vs-wasm determinism of the verifier
+make test                        # 31 Rust and 5 Solidity tests (Foundry), plus native-vs-wasm determinism
 scripts/build/cores.sh           # the C++, C, Zig and Go cores (Zig, TinyGo and Binaryen in .tools/, sha256-checked)
 cd web && npm ci && npm test     # 94 site tests
 npm run dev                      # http://localhost:3000; the worlds are kept in web/.data
@@ -235,14 +245,15 @@ gitleaks hook and CI refuse them. Sealed packages and commitments in `docs/resul
 
 ## Roadmap
 
-**Done since v0.1.0:** sealing from the browser, Zig and Go cores, Starhaul in 3D, RPC fallback and streamed pages.
+**Done since v0.1.0:** sealing from the browser, Zig and Go cores, Starhaul in 3D, items handed over on Base Sepolia
+through Chain Signatures, RPC fallback and streamed pages.
 
 **Next:**
 
 - **Community hosts, paid only while they provably serve.** Hosts run a released core in an enclave; a pool pays them
   only for time NEAR's DCAP verifier confirms they served it.
-- **Items on other chains.** Through NEAR Chain Signatures, the escrow itself signs a transfer on Ethereum or Solana,
-  so a sealed item becomes a token its owner holds anywhere.
+- **Items on more chains.** The handover runs on Base Sepolia today; the same MPC key signs for Ethereum, and an
+  Ed25519 domain would reach Solana.
 - **Unity's C#**, through NativeAOT to WebAssembly, on the same interface.
 - **Mainnet, and bigger worlds**, with paged snapshots under one root.
 
@@ -251,6 +262,7 @@ gitleaks hook and CI refuse them. Sealed packages and commitments in `docs/resul
 | Path | What |
 |---|---|
 | [`contracts/encroe-escrow`](contracts/encroe-escrow) | The escrow: commit, verify and `prove_run`, heartbeat, end of life, `release`, `status` |
+| [`contracts/encroe-items`](contracts/encroe-items), [`contracts/evm`](contracts/evm) | The item handover: the keyless NEAR contract that checks a claim and asks the MPC network to sign it; the ERC-1155 that mints it |
 | [`contracts/encroe-factory`](contracts/encroe-factory) | The factory and directory: `create_escrow` (keyless from birth, the one escrow build compiled in), `list` |
 | [`crates/encore-crypto`](crates/encore-crypto) | NEAR CKD compatibility, IBE key sealing, the AES-GCM package, salted leaves and the Merkle root |
 | [`crates/encore-verifier`](crates/encore-verifier) | The verifier the enclave runs (pinned by hash `9c0eb2e7…`), also native for preflight |

@@ -1,0 +1,12 @@
+{"at":1794643582,"step":"refused-other-key","tx":"Gr2R8GaPUeQ23naNvKjvxWQtJ87k1zTVCPQCHwWZJ5w7","refused":"the player's key did not sign this claim"}
+{"at":1794643585,"step":"refused-inflated-items","tx":"HqQXToFFutjrcHUDTvgusnCmARpt4DxM8e7gSTNuzzmn","claim_after":"pending"}
+{"at":1794643614,"step":"refused-other-key","tx":"7CxQooGDy3MTqkgb7GSLhUzZgx64myPChPyu4rnA2HKv","refused":"the player's key did not sign this claim"}
+{"at":1794643622,"step":"refused-inflated-items","tx":"6dPsb3WhZT7DkMd99mU5uEeCyni9cvz9tAqqK9d9u4Kt","claim_after":null}
+{"at":1794643628,"step":"refused-live-escrow","tx":"21kWbxfzaysXbnzZMpsBDC4WzbXNREhMAuzrPezGWZV8","claim_after":null}
+{"at":1794643636,"step":"claim","tx":"DmdtuSQ6nsdkfY473MDXkhztan15ajd7QFMkEVQMNm6H","refused":null,"player":"3b4d97544ab482bb7f83940f2d6db608484d25ee0cdde839876088b70f63ad2f","to":"0x1d9db7f01d68cf06b3a2d2498af09a09f186615c","items":[[1,1],[2,3],[3,4],[4,4],[5,4],[6,4],[9,3]]}
+{"at":1794643639,"step":"signed-by-mpc","digest":"0x5c172f4ba1ab6d55bd32f3df71599be2b85fa6be574c70ce5618a84a0bba62cd","v":27,"r":"0xc7f3d8a35e7de2966bee42e5cdb8f760d0cf49450de0424a2a2b845dfef6fb4f","s":"0x1e1f92be7da71e88fb94f3f4ebd0d204ee61fc96287db0dd61d937eaed443d76"}
+{"at":1794643642,"step":"refused-second-claim","tx":"9gd5ysKbY7ZUxAJSBKTsKjkkcMMVPyCmXLGkDNkBLMGr","refused":"already claimed"}
+{"at":1794643645,"step":"relayed-to-base","tx":"0x32988609b6244087a6d36408c5208c6b5579bf5dfdf79405552c2a66bd52cd30","status":"0x1"}
+{"at":1794643671,"step":"balances-on-base","to":"0x1d9db7f01d68cf06b3a2d2498af09a09f186615c","balances":[[1,"1"],[2,"3"],[3,"4"],[4,"4"],[5,"4"],[6,"4"],[9,"3"]]}
+{"at":1794643674,"step":"refused-second-relay","error":"already claimed"}
+{"at":1794644000,"step":"ui-claim-relayed","note":"player 1 claimed from /revive in a browser (the site's relayer sent it to NEAR, the MPC network signed); relayed to Base","player":"42d9b3b196acfea45af472127766a83262494a80a05eaa00d38213fdb7554821","base_tx":"0xd939546e70f64eed98003c87cefbb94243bb59bce3f383809c6f678b7dbbcc7a"}

@@ -94,6 +94,7 @@ cd web && npm ci && npm test   # the browser code, against real released data fr
 | Zig and Go too: two more games, sealed into factory escrows, verified green; each rebuilds byte for byte | [engines](docs/results/escrow/engines/README.md) |
 | A studio can seal from its browser alone: the page's own code sealed a world, and the enclave and NEAR accepted it | [browser-seal](docs/results/escrow/browser-seal/README.md); `web/lib/encroe/seal.test.ts` (opened by the Rust tools) |
 | A live world stays sealed with nobody at the keyboard: a GitHub workflow heartbeats and seals it every six hours | [embergate](docs/results/escrow/embergate/README.md) (epoch 4, green) |
+| A released world's items leave the game: minted on Base Sepolia, signed through NEAR Chain Signatures by a key nobody holds; forged, inflated, live-escrow and repeated claims refused | [items](docs/results/items/README.md); `contracts/encroe-items`, `contracts/evm` (the same digest on both sides) |
 | A silent studio's world is released by a watcher and opened, every hash matching | [ember-3924](docs/results/escrow/ember-3924/README.md) |
 | The browser code matches the Rust tools | `web/lib/encroe/release.test.ts`, `web/lib/game/proof.test.ts`: real released epochs and on-chain roots |
 
@@ -107,6 +108,7 @@ cd web && npm ci && npm test   # the browser code, against real released data fr
 | The game's server core (every rule of Embergate) | [`crates/embergate-core/src/lib.rs`](crates/embergate-core/src/lib.rs) |
 | The same interface in C++, C, Zig and Go, and what any game must export | [`cores/`](cores/README.md) |
 | Sealing in the browser, and its routes | [`web/lib/encroe/seal.ts`](web/lib/encroe/seal.ts), [`web/app/api/seal`](web/app/api/seal) |
+| The item handover: the claim check and the MPC request; the token | [`contracts/encroe-items/src/lib.rs`](contracts/encroe-items/src/lib.rs), [`contracts/evm/src/EncroeItems.sol`](contracts/evm/src/EncroeItems.sol) |
 | Starhaul's 3D sector (it shows; the core decides) | [`web/components/play/StarhaulScene.tsx`](web/components/play/StarhaulScene.tsx) |
 | The game server: signed moves into the core | [`web/lib/game/world.ts`](web/lib/game/world.ts), [`web/app/api/move`](web/app/api/move/route.ts) |
 | Reviving in the browser | [`web/lib/encroe/release.ts`](web/lib/encroe/release.ts), [`web/lib/encroe/revive.ts`](web/lib/encroe/revive.ts) |

@@ -12,6 +12,8 @@ import POOL from "@/lib/encroe/pool.json";
 import { sha256Hex } from "@/lib/encroe/release";
 import { LIVE, NotReleased, revive, type Revived, type Step } from "@/lib/encroe/revive";
 import { RevivedPlay } from "@/components/play/RevivedPlay";
+import { Handover } from "@/components/items/Handover";
+import { claimable } from "@/lib/encroe/items";
 import { ReleasePanel } from "./ReleasePanel";
 
 const STEPS: { id: string; label: string }[] = [
@@ -283,6 +285,14 @@ export function Revive({ initial, tamper = false }: { initial?: string; tamper?:
               </p>
             )}
           </section>
+        )}
+        {revived && claimable(revived.escrow) && (
+          <Handover
+            escrow={revived.escrow}
+            game={revived.state.commitment!.game}
+            epoch={revived.state.commitment!.epoch}
+            players={revived.pkg.players}
+          />
         )}
       </div>
     </div>

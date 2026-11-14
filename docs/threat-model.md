@@ -40,7 +40,12 @@
 | Serve players a doctored game after the release | The browser checks the package hash, the core hash and the root before running anything | `/revive?…&tamper=1`; `revive.test.ts` |
 | Read players' items before the release | The package is encrypted; leaves are salted; a player's salt goes only to a request signed by their key | `/api/proof`; `proof.ts` |
 | Play as someone else | Every move is signed by the player's ed25519 key; replays and stale moves are refused | `world.test.ts` |
-| Fill the world or flood the API | Per-address rate limits on joins, moves, releases and attacks; 64 players per world | `lib/game/http.ts` |
+| Fill the world or flood the API | Per-address rate limits on joins, moves, releases, attacks, uploads and claims; 64 players per world | `lib/game/http.ts` |
+| Claim someone else's items on another chain | `encroe-items` requires the player's ed25519 signature over the escrow and the destination | items: "the player's key did not sign this claim" |
+| Claim more than was sealed | The leaf is recomputed from the claimed items and must reach the committed root | items: the inflated claim, refused |
+| Claim from a fake "escrow" that says it is released | Only `*.encroe.testnet` accounts are accepted, which only the locked factory can create, running the published escrow | `encroe-items` `claim` |
+| Claim twice, or relay one signature twice | One claim per player per escrow on NEAR; one mint per player per escrow on the token | items: both refusals |
+| Use the browser-sealing relayer to put arbitrary files on NEAR | `/api/seal/fastfs` uploads only a package whose hash the escrow already committed | `/api/seal/fastfs` |
 
 ### Infrastructure
 
@@ -49,10 +54,12 @@
 | OutLayer's operator returns a fake verdict | A run counts only after NEAR's DCAP verifier accepts its quote, bound to its input and output |
 | Our site disappears | Nothing depends on it: the escrow is on NEAR, the package on FastFS, and the revive code runs from any copy of this repository |
 | Our relayer key leaks | It holds only gas money: every call it can send, anyone may send |
-| The testnet RPC is down or rate-limited | Any NEAR RPC serves the same state; the runbooks retry their reads |
+| The testnet RPC is down or rate-limited | The site reads through three public RPCs and falls back on a rate limit, an error or a timeout; the runbooks retry their reads |
+| The Base relayer is gone | Anyone can relay a signed claim; the token checks the MPC signature, not the sender |
 
 ## Out of scope
 
 - A compromise of NEAR's MPC network threshold, of Intel TDX, or of NEAR consensus.
 - Cheating within a game's own rules (a core's design is the studio's).
-- Mainnet economics: deposits, hosting payments and token bridges are designed, not built.
+- Mainnet economics: deposits and hosting payments are designed, not built ([hosting](design/hosting.md)); the item
+  handover runs on testnets only (NEAR testnet, Base Sepolia).

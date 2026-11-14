@@ -1,8 +1,11 @@
 // Plays a scripted world through a sealed core and prints it as a players file (`encore seal --players-file`):
 //   node scripts/studio/world.mjs <matchday|neon-city|starhaul|orchard|embergate> <players> > world.json
 // Every move runs in the core itself; the players are scripted test players with random keys, and say so.
+// KEYS_OUT=<file> makes them real ed25519 game keys and writes each player's secret key there (keep it in .secrets/),
+// so a scripted player can sign later, as a player would (an item claim, for one).
 import { randomBytes } from "node:crypto";
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
+import { ed25519 } from "../../web/node_modules/@noble/curves/ed25519.js";
 
 const [game, n = "8"] = process.argv.slice(2);
 const wasm = readFileSync(new URL(`../../web/public/core/${game}.wasm`, import.meta.url));
@@ -12,7 +15,14 @@ const mem = () => new Uint8Array(x.memory.buffer);
 
 mem().set([0, 0, 0, 0], x.input_ptr());
 x.load(4);
-const keys = Array.from({ length: Number(n) }, () => randomBytes(32));
+const secrets = Array.from({ length: Number(n) }, () => randomBytes(32));
+const keys = process.env.KEYS_OUT ? secrets.map((sk) => Buffer.from(ed25519.getPublicKey(sk))) : secrets;
+if (process.env.KEYS_OUT)
+  writeFileSync(
+    process.env.KEYS_OUT,
+    JSON.stringify(secrets.map((sk, i) => ({ sk: sk.toString("hex"), pk: keys[i].toString("hex") }))),
+    { mode: 0o600 },
+  );
 for (const k of keys) {
   mem().set(k, x.input_ptr());
   if (x.join() < 0) throw new Error("the world is full");

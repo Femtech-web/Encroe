@@ -53,7 +53,7 @@ jobs:
       - run: cd crates/embergate-core && cargo test && cargo build --release --target wasm32-unknown-unknown
 
   contracts:
-    name: the escrow and the factory (wasm builds, unit tests)
+    name: the escrow, the factory and the item handover (wasm builds, unit tests)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -69,10 +69,20 @@ jobs:
           workspaces: |
             contracts/encroe-escrow
             contracts/encroe-factory
+            contracts/encroe-items
       - run: npm ci
       # The factory compiles the escrow's wasm in, so the escrow is built first.
       - run: cd contracts/encroe-escrow && ../../node_modules/.bin/cargo-near near build non-reproducible-wasm && cargo test
       - run: cd contracts/encroe-factory && ../../node_modules/.bin/cargo-near near build non-reproducible-wasm && cargo test
+      - run: cd contracts/encroe-items && ../../node_modules/.bin/cargo-near near build non-reproducible-wasm && cargo test
+
+  evm:
+    name: the item token on the EVM (Foundry)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: foundry-rs/foundry-toolchain@v1
+      - run: cd contracts/evm && forge test
 
   web:
     name: the site (lint, types, tests, build)

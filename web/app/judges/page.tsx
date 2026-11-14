@@ -53,6 +53,22 @@ const CLAIMS: { claim: string; evidence: string; href: string }[] = [
     href: doc("docs/results/escrow/cores/README.md"),
   },
   {
+    claim: "Zig and Go too: two more games sealed into factory escrows and verified green; each rebuilds byte for byte",
+    evidence: "the engines run",
+    href: doc("docs/results/escrow/engines/README.md"),
+  },
+  {
+    claim: "A studio seals from its browser alone, and the enclave and NEAR accept it",
+    evidence: "browser-seal",
+    href: doc("docs/results/escrow/browser-seal/README.md"),
+  },
+  {
+    claim:
+      "A released world's items leave the game: minted on Base Sepolia through NEAR Chain Signatures, signed by a key nobody holds; forged, inflated and repeated claims refused",
+    evidence: "the items run",
+    href: doc("docs/results/items/README.md"),
+  },
+  {
     claim: "The site's public world is sealed and verified; players check their own items from the browser",
     evidence: "encroe-embergate, ember-3924",
     href: doc("docs/results/escrow/embergate/README.md"),
@@ -69,8 +85,10 @@ const CODE: [string, string][] = [
   ["The factory and directory", "contracts/encroe-factory/src/lib.rs"],
   ["The verifier the enclave runs", "crates/encore-verifier/src/lib.rs"],
   ["Sealing: CKD identity, IBE, the package, player leaves", "crates/encore-crypto/src"],
-  ["Game cores in Rust, C++ and C, and their interface", "cores/README.md"],
+  ["Game cores in Rust, C++, C, Zig and Go, and their interface", "cores/README.md"],
   ["Bringing a game back, in the browser", "web/lib/encroe/revive.ts"],
+  ["Sealing in the browser", "web/lib/encroe/seal.ts"],
+  ["The item handover on NEAR, and its token on Base", "contracts/encroe-items/src/lib.rs"],
   ["The preservation agent and the MCP server", "web/lib/encroe/agent.ts"],
   ["The studio's bot", "scripts/studio/bot.sh"],
 ];

@@ -10,6 +10,9 @@
   ([engines](docs/results/escrow/engines/README.md)); reproducible builds in `scripts/build/cores.sh`.
 - **Starhaul in 3D:** a live three.js sector on `/play/starhaul`; click a belt to mine it, and every pilot's ship
   flies where the core says they worked.
+- **Items handed over on another chain:** `contracts/encroe-items` (keyless, `encroe-items-ba9e16.testnet`) checks a
+  player's claim against a released escrow's root and has NEAR's MPC network sign it; `EncroeItems` on Base Sepolia
+  mints exactly that, once. The claim panel on `/revive`. Recorded: [items](docs/results/items/README.md).
 - **Faster and sturdier:** NEAR reads fall back across three public RPCs and share a short cache; the home page
   streams; game polling pauses in hidden tabs; game cores are cached.
 - **Records:** ember-3924 released by a watcher and opened; Embergate's public world at epoch 4, sealed on CI.
