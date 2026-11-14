@@ -10,7 +10,8 @@ import { local } from "@/lib/game/transport";
 import type { World } from "@/lib/game/world";
 import POOL from "@/lib/encroe/pool.json";
 import { sha256Hex } from "@/lib/encroe/release";
-import { NotReleased, revive, type Revived, type Step } from "@/lib/encroe/revive";
+import { LIVE, NotReleased, revive, type Revived, type Step } from "@/lib/encroe/revive";
+import { CorePlay } from "./CorePlay";
 import { ReleasePanel } from "./ReleasePanel";
 
 const STEPS: { id: string; label: string }[] = [
@@ -25,7 +26,7 @@ const STEPS: { id: string; label: string }[] = [
 ];
 
 const PRESETS = [
-  { escrow: "encroe-ember-3924.testnet", note: "Embergate's sealed world" },
+  { escrow: "encroe-embergate.testnet", note: "this site's world: alive, so it holds" },
   // Short-grace escrows the studio stopped heartbeating, for anyone to release (scripts/studio/bot.sh pool).
   ...POOL.toReversed().map((escrow) => ({ escrow, note: "a silent studio" })),
   { escrow: "encroe-life-52e4.testnet", note: "the first release" },
@@ -33,7 +34,8 @@ const PRESETS = [
 
 const PLAYABLE = ["join", "gather", "craft", "restore_tick"];
 
-export function Revive({ initial }: { initial?: string }) {
+/** `tamper` flips one byte of the package it downloads: the attack page's way to show the check refusing it. */
+export function Revive({ initial, tamper = false }: { initial?: string; tamper?: boolean }) {
   const [escrow, setEscrow] = useState(initial ?? PRESETS[0].escrow);
   const [steps, setSteps] = useState<Record<string, Step>>({});
   const [running, setRunning] = useState(false);
@@ -46,24 +48,37 @@ export function Revive({ initial }: { initial?: string }) {
     return sk ? publicKeyOf(sk) : null;
   }, []);
 
-  const run = useCallback(async (target: string) => {
-    setEscrow(target);
-    setSteps({});
-    setError(null);
-    setHeld(null);
-    setRevived(null);
-    setPlaying(false);
-    setRunning(true);
-    try {
-      const r = await revive(target.trim(), (s) => setSteps((prev) => ({ ...prev, [s.id]: s })));
-      setRevived(r);
-    } catch (e) {
-      if (e instanceof NotReleased) setHeld(e);
-      else setError((e as Error).message);
-    } finally {
-      setRunning(false);
-    }
-  }, []);
+  const run = useCallback(
+    async (target: string) => {
+      setEscrow(target);
+      setSteps({});
+      setError(null);
+      setHeld(null);
+      setRevived(null);
+      setPlaying(false);
+      setRunning(true);
+      try {
+        const from = tamper
+          ? {
+              ...LIVE,
+              sealed: async (url: string) => {
+                const bytes = await LIVE.sealed(url);
+                bytes[Math.floor(bytes.length / 2)] ^= 1;
+                return bytes;
+              },
+            }
+          : LIVE;
+        const r = await revive(target.trim(), (s) => setSteps((prev) => ({ ...prev, [s.id]: s })), from);
+        setRevived(r);
+      } catch (e) {
+        if (e instanceof NotReleased) setHeld(e);
+        else setError((e as Error).message);
+      } finally {
+        setRunning(false);
+      }
+    },
+    [tamper],
+  );
   const released = useCallback(() => run(escrow), [run, escrow]);
 
   const transport = useMemo(() => {
@@ -85,15 +100,30 @@ export function Revive({ initial }: { initial?: string }) {
     return local(revived.escrow, c.epoch, world, revived.module, c.core_sha256);
   }, [revived, mine]);
 
-  if (playing && transport) return <Game transport={transport} />;
-
   const playable =
     revived && PLAYABLE.every((f) => WebAssembly.Module.exports(revived.module).some((e) => e.name === f));
   const catalog = revived ? CATALOGS[revived.state.commitment!.core_sha256] : undefined;
+  const moves = catalog?.moves;
+
+  if (playing && transport && playable) return <Game transport={transport} />;
+  if (playing && revived && catalog && moves)
+    return (
+      <CorePlay
+        module={revived.module}
+        players={revived.pkg.players}
+        catalog={{ ...catalog, moves }}
+        escrow={revived.escrow}
+      />
+    );
 
   return (
     <div className="mx-auto max-w-page px-5 py-14 lg:py-20">
       <p className="font-mono text-xs tracking-[0.3em] text-flare uppercase">After the studio</p>
+      {tamper && (
+        <p className="mt-4 rounded-md border border-flare/50 bg-flare-soft px-4 py-3 text-sm text-flare">
+          Tamper mode: this page flips one byte of the package it downloads, as a malicious host would.
+        </p>
+      )}
       <h1 className="mt-5 max-w-4xl font-display text-hero font-black tracking-tight">
         Bring the game <span className="text-acid">back.</span>
       </h1>
@@ -229,7 +259,7 @@ export function Revive({ initial }: { initial?: string }) {
               ))}
             </ul>
             <div className="mt-6 flex flex-wrap gap-3">
-              {playable && (
+              {(playable || moves) && (
                 <button
                   onClick={() => setPlaying(true)}
                   className="rounded-md bg-ember px-5 py-3 font-display text-sm font-bold tracking-wide text-void uppercase hover:shadow-ember"
@@ -247,11 +277,9 @@ export function Revive({ initial }: { initial?: string }) {
                 The world
               </Download>
             </div>
-            {!playable && (
+            {!playable && !moves && (
               <p className="mt-4 text-sm text-ink-3">
-                {catalog
-                  ? `${catalog.game}'s ${catalog.language} core runs here and serves every player's items. This site's playable screen is Embergate's; download the core and the world to host ${catalog.game} anywhere.`
-                  : "This core is the go/no-go test core: it holds and trades items, but has no game moves to play."}
+                This core is the go/no-go test core: it holds and trades items, but has no game moves to play.
               </p>
             )}
           </section>

@@ -12,4 +12,6 @@ paths = [
   '''docs/results/.*''',
   # Upstream source files and test vectors kept for interface matching.
   '''third_party/.*''',
+  # Meteor's vendored wallet connector (MIT, see its LICENSE): public bundled code, no secrets.
+  '''web/public/wallet-connectors/meteor\.js$''',
 ]

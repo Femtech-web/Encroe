@@ -1,0 +1,21 @@
+├  Your transaction:
+│    signer_id:    testnet
+│    actions:
+│       -- create account:      encroe-matchday-5d60.testnet
+│       -- add access key:     
+│                       public key:   ed25519:B8DJfLEBEX92gnbnSUcr7r1vACrEbQUU4g5r98rTL2Td
+│                       permission:   FullAccess
+│     
+├  Transaction Execution Info:
+│    Transaction ID: AparnUVTKP2GoHeWrGHN93giwh3E9nHAZpZCdoSBPkDW
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/AparnUVTKP2GoHeWrGHN93giwh3E9nHAZpZCdoSBPkDW
+
+New account <encroe-matchday-5d60.testnet> created successfully.
+The data for the access key is saved in a file /Users/mac/.near-credentials/testnet/encroe-matchday-5d60.testnet/ed25519_B8DJfLEBEX92gnbnSUcr7r1vACrEbQUU4g5r98rTL2Td.json
+The data for the access key is saved in a file /Users/mac/.near-credentials/testnet/encroe-matchday-5d60.testnet.json
+
+
+Here is your console command if you need to script it or re-run:
+    /Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near account create-account sponsor-by-faucet-service encroe-matchday-5d60.testnet autogenerate-new-keypair --signature-scheme ed25519 save-to-legacy-keychain network-config testnet create
+

@@ -1,0 +1,18 @@
+{
+  "v": 1,
+  "game": "neon-city-19f9",
+  "epoch": 1,
+  "predecessor": "encroe-neon-city-19f9.testnet",
+  "path": "encroe/neon-city-19f9/1",
+  "domain_id": 2,
+  "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj",
+  "app_id": "e2d9e683b82448fa5f918a0ddad8d7f92ab271c0ddaa924436d71b33d3ff1014",
+  "sealed_key": {
+    "u": "99b36b0e3b740599abd51a8c98eab46bef1d212778d1315aa5459635c60cf8417249be43c717f75d1bd07b2c94c6a4dc139136a2891c92ab0b620491fb2aa9d80470204daaf95036976d6920406534f0edb9d8f07aa5ab250c071af28000c768",
+    "v": "949d33bc6c7ca9c4955e08e91ff7a29af29b4589a46b2deb0bce637669883115"
+  },
+  "pkg_sha256": "7e7ee8a394b80d2ae5e2443c5791fde750fe3c6518d17d7628743ac48efc9b17",
+  "root": "d104a18046cb1e506282c3d48df6c5dd7f6e47ad83960d355d33d9889143bc52",
+  "core_sha256": "3f4a1e626aa6fc2e819aaaf5e3ee718e0e6307de87d47c895a93addb336bb3d2",
+  "players": 8
+}

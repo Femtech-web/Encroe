@@ -3,3 +3,5 @@ encroe-kill-beaa.testnet
 encroe-kill-5609.testnet
 encroe-kill-da6a.testnet
 encroe-kill-19d2.testnet
+encroe-matchday-5d60.testnet
+encroe-neon-city-19f9.testnet

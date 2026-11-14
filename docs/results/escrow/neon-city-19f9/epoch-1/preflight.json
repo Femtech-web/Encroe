@@ -1,0 +1,26 @@
+{
+  "verifier": "encore-verifier/0.1.0",
+  "mode": "secret",
+  "game": "neon-city-19f9",
+  "epoch": 1,
+  "pkg_sha256": "7e7ee8a394b80d2ae5e2443c5791fde750fe3c6518d17d7628743ac48efc9b17",
+  "sealed_key_sha256": "78845892adba0491cb6f1e75ee7b7a0793cabd8267bb62efd7a407f845f9dbeb",
+  "root": "d104a18046cb1e506282c3d48df6c5dd7f6e47ad83960d355d33d9889143bc52",
+  "core_sha256": "3f4a1e626aa6fc2e819aaaf5e3ee718e0e6307de87d47c895a93addb336bb3d2",
+  "seed": "61117b06b0e4bddaa9ab703bab128a01674812b4bcf741df1cc6965152f167ea",
+  "checks": {
+    "app_id": true,
+    "pkg_sha256": true,
+    "key_binding": true,
+    "decrypt": true,
+    "core_sha256": true,
+    "root": true,
+    "states_served": true,
+    "conservation": true
+  },
+  "sampled": 8,
+  "trades_applied": 11,
+  "transcript_sha256": "703651b22c3bb1ed3258a4b9670dd54eb561037061fe47dec6789f295c7a2941",
+  "pass": true,
+  "error": null
+}

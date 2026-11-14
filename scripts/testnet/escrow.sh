@@ -45,7 +45,8 @@ mkdir -p "$ROOT" .secrets/escrow
 
 NAME=${ESCROW_NAME:-$( [ "${1:-}" = deploy ] && echo "${2:?name}" || cat "$ROOT/current" 2>/dev/null || true)}
 [ -n "$NAME" ] || { echo "no escrow yet: scripts/testnet/escrow.sh deploy <name> <grace_s>" >&2; exit 2; }
-ESCROW="encroe-$NAME.testnet"
+# A factory escrow is <name>.encroe.testnet: ESCROW_ACCOUNT names it (its key path and profile use <name> alike).
+ESCROW=${ESCROW_ACCOUNT:-encroe-$NAME.testnet}
 KEYPATH="encroe/$NAME/1"
 PROFILE="encroe-$NAME"
 OUT="$ROOT/$NAME"
@@ -69,9 +70,11 @@ open(log, "a").write(json.dumps(entry) + "\n")
 print(json.dumps(entry))
 PY
 }
+# OutLayer's price for one run: compute plus a hold on input beyond 32 KiB. The contract's input carries the whole
+# package, so it is sized from the real one (twice its base64, generously), not a fixed guess.
 deposit_near() {
-  local yocto
-  yocto=$(scripts/near/view.sh outlayer.testnet estimate_execution_cost '{"resource_limits":{"max_instructions":100000000000,"max_memory_mb":1024,"max_execution_seconds":120},"input_len":16000}' | tr -d '"')
+  local yocto len=${1:-16000}
+  yocto=$(scripts/near/view.sh outlayer.testnet estimate_execution_cost "{\"resource_limits\":{\"max_instructions\":100000000000,\"max_memory_mb\":1024,\"max_execution_seconds\":120},\"input_len\":$len}" | tr -d '"')
   python3 -I -c "print(f'{($yocto * 2) / 1e24:.6f} NEAR')"
 }
 pkg_args() { python3 -I -c "import json;print(json.dumps({'package_b64': open('$OUT/epoch-$1/package.b64').read().strip()}))"; }
@@ -81,13 +84,24 @@ deploy)
   grace=${3:?grace seconds}
   (cd contracts/encroe-escrow && ../../node_modules/.bin/cargo-near near build non-reproducible-wasm >/dev/null)
   shasum -a 256 "$WASM" | awk '{print $1}' > "$OUT/code-sha256.txt"
-  "$NEAR" account create-account sponsor-by-faucet-service "$ESCROW" autogenerate-new-keypair save-to-legacy-keychain \
-    network-config testnet create 2>&1 | record 01-create
+  # The testnet faucet funds the account; when it rate-limits, FUND_FROM=<account> pays 5 NEAR instead (the
+  # contract's storage). Either way the account's only key is deleted below.
+  if [ -n "${FUND_FROM:-}" ]; then
+    "$NEAR" account create-account fund-myself "$ESCROW" '5 NEAR' autogenerate-new-keypair save-to-legacy-keychain \
+      sign-as "$FUND_FROM" network-config testnet sign-with-legacy-keychain send 2>&1 | record 01-create
+  else
+    "$NEAR" account create-account sponsor-by-faucet-service "$ESCROW" autogenerate-new-keypair save-to-legacy-keychain \
+      network-config testnet create 2>&1 | record 01-create
+  fi
   sleep 5
   args=$(python3 -I -c "import json;print(json.dumps({'owner':'$pub','mpc':'$MPC','domain_id':2,'key_mode':'pv_identity','path':'$KEYPATH','grace_ns':$grace*10**9,'outlayer':'outlayer.testnet','verifier_url':'$VERIFIER_URL','verifier_hash':'$VERIFIER_HASH','secret_profile':'$PROFILE','dcap_verifier':'$DCAP','registry':'$REGISTRY'}))")
   "$NEAR" contract deploy "$ESCROW" use-file "$WASM" with-init-call new json-args "$args" prepaid-gas '100.0 Tgas' \
     attached-deposit '0 NEAR' network-config testnet sign-with-legacy-keychain send 2>&1 | record 02-deploy
-  key=$(python3 -I -c "import json,os;print(json.load(open(os.path.expanduser('~/.near-credentials/testnet/$ESCROW.json')))['public_key'])")
+  # Delete the keys NEAR reports for the account, not one read from a local file: a failed earlier attempt can
+  # leave a stale key file under the same name.
+  key=$(curl -s https://test.rpc.fastnear.com -H 'content-type: application/json' \
+    -d "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"query\",\"params\":{\"request_type\":\"view_access_key_list\",\"finality\":\"final\",\"account_id\":\"$ESCROW\"}}" \
+    | python3 -I -c 'import json,sys;print(",".join(k["public_key"] for k in json.load(sys.stdin)["result"]["keys"]))')
   "$NEAR" account delete-keys "$ESCROW" public-keys "$key" network-config testnet sign-with-legacy-keychain send 2>&1 | record 03-lock
   echo "$NAME" > "$ROOT/current"
   printf 'ESCROW=%s\nOWNER=%s\nPATH_=%s\nGRACE_S=%s\nCODE_SHA256=%s\n' "$ESCROW" "$pub" "$KEYPATH" "$grace" "$(cat "$OUT/code-sha256.txt")" > "$OUT/env"
@@ -156,7 +170,8 @@ secret)
   ;;
 verify)
   epoch=${2:?epoch}
-  scripts/near/call.sh "$stranger" "$ESCROW" verify "$(pkg_args "$epoch")" "$(deposit_near)" "300.0 Tgas" | record "07-verify-$epoch-$(date +%s)"
+  scripts/near/call.sh "$stranger" "$ESCROW" verify "$(pkg_args "$epoch")" \
+    "$(deposit_near $(( $(wc -c < "$OUT/epoch-$epoch/package.b64") * 2 + 4096 )))" "300.0 Tgas" | record "07-verify-$epoch-$(date +%s)"
   "$0" status
   ;;
 prove)

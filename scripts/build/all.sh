@@ -9,6 +9,9 @@ mkdir -p web/public/core && cp crates/embergate-core/target/wasm32-unknown-unkno
 cargo build -q --release -p encore-cli -p encore-attest
 cargo build -q --release --target wasm32-wasip2 -p encore-verifier -p encore-thief
 (cd contracts/encore-poc && ../../node_modules/.bin/cargo-near near build non-reproducible-wasm >/dev/null)
+# The escrow first: the factory compiles its wasm in.
+(cd contracts/encroe-escrow && ../../node_modules/.bin/cargo-near near build non-reproducible-wasm >/dev/null)
+(cd contracts/encroe-factory && ../../node_modules/.bin/cargo-near near build non-reproducible-wasm >/dev/null)
 shasum -a 256 crates/encore-core-game/target/wasm32-unknown-unknown/release/encore_core_game.wasm web/public/core/embergate.wasm \
   target/wasm32-wasip2/release/encore-verifier.wasm target/wasm32-wasip2/release/encore-thief.wasm \
   contracts/encore-poc/target/near/encore_poc.wasm

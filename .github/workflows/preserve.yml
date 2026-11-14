@@ -1,0 +1,20 @@
+name: preserve
+
+# The preservation agent's schedule: every 30 minutes it asks the site to sweep every escrow it watches (release a
+# silent studio's game, bring a released one back and check it). No secret: the sweep only does what anyone may do.
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  sweep:
+    if: vars.PRESERVE_ENABLED != 'false'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: one sweep
+        run: curl -sf -m 120 -X POST https://encroe.vercel.app/api/agent | head -c 2000

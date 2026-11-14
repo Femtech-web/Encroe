@@ -7,20 +7,34 @@ server into a NEAR contract that has no keys. While the studio lives, anyone can
 without opening it. If the studio goes silent, anyone can release it, and the game goes to its players with
 everything they earned. No lawyer, no escrow agent, no permission, no key anyone holds.
 
-Live on NEAR testnet, with a game to play, a studio to kill and a world to bring back:
-**[for judges](JUDGES.md)** · [the thesis](docs/thesis.md) · [evidence](docs/results/escrow)
+**Live: [encroe.vercel.app](https://encroe.vercel.app)**, on NEAR testnet, with a game to play, a studio to kill
+and a world to bring back. [For judges](JUDGES.md) · [the thesis](docs/thesis.md) · [evidence](docs/results/escrow)
 
 ## For judges
 
-1. **Play** Embergate on the site (`/play`), then ask **"Is my stuff in the vault?"**: your browser checks your items
-   against the root it reads from NEAR.
-2. **Kill a studio** (home page): press **Release it** on a studio that went silent. A real NEAR transaction; the
-   contract decides.
-3. **Bring it back** (`/revive`): watch your browser rebuild the game from NEAR and FastFS alone, eight checks, then
-   **Play on** with no server at all.
+1. **Play** Embergate at [encroe.vercel.app/play](https://encroe.vercel.app/play), then ask **"Is my stuff in the
+   vault?"**: your browser checks your items against the root it reads from NEAR.
+2. **Kill a studio** ([home page](https://encroe.vercel.app)): press **Release it** on a studio that went silent. A
+   real NEAR transaction; the contract decides.
+3. **Bring it back** ([/revive](https://encroe.vercel.app/revive)): watch your browser rebuild the game from NEAR
+   and FastFS alone, eight checks, then **Play on** with no server at all.
+4. **Try to break it** ([/break](https://encroe.vercel.app/break)): six real attacks on live, locked escrows, each
+   refused on chain with its transaction.
 
-The full path, the commands to check it without our site, and every claim with its transaction:
-**[JUDGES.md](JUDGES.md)**.
+The guided path is on the site at **[/judges](https://encroe.vercel.app/judges)**; the commands to check it without
+our site, and every claim with its transaction, are in **[JUDGES.md](JUDGES.md)**.
+
+## The product
+
+| Page | For | What it does |
+|---|---|---|
+| [`/play`](https://encroe.vercel.app/play) | players | Embergate, with signed moves, and **"Is my stuff in the vault?"**: your proof checked against NEAR's root |
+| [`/studios`](https://encroe.vercel.app/studios) | studios | **Create your game's escrow from your wallet**: one call to the factory, `<name>.encroe.testnet`, keyless from birth |
+| [`/escrows`](https://encroe.vercel.app/escrows) | everyone | **The directory**: every escrow, read live from NEAR; each one's page shows its keys, code, sealed epoch, runs and what anyone may do |
+| [`/revive`](https://encroe.vercel.app/revive) | players | **Bring a released game back** in the browser, then play on: Embergate, Matchday (C++) and Neon City (C) |
+| [`/break`](https://encroe.vercel.app/break) | skeptics | **Try to break it**: early release, fake heartbeat, fake seal, tampered build, replayed quote, double release, all refused live |
+| [`/agent`](https://encroe.vercel.app/agent) | everyone | **The preservation agent**: releases silent studios' games and brings them back on its own, every 30 minutes; its log |
+| [`/api/mcp`](https://encroe.vercel.app/api/mcp) | AI agents | **An MCP server**: `claude mcp add --transport http encroe https://encroe.vercel.app/api/mcp` |
 
 ## The problem
 
@@ -69,6 +83,20 @@ Every escrow is locked (0 access keys) before anything is sealed. Each run is wr
 | [`encroe-ember-3924`](docs/results/escrow/ember-3924/README.md) | A world played through the game, sealed by the studio's bot, verified green; a player checks their items from the browser |
 | [`encroe-kill-827e`](docs/results/escrow/kill-827e/README.md) | A silent studio: released by a stranger, the game brought back in a browser from public data, played on |
 | [`encroe-kill-beaa`](docs/results/escrow/kill-beaa/README.md) | The same, from the site: a visitor's click released it, the page brought it back |
+| [`encroe-matchday-5d60`, `encroe-neon-city-19f9`](docs/results/escrow/cores/README.md) | C++ and C game servers: sealed, verified green by the enclave, released, revived and played on in a browser |
+| [`encroe-embergate`](docs/results/escrow/embergate/README.md) | **The site's public world**, sealed by the studio's bot with a 14-day grace: alive, so it holds |
+
+### Any engine, any language
+
+The escrow seals compiled bytes, not a framework. Three games, three languages, one pinned verifier: each core is
+sealed into its own locked escrow, verified by the enclave, released and revived in a browser
+([how a game qualifies](cores/README.md)).
+
+| Game | Language | Genre | Core |
+|---|---|---|---|
+| Embergate | Rust | crafting world | [`crates/embergate-core`](crates/embergate-core/src/lib.rs) |
+| Matchday | C++20 | football card club (the Ultimate Team genre) | [`cores/matchday`](cores/matchday/matchday.cpp) |
+| Neon City | C11 | open-world city economy (the GTA Online genre) | [`cores/neon-city`](cores/neon-city/neon_city.c) |
 
 The mechanism's go/no-go experiments (the MPC release, the verifier's secret gating, the TDX quote, NEAR's DCAP
 verifier) are in [GO_NO_GO.md](GO_NO_GO.md).
@@ -82,19 +110,25 @@ verifier) are in [GO_NO_GO.md](GO_NO_GO.md).
 | **A contract with no access keys** | The release condition it was born with is the one it dies with |
 | **FastFS** | The sealed package lives on NEAR: bringing a game back needs no studio server |
 | **OutLayer** (TDX) | Runs the pinned verifier on the sealed build; its operator keys are not trusted |
+| **Keyless from birth** (`encroe.testnet`) | The factory creates each studio's escrow as a subaccount with no access key at all, running the escrow build compiled into it |
+| **Promises and callbacks** | One release asks the MPC network and records its answer; one verify asks OutLayer and records its verdict |
 
 ## What is in the repository
 
 | Path | What |
 |---|---|
 | [`contracts/encroe-escrow`](contracts/encroe-escrow) | The escrow: commit an epoch, verify and `prove_run` (NEAR DCAP), heartbeat, end of life, `release`, `status` |
+| [`contracts/encroe-factory`](contracts/encroe-factory) | The factory and directory: `create_escrow` for any studio (keyless from birth, the one escrow build compiled in), `list` |
 | [`crates/encore-crypto`](crates/encore-crypto) | NEAR CKD compatibility, IBE key sealing, the AES-GCM package, salted player leaves and Merkle root |
 | [`crates/encore-verifier`](crates/encore-verifier) | The verifier the enclave runs (wasm32-wasip2, pinned by hash `9c0eb2e7…`), also native for preflight |
 | [`crates/embergate-core`](crates/embergate-core) | Embergate's server core: every rule of the game, the bytes that are sealed (wasm, no imports) |
+| [`cores/`](cores) | Matchday (C++) and Neon City (C), the same interface in other languages; [what a core must export](cores/README.md) |
 | [`crates/encore-cli`](crates/encore-cli), [`crates/encore-attest`](crates/encore-attest) | `encore`: seal, open, preflight, FastFS payloads, inclusion checks; an independent TDX quote check |
-| [`web/`](web) | The site: Embergate (signed moves into the core), the vault check, `/revive` (the release opened in the browser), the release relay |
+| [`web/`](web) | The site: the game, the vault check, the directory and escrow pages, the studios' wallet flow, `/revive`, `/break`, the agent, the MCP server |
 | [`scripts/studio/bot.sh`](scripts/studio/bot.sh) | The studio's side: export the world, seal, preflight, commit, verify, prove, hand players their proofs; the kill-a-studio pool |
 | [`scripts/testnet/escrow.sh`](scripts/testnet/escrow.sh) | One escrow's life, step by step, each step recorded in `docs/results/escrow/<name>/` |
+| [`scripts/testnet/factory.sh`](scripts/testnet/factory.sh) | Deploy and lock the factory; create a studio's escrow through it |
+| [`.github/workflows`](.github/workflows) | `studio.yml`: the public world's heartbeat and seal, every six hours; `preserve.yml`: the agent's sweep, every 30 minutes |
 | [`docs/`](docs) | [The thesis](docs/thesis.md), every run's evidence, the earlier experiments |
 
 ## Build and test
@@ -104,9 +138,12 @@ Python 3. `npm install` at the root provides `near-cli-rs` and `cargo-near`.
 
 ```bash
 npm install
-make test                        # Rust: 22 tests (CKD vectors, IBE, verifier, the escrow's lifecycle, the game core)
+make test                        # Rust: 27 tests (CKD vectors, IBE, verifier, the escrow's lifecycle, the factory,
+                                 # the game core)
                                  # plus native-vs-wasm determinism of the verifier
-cd web && npm ci && npm test     # the site: 23 tests, the browser code against real released data
+scripts/build/cores.sh           # the C++ and C cores, with Zig 0.17 (no system toolchain needed)
+cd web && npm ci && npm test     # the site: the browser code against real released data, and all three cores
+                                 # held to the enclave's checks
 npm run dev                      # http://localhost:3000; the world is kept in web/.data
 make reproduce-e1                # a third party's check of a release, from public data only
 ```
@@ -124,10 +161,22 @@ world's salts are not: each player gets only their own.
 1. **Testnet.** No mainnet transaction has been sent.
 2. **Simulated silence.** In the recorded releases we stop the studio's heartbeat ourselves.
 3. **64 players per world.** The snapshot and the enclave's checks are sized for it.
-4. **One game.** Embergate is ours; any game whose server state fits this core's interface (load, read a player,
-   trade) can be sealed the same way. Cores in other languages are next.
+4. **Our games, not theirs.** Embergate, Matchday and Neon City are ours, in Rust, C++ and C; any game whose server
+   state fits [the interface](cores/README.md) can be sealed the same way. The site hosts Embergate's live world;
+   all three can be revived and played in the browser after a release.
 5. **After a release, each player hosts their own copy** in the browser. Shared hosting, paid on proof, is not built.
 6. **The verifier samples** 16 players and seeded trades per run; it is a strong check, not a proof of every path.
+7. **The factory waits on testnet's faucet.** Its contract is built and tested; deploying `encroe.testnet` needs a
+   funded account, and the faucet was rate-limiting when this was written. The studios page opens when it is live.
+
+## Next, and not built yet
+
+- **Community hosts, paid only while they provably serve.** Hosts run a released core in an enclave; the escrow
+  pays them from a pool only for the time NEAR's DCAP verifier confirms they served it.
+- **Items handed over on other chains.** With NEAR Chain Signatures, the escrow itself signs a transfer on
+  Ethereum or Solana, so a sealed item becomes a token its owner holds anywhere.
+- **Every engine.** Unity's C# (NativeAOT to WebAssembly), Go (TinyGo) and Zig, on the same interface.
+- **Mainnet, and bigger worlds**, with paged snapshots under one root.
 
 ## NEAR Hackathon
 

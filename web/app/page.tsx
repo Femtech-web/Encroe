@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { Heartbeat } from "@/components/home/Heartbeat";
+import { NearStack } from "@/components/home/NearStack";
+import { Roadmap } from "@/components/home/Roadmap";
 import { CORE_RUNS, REPO, killTarget, liveEscrows, type Live } from "@/lib/encroe/escrows";
 import { viewStatus, type EscrowStatus } from "@/lib/game/near";
 import { readWorld } from "@/lib/game/server";
@@ -258,26 +260,36 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="mx-auto mt-28 max-w-page px-5" aria-labelledby="why">
-        <p className="font-mono text-xs tracking-[0.3em] text-ember uppercase">Why only NEAR</p>
-        <h2 id="why" className="mt-4 font-display text-h1 font-black">
-          Three things this needs, all native to NEAR.
+      <NearStack />
+
+      <section className="mx-auto mt-28 max-w-page px-5" aria-labelledby="more">
+        <p className="font-mono text-xs tracking-[0.3em] text-acid uppercase">Beyond one game</p>
+        <h2 id="more" className="mt-4 font-display text-h1 font-black">
+          Built for every studio, watched by everyone.
         </h2>
         <div className="mt-10 grid gap-4 md:grid-cols-3">
-          <Pillar
-            title="The key"
-            body="NEAR's MPC network derives a key for this contract's identity and releases it only when the contract asks. Before that, nobody holds it."
+          <Door
+            href="/studios"
+            tone="text-gold"
+            title="For studios"
+            body="Create your game's escrow from your wallet: keyless from birth, one transaction."
           />
-          <Pillar
-            title="The proof"
-            body="NEAR's DCAP verifier checks Intel TDX quotes on chain, so the contract trusts the hardware, not an operator."
+          <Door
+            href="/escrows"
+            tone="text-acid"
+            title="The directory"
+            body="Every escrow, read live from NEAR: whose game, verified or not, how long the heartbeat holds."
           />
-          <Pillar
-            title="The rules"
-            body="A contract with no access keys is final. The release condition it was born with is the one it dies with."
+          <Door
+            href="/agent"
+            tone="text-ember"
+            title="The preservation agent"
+            body="Releases silent studios' games and brings them back, on its own. Also an MCP server for your AI."
           />
         </div>
       </section>
+
+      <Roadmap />
 
       <footer className="mx-auto mt-32 max-w-page border-t border-line px-5 py-14">
         <p className="font-display text-h2 font-black">
@@ -398,11 +410,11 @@ function EscrowRow({ e }: { e: Live }) {
   );
 }
 
-function Pillar({ title, body }: { title: string; body: string }) {
+function Door({ href, tone, title, body }: { href: string; tone: string; title: string; body: string }) {
   return (
-    <div className="rounded-lg border border-line bg-panel-2 p-6">
-      <h3 className="font-display text-h2 font-black text-ember">{title}</h3>
-      <p className="mt-3 text-ink-2">{body}</p>
-    </div>
+    <Link href={href} className="group rounded-xl border border-line bg-panel p-6 transition hover:border-line-strong">
+      <h3 className={`font-display text-h2 font-black ${tone}`}>{title} →</h3>
+      <p className="mt-3 text-sm text-ink-2">{body}</p>
+    </Link>
   );
 }

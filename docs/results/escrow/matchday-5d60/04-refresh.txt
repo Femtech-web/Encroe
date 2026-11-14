@@ -1,0 +1,42 @@
+├  Unsigned transaction:
+│    signer_id:    encore-stranger-6b4dad.testnet
+│    receiver_id:  encroe-matchday-5d60.testnet
+│    actions:
+│       -- function call:      
+│                       method name:  refresh_measurements
+│                       args:         {}
+│                       gas:          200.0 Tgas
+│                       deposit:      0 NEAR
+│     
+├  Your transaction was signed successfully.
+│    Public key: ed25519:Gq7j8FgMQZZkggjtSPRv54rvqy8Ws6WcJJdW5BnkfsdG
+│    Signature:  ed25519:5PFLapbyfA9iZqdTkEnzABK8ryG7g7F7mxYXAhBGfAfiwghDYr9re936XkKEcBCYXVu4tvEGwvZhVGwTGbtasnXk
+│     
+├  Transaction Execution Info:
+│    Gas used: 22.8 Tgas
+│    Transaction fee: 0.0022034999563389 NEAR
+│    Transaction ID: Fs3QZxBes6apkvgoNHcZjK22g1uwSEG6h4QWKTMyJm3t
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/Fs3QZxBes6apkvgoNHcZjK22g1uwSEG6h4QWKTMyJm3t
+│     
+├  Function execution logs:
+│    Logs [encroe-matchday-5d60.testnet]:   No logs
+│    Logs [worker.outlayer.testnet]:   No logs
+│    Logs [encore-stranger-6b4dad.testnet]:   No logs
+│    Logs [encroe-matchday-5d60.testnet]:   No logs
+│    Logs [encore-stranger-6b4dad.testnet]:   No logs
+│    Logs [encore-stranger-6b4dad.testnet]:   No logs
+│     
+
+Function execution return value (printed to stdout):
+129
+
+
+The "refresh_measurements" call to <encroe-matchday-5d60.testnet> on behalf of <encore-stranger-6b4dad.testnet> succeeded.
+
+
+
+
+Here is your console command if you need to script it or re-run:
+    /Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near contract call-function as-transaction encroe-matchday-5d60.testnet refresh_measurements json-args {} prepaid-gas '200.0 Tgas' attached-deposit '0 NEAR' sign-as encore-stranger-6b4dad.testnet network-config testnet sign-with-legacy-keychain send
+

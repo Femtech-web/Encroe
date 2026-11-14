@@ -6,6 +6,7 @@ cd "$(dirname "$0")/../.."
 scripts/build/all.sh >/dev/null
 cargo test -q --release -p encore-crypto -p encore-verifier
 (cd contracts/encroe-escrow && cargo test -q)
+(cd contracts/encroe-factory && cargo test -q)
 (cd crates/embergate-core && cargo test -q)
 echo "native vs wasm32-wasip2 (wasmtime) determinism on the E1 package:"
 SEED=$(cat docs/results/e1/preflight-seed.txt)

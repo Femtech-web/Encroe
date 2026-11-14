@@ -15,6 +15,7 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
+    "@hot-labs/near-connect": "^0.12.0",
     "@noble/curves": "2.3.0",
     "@noble/hashes": "2.3.0",
     "next": "16.4.5",

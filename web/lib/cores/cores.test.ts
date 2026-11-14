@@ -50,28 +50,31 @@ describe.each(Object.keys(CORES))("%s: the contract the Encroe verifier checks",
       expect(names, f).toContain(f);
   });
 
-  it.each(["seed-a", "seed-b", "seed-c"])("serves every snapshot state exactly and conserves items (%s)", async (seed) => {
-    const core = await Core.create(wasmModule);
-    const seats = world(seed, 64);
-    core.load(seats);
-    expect(core.seats()).toEqual(seats);
-    let applied = 0;
-    for (let t = 0; t < 400; t++) {
-      const from = draw(seed, "from", t) % 64;
-      const to = draw(seed, "to", t) % 64;
-      const code = core.trade(from, to, (draw(seed, "item", t) % 8) + 1, (draw(seed, "qty", t) % 3) + 1);
-      expect([0, 1, 2, 3]).toContain(code);
-      if (code === 0) applied++;
-    }
-    const after = core.seats();
-    expect(applied).toBeGreaterThan(20);
-    expect(totals(after)).toEqual(totals(seats));
-    for (const s of after) {
-      expect(s.items.every(([, q]) => q > 0)).toBe(true);
-      expect(s.items.map(([id]) => id)).toEqual(s.items.map(([id]) => id).sort((a, b) => a - b));
-      expect(s.items.length).toBeLessThanOrEqual(16);
-    }
-  });
+  it.each(["seed-a", "seed-b", "seed-c"])(
+    "serves every snapshot state exactly and conserves items (%s)",
+    async (seed) => {
+      const core = await Core.create(wasmModule);
+      const seats = world(seed, 64);
+      core.load(seats);
+      expect(core.seats()).toEqual(seats);
+      let applied = 0;
+      for (let t = 0; t < 400; t++) {
+        const from = draw(seed, "from", t) % 64;
+        const to = draw(seed, "to", t) % 64;
+        const code = core.trade(from, to, (draw(seed, "item", t) % 8) + 1, (draw(seed, "qty", t) % 3) + 1);
+        expect([0, 1, 2, 3]).toContain(code);
+        if (code === 0) applied++;
+      }
+      const after = core.seats();
+      expect(applied).toBeGreaterThan(20);
+      expect(totals(after)).toEqual(totals(seats));
+      for (const s of after) {
+        expect(s.items.every(([, q]) => q > 0)).toBe(true);
+        expect(s.items.map(([id]) => id)).toEqual(s.items.map(([id]) => id).sort((a, b) => a - b));
+        expect(s.items.length).toBeLessThanOrEqual(16);
+      }
+    },
+  );
 
   it("refuses a malformed snapshot", async () => {
     const core = await Core.create(wasmModule);
@@ -189,7 +192,17 @@ describe("Neon City (C): a city economy", () => {
 
   it("keeps heists for players with respect", async () => {
     const core = await player();
-    core.load([{ pk: key(7), items: [[CASH, 900], [FUEL, 9], [3, 9], [23, 1]] }]);
+    core.load([
+      {
+        pk: key(7),
+        items: [
+          [CASH, 900],
+          [FUEL, 9],
+          [3, 9],
+          [23, 1],
+        ],
+      },
+    ]);
     expect(core.call("job", 0, 4, 1)).toBe(1);
   });
 });

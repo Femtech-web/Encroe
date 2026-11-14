@@ -1,0 +1,28 @@
+├  Unsigned transaction:
+│    signer_id:    encroe-embergate.testnet
+│    receiver_id:  encroe-embergate.testnet
+│    actions:
+│       -- delete access key:  
+│                       public key:   ed25519:4pkGFKVjB2D2fBKrpZbC7nRg3yonrrobU88qWLrVtYNG
+│     
+├  Your transaction was signed successfully.
+│    Public key: ed25519:4pkGFKVjB2D2fBKrpZbC7nRg3yonrrobU88qWLrVtYNG
+│    Signature:  ed25519:2yX1gdEZbX9kJCUaRR1eWApkeSR9zacEMiRaSH9TTczX6ijSZY4WzYhrv3sQiSBYVeqKW2iq9rbQniN12BHgMabe
+│     
+├  Transaction Execution Info:
+│    Gas used: 0.630 Tgas
+│    Transaction fee: 0.000040601225 NEAR
+│    Transaction ID: AdPiGscu6vPxbnwGVEBj1wJAkUQ23n5ugwcurZ5je75q
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/AdPiGscu6vPxbnwGVEBj1wJAkUQ23n5ugwcurZ5je75q
+│     
+
+
+Access key <ed25519:4pkGFKVjB2D2fBKrpZbC7nRg3yonrrobU88qWLrVtYNG> for account <encroe-embergate.testnet> has been successfully deleted.
+
+
+
+
+Here is your console command if you need to script it or re-run:
+    /Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near account delete-keys encroe-embergate.testnet public-keys ed25519:4pkGFKVjB2D2fBKrpZbC7nRg3yonrrobU88qWLrVtYNG network-config testnet sign-with-legacy-keychain send
+

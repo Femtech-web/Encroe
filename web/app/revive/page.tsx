@@ -7,11 +7,15 @@ export const metadata: Metadata = {
     "Revive a released game from public data only: the escrow on NEAR, the sealed package on FastFS, the server in your browser.",
 };
 
-export default async function RevivePage({ searchParams }: { searchParams: Promise<{ escrow?: string }> }) {
-  const { escrow } = await searchParams;
+export default async function RevivePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ escrow?: string; tamper?: string }>;
+}) {
+  const { escrow, tamper } = await searchParams;
   return (
     <main>
-      <ReviveClient initial={escrow} />
+      <ReviveClient initial={escrow} tamper={tamper === "1"} />
     </main>
   );
 }

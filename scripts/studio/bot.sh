@@ -28,7 +28,7 @@ NAME=${ESCROW_NAME:-$(cat docs/results/escrow/current)}
 export ESCROW_NAME=$NAME
 OUT=docs/results/escrow/$NAME
 
-status() { scripts/near/view.sh "encroe-$NAME.testnet" status; }
+status() { scripts/near/view.sh "${ESCROW_ACCOUNT:-encroe-$NAME.testnet}" status; }
 field() { python3 -I -c "import json,sys;v=json.load(sys.stdin).get('$1');print('' if v is None else v)"; }
 
 seal() {
@@ -46,6 +46,10 @@ seal() {
 import json
 rows=[json.loads(l) for l in open('$OUT/log.jsonl')]
 print([r for r in rows if r['step'].startswith('07-verify-$epoch-')][-1]['request_id'])")
+  if [ "$request" = None ]; then
+    echo "the verify call never reached the enclave (see $OUT/07-verify-$epoch-*.txt)" >&2
+    return 1
+  fi
   echo "OutLayer request $request; waiting for the enclave"
   for _ in $(seq 60); do
     badge=$(status | field badge)
@@ -62,13 +66,14 @@ print([r for r in rows if r['step'].startswith('07-verify-$epoch-')][-1]['reques
 # Each player's line (salt, leaf, path) goes back to the game, which serves it only to the key's holder.
 publish() {
   python3 -I - "$1" "$NAME" "$OUT" > "$OUT/epoch-$1/published.json" <<'PY'
-import json, sys, time
+import json, os, sys, time
 epoch, name, out = sys.argv[1:]
 c = json.load(open(f"{out}/epoch-{epoch}/commitment.json"))
 players = json.load(open(f".secrets/escrow/{name}-{epoch}-players.json"))
-json.dump({"escrow": f"encroe-{name}.testnet", "epoch": int(epoch), "root": c["root"],
+escrow = os.environ.get("ESCROW_ACCOUNT") or f"encroe-{name}.testnet"
+json.dump({"escrow": escrow, "epoch": int(epoch), "root": c["root"],
            "sealed_at": int(time.time() * 1000), "players": players}, open(f".secrets/escrow/{name}-{epoch}-sealed.json", "w"))
-print(json.dumps({"escrow": f"encroe-{name}.testnet", "epoch": int(epoch), "root": c["root"], "players": len(players)}))
+print(json.dumps({"escrow": escrow, "epoch": int(epoch), "root": c["root"], "players": len(players)}))
 PY
   curl -sf -m 30 -X POST -H "authorization: Bearer $ENCROE_STUDIO_TOKEN" -H 'content-type: application/json' \
     --data-binary "@.secrets/escrow/$NAME-$1-sealed.json" "$GAME/api/studio/sealed"

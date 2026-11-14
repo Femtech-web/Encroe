@@ -1,7 +1,7 @@
 [workspace]
 resolver = "2"
 members = ["crates/encore-crypto", "crates/encore-verifier", "crates/encore-thief", "crates/encore-cli", "crates/encore-attest"]
-exclude = ["crates/encore-core-game", "crates/embergate-core", "contracts/encore-poc", "contracts/encore-t1", "contracts/encroe-escrow"]
+exclude = ["crates/encore-core-game", "crates/embergate-core", "contracts/encore-poc", "contracts/encore-t1", "contracts/encroe-escrow", "contracts/encroe-factory"]
 
 [workspace.package]
 edition = "2021"

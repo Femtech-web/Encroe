@@ -1,0 +1,51 @@
+├  Unsigned transaction:
+│    signer_id:    encore-pub-6b4dad.testnet
+│    receiver_id:  encroe-neon-city-19f9.testnet
+│    actions:
+│       -- function call:      
+│                       method name:  commit
+│                       args:         {
+│                                       "commitment": {
+│                                         "app_id": "e2d9e683b82448fa5f918a0ddad8d7f92ab271c0ddaa924436d71b33d3ff1014",
+│                                         "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj",
+│                                         "core_sha256": "3f4a1e626aa6fc2e819aaaf5e3ee718e0e6307de87d47c895a93addb336bb3d2",
+│                                         "epoch": 1,
+│                                         "game": "neon-city-19f9",
+│                                         "pkg_sha256": "7e7ee8a394b80d2ae5e2443c5791fde750fe3c6518d17d7628743ac48efc9b17",
+│                                         "players": 8,
+│                                         "root": "d104a18046cb1e506282c3d48df6c5dd7f6e47ad83960d355d33d9889143bc52",
+│                                         "sealed_u": "99b36b0e3b740599abd51a8c98eab46bef1d212778d1315aa5459635c60cf8417249be43c717f75d1bd07b2c94c6a4dc139136a2891c92ab0b620491fb2aa9d80470204daaf95036976d6920406534f0edb9d8f07aa5ab250c071af28000c768",
+│                                         "sealed_v": "949d33bc6c7ca9c4955e08e91ff7a29af29b4589a46b2deb0bce637669883115"
+│                                       }
+│                                     }
+│                       gas:          50.0 Tgas
+│                       deposit:      0 NEAR
+│     
+├  Your transaction was signed successfully.
+│    Public key: ed25519:454aDeGXb1XDHWKwZTgFS5w75hmdQVyBW1PMn7XAWW8X
+│    Signature:  ed25519:5se2Vh393PKYQovUcjdYv9jLK4sZWpwUHKAXcrjiHZLdPBJmcsCNRM7zjJEwa6PAGnmsWA7cE2uxXowtuxQTcF9B
+│     
+├  Transaction Execution Info:
+│    Gas used: 8.8 Tgas
+│    Transaction fee: 0.0008558090978667 NEAR
+│    Transaction ID: 5VKXcUpnBT5uBdXWLMqV82rdCGcaMCS4hPEtbqL8AHEP
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/5VKXcUpnBT5uBdXWLMqV82rdCGcaMCS4hPEtbqL8AHEP
+│     
+├  Function execution logs:
+│    Logs [encroe-neon-city-19f9.testnet]:   No logs
+│    Logs [encore-pub-6b4dad.testnet]:   No logs
+│     
+├  Function execution return value:
+│    Empty return value
+│     
+
+
+The "commit" call to <encroe-neon-city-19f9.testnet> on behalf of <encore-pub-6b4dad.testnet> succeeded.
+
+
+
+
+Here is your console command if you need to script it or re-run:
+    /Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near contract call-function as-transaction encroe-neon-city-19f9.testnet commit json-args '{"commitment": {"game": "neon-city-19f9", "epoch": 1, "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj", "app_id": "e2d9e683b82448fa5f918a0ddad8d7f92ab271c0ddaa924436d71b33d3ff1014", "pkg_sha256": "7e7ee8a394b80d2ae5e2443c5791fde750fe3c6518d17d7628743ac48efc9b17", "root": "d104a18046cb1e506282c3d48df6c5dd7f6e47ad83960d355d33d9889143bc52", "core_sha256": "3f4a1e626aa6fc2e819aaaf5e3ee718e0e6307de87d47c895a93addb336bb3d2", "players": 8, "sealed_u": "99b36b0e3b740599abd51a8c98eab46bef1d212778d1315aa5459635c60cf8417249be43c717f75d1bd07b2c94c6a4dc139136a2891c92ab0b620491fb2aa9d80470204daaf95036976d6920406534f0edb9d8f07aa5ab250c071af28000c768", "sealed_v": "949d33bc6c7ca9c4955e08e91ff7a29af29b4589a46b2deb0bce637669883115"}}' prepaid-gas '50.0 Tgas' attached-deposit '0 NEAR' sign-as encore-pub-6b4dad.testnet network-config testnet sign-with-legacy-keychain send
+

@@ -1,0 +1,73 @@
+name: studio
+
+# The studio's bot on GitHub's runners, so the public world's escrow does not depend on anyone's machine being on:
+# every six hours it sends the studio's heartbeat, exports the live world from the site, seals it as the next
+# epoch, runs the pinned verifier on it, commits it, has a stranger ask the enclave to verify it, relays NEAR's
+# quote check, and hands every player their own inclusion proof. The epoch's public record is committed back.
+#
+# Needs one secret, ENCROE_STUDIO_SECRETS: base64 of a tar.gz of the repository's .env (account ids and
+# ENCROE_STUDIO_TOKEN) and the studio's and the stranger's testnet key files. Made with:
+#   tar czf - .env -C "$HOME" .near-credentials/testnet/encore-pub-6b4dad.testnet.json \
+#     .near-credentials/testnet/encore-stranger-6b4dad.testnet.json | base64 | gh secret set ENCROE_STUDIO_SECRETS
+# Testnet only. Turn it off with the repository variable STUDIO_ENABLED=false.
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: studio
+  cancel-in-progress: false
+
+jobs:
+  seal:
+    if: vars.STUDIO_ENABLED != 'false'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      ESCROW_NAME: embergate
+      ENCROE_GAME_URL: https://encroe.vercel.app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: tools (near-cli-rs, the encore CLI)
+        run: |
+          npm ci
+          cargo build -q --release -p encore-cli -p encore-attest
+      - name: the studio's keys (never printed)
+        env:
+          ENCROE_STUDIO_SECRETS: ${{ secrets.ENCROE_STUDIO_SECRETS }}
+        run: |
+          test -n "$ENCROE_STUDIO_SECRETS" || { echo "ENCROE_STUDIO_SECRETS is not set" >&2; exit 1; }
+          umask 077
+          echo "$ENCROE_STUDIO_SECRETS" | base64 -d | tar xzf -
+          mkdir -p "$HOME/.near-credentials/testnet"
+          mv .near-credentials/testnet/*.json "$HOME/.near-credentials/testnet/"
+          rm -rf .near-credentials
+      - name: heartbeat
+        run: scripts/studio/bot.sh heartbeat
+      - name: seal the live world
+        run: |
+          players=$(curl -sf https://encroe.vercel.app/api/world | python3 -c 'import json,sys;print(json.load(sys.stdin)["players"])')
+          if [ "$players" -gt 0 ]; then scripts/studio/bot.sh seal; else echo "no players yet"; fi
+      - name: publish the record
+        if: always()
+        run: |
+          git config user.name "encroe-studio"
+          git config user.email "encroe-studio@users.noreply.github.com"
+          git add "docs/results/escrow/$ESCROW_NAME"
+          git diff --cached --quiet && exit 0
+          git commit -m "studio: $ESCROW_NAME epoch record $(date -u +%Y-%m-%dT%H:%MZ)"
+          git pull --rebase --autostash
+          git push
+      - name: remove the keys
+        if: always()
+        run: rm -rf .env .secrets "$HOME/.near-credentials"

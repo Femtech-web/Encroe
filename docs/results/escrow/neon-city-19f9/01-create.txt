@@ -1,0 +1,46 @@
+├  Unsigned transaction:
+│    signer_id:    encroe-relay-3778.testnet
+│    receiver_id:  testnet
+│    actions:
+│       -- function call:      
+│                       method name:  create_account
+│                       args:         {
+│                                       "new_account_id": "encroe-neon-city-19f9.testnet",
+│                                       "new_public_key": "ed25519:6xs726V4JT5K93i2htb63tX9F7us1wesgD2bV42uTp4g"
+│                                     }
+│                       gas:          30.0 Tgas
+│                       deposit:      3 NEAR
+│     
+├  Your transaction was signed successfully.
+│    Public key: ed25519:AvPeCL9GCg9FxWgQEAob2bNa71ttwLVyGEUsAXe1rSUn
+│    Signature:  ed25519:2wR2aqRt5NFCZgi7M8j62ZjVQmJMbbKsmFx7Eo9Z2RkZgXWkGvLrcJURAfCukwL67E3AmdXyoSzQdcoPRNxwSzcu
+│     
+├  Transaction Execution Info:
+│    Gas used: 12.4 Tgas
+│    Transaction fee: 0.0074528206284072 NEAR
+│    Transaction ID: C2BUGkmUBBMWhu4HyjfbGXsH3KTUEAhFgswbBBszw9R5
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/C2BUGkmUBBMWhu4HyjfbGXsH3KTUEAhFgswbBBszw9R5
+│     
+├  Function execution logs:
+│    Logs [testnet]:   No logs
+│    Logs [encroe-neon-city-19f9.testnet]:   No logs
+│    Logs [encroe-relay-3778.testnet]:   No logs
+│    Logs [testnet]:   No logs
+│    Logs [encroe-relay-3778.testnet]:   No logs
+│    Logs [encroe-relay-3778.testnet]:   No logs
+│     
+
+Function execution return value (printed to stdout):
+true
+
+
+The "create_account" call to <testnet> on behalf of <encroe-relay-3778.testnet> succeeded.
+
+The data for the access key is saved in a file /Users/mac/.near-credentials/testnet/encroe-neon-city-19f9.testnet/ed25519_6xs726V4JT5K93i2htb63tX9F7us1wesgD2bV42uTp4g.json
+The data for the access key is saved in a file /Users/mac/.near-credentials/testnet/encroe-neon-city-19f9.testnet.json
+
+
+Here is your console command if you need to script it or re-run:
+    /Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near account create-account fund-myself encroe-neon-city-19f9.testnet '3 NEAR' autogenerate-new-keypair --signature-scheme ed25519 save-to-legacy-keychain sign-as encroe-relay-3778.testnet network-config testnet sign-with-legacy-keychain send
+

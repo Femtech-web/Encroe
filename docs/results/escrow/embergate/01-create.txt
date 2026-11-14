@@ -1,0 +1,46 @@
+├  Unsigned transaction:
+│    signer_id:    encore-stranger-6b4dad.testnet
+│    receiver_id:  testnet
+│    actions:
+│       -- function call:      
+│                       method name:  create_account
+│                       args:         {
+│                                       "new_account_id": "encroe-embergate.testnet",
+│                                       "new_public_key": "ed25519:4pkGFKVjB2D2fBKrpZbC7nRg3yonrrobU88qWLrVtYNG"
+│                                     }
+│                       gas:          30.0 Tgas
+│                       deposit:      5 NEAR
+│     
+├  Your transaction was signed successfully.
+│    Public key: ed25519:Gq7j8FgMQZZkggjtSPRv54rvqy8Ws6WcJJdW5BnkfsdG
+│    Signature:  ed25519:2DnPUXP9BkFW5fSB5qSoo4FvDgnUKgR7RE6KQguABTTEYW6HQg6PArrTwnZeYL3o9EaXs7FX4w2RrJS6PtVFTBLf
+│     
+├  Transaction Execution Info:
+│    Gas used: 12.4 Tgas
+│    Transaction fee: 0.007452696810853 NEAR
+│    Transaction ID: 4aZE5PxHtuNMYWfGpNgADAvUQZBZazLauANSWqna8w8W
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/4aZE5PxHtuNMYWfGpNgADAvUQZBZazLauANSWqna8w8W
+│     
+├  Function execution logs:
+│    Logs [testnet]:   No logs
+│    Logs [encroe-embergate.testnet]:   No logs
+│    Logs [encore-stranger-6b4dad.testnet]:   No logs
+│    Logs [testnet]:   No logs
+│    Logs [encore-stranger-6b4dad.testnet]:   No logs
+│    Logs [encore-stranger-6b4dad.testnet]:   No logs
+│     
+
+Function execution return value (printed to stdout):
+true
+
+
+The "create_account" call to <testnet> on behalf of <encore-stranger-6b4dad.testnet> succeeded.
+
+The data for the access key is saved in a file /Users/mac/.near-credentials/testnet/encroe-embergate.testnet/ed25519_4pkGFKVjB2D2fBKrpZbC7nRg3yonrrobU88qWLrVtYNG.json
+The file: /Users/mac/.near-credentials/testnet/encroe-embergate.testnet.json already exists! Therefore it was not overwritten.
+
+
+Here is your console command if you need to script it or re-run:
+    /Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near account create-account fund-myself encroe-embergate.testnet '5 NEAR' autogenerate-new-keypair --signature-scheme ed25519 save-to-legacy-keychain sign-as encore-stranger-6b4dad.testnet network-config testnet sign-with-legacy-keychain send
+

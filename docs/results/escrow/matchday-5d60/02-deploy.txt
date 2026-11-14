@@ -1,0 +1,52 @@
+├  Unsigned transaction:
+│    signer_id:    encroe-matchday-5d60.testnet
+│    receiver_id:  encroe-matchday-5d60.testnet
+│    actions:
+│       -- deploy code <bYFxycVgmiaYqePNNi5GHUuhjVyCDfxrTLWv8ZrzKgi> to a account <encroe-matchday-5d60.testnet>
+│       -- function call:      
+│                       method name:  new
+│                       args:         {
+│                                       "dcap_verifier": "tee-verifier-2026-07-22.testnet",
+│                                       "domain_id": 2,
+│                                       "grace_ns": 120000000000,
+│                                       "key_mode": "pv_identity",
+│                                       "mpc": "v1.signer-prod.testnet",
+│                                       "outlayer": "outlayer.testnet",
+│                                       "owner": "encore-pub-6b4dad.testnet",
+│                                       "path": "encroe/matchday-5d60/1",
+│                                       "registry": "worker.outlayer.testnet",
+│                                       "secret_profile": "encroe-matchday-5d60",
+│                                       "verifier_hash": "9c0eb2e7a47e83c8feaa3d54780bf8848eb5ec13659d4e925b010e4faf756aad",
+│                                       "verifier_url": "https://test.fastfs.io/encore-pub-6b4dad.testnet/outlayer.testnet/9c0eb2e7a47e83c8feaa3d54780bf8848eb5ec13659d4e925b010e4faf756aad.wasm"
+│                                     }
+│                       gas:          100.0 Tgas
+│                       deposit:      0 NEAR
+│     
+├  Your transaction was signed successfully.
+│    Public key: ed25519:B8DJfLEBEX92gnbnSUcr7r1vACrEbQUU4g5r98rTL2Td
+│    Signature:  ed25519:3LK17XBfv7EDjn9uvyzWDj9XmucCb2KHbc1PJwLW35kzrWYUcgv39DfiM8nc6qmSocHtpZyxw175c5mpaHtk9XGL
+│     
+├  Transaction Execution Info:
+│    Gas used: 19.3 Tgas
+│    Transaction fee: 0.0019007614458153 NEAR
+│    Transaction ID: 3PGTzqkictBxygXaSYXA6JEKiY7WJo6vJS5rF9pfcPRx
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/3PGTzqkictBxygXaSYXA6JEKiY7WJo6vJS5rF9pfcPRx
+│     
+├  Function execution logs:
+│    Logs [encroe-matchday-5d60.testnet]:   No logs
+│    Logs [encroe-matchday-5d60.testnet]:   No logs
+│     
+├  Function execution return value:
+│    Empty return value
+│     
+
+Contract code has been successfully deployed.
+The "new" call to <encroe-matchday-5d60.testnet> on behalf of <encroe-matchday-5d60.testnet> succeeded.
+
+
+
+
+Here is your console command if you need to script it or re-run:
+    /Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near contract deploy encroe-matchday-5d60.testnet use-file contracts/encroe-escrow/target/near/encroe_escrow.wasm with-init-call new json-args '{"owner": "encore-pub-6b4dad.testnet", "mpc": "v1.signer-prod.testnet", "domain_id": 2, "key_mode": "pv_identity", "path": "encroe/matchday-5d60/1", "grace_ns": 120000000000, "outlayer": "outlayer.testnet", "verifier_url": "https://test.fastfs.io/encore-pub-6b4dad.testnet/outlayer.testnet/9c0eb2e7a47e83c8feaa3d54780bf8848eb5ec13659d4e925b010e4faf756aad.wasm", "verifier_hash": "9c0eb2e7a47e83c8feaa3d54780bf8848eb5ec13659d4e925b010e4faf756aad", "secret_profile": "encroe-matchday-5d60", "dcap_verifier": "tee-verifier-2026-07-22.testnet", "registry": "worker.outlayer.testnet"}' prepaid-gas '100.0 Tgas' attached-deposit '0 NEAR' network-config testnet sign-with-legacy-keychain send
+

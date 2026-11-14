@@ -7,7 +7,7 @@ thesis, in one page: [docs/thesis.md](docs/thesis.md).
 Everything below runs on NEAR testnet with real transactions. Nothing is mocked; where a run simulates something
 (a studio going silent, scripted test players), it says so.
 
-## Five minutes on the site
+## Five minutes on the site: [encroe.vercel.app](https://encroe.vercel.app)
 
 1. **Play.** Open `/play`, enter a name. Your browser makes an ed25519 key; every move you make is signed with it.
    Gather from the six nodes, forge a Lantern. Every rule runs in one wasm core, the same bytes the studio seals
@@ -36,6 +36,34 @@ Everything below runs on NEAR testnet with real transactions. Nothing is mocked;
    the escrow. The game's server is never called. A player who backed up their key imports it at the gate and
    finds their items.
 
+## Try to break it, live: [/break](https://encroe.vercel.app/break)
+
+Six real attacks, each sent from a stranger's account to a live, locked escrow, each refused by the contract in its
+own words (`web/lib/encroe/attacks.ts`; a test checks every expected refusal is written in the contract's source):
+
+| Attack | Refusal |
+|---|---|
+| Release a living studio's game | `release condition not met: publisher heartbeat is live and no end of life is due` |
+| Keep a dead studio locked with a fake heartbeat | `owner only` |
+| Seal a fake world over the real one | `owner only` |
+| Get a tampered build verified | `package does not match the committed pkg_sha256` |
+| Replay a NEAR-accepted TDX quote for another run | `attestation: input differs from what this contract sent` |
+| Release a game twice | `already released` |
+
+Two more need no transaction: changing an escrow's code (it has no keys; the page reads the count and the code hash
+live) and serving players a doctored package (`/revive?...&tamper=1` flips a byte; the hash check refuses it).
+
+## The preservation agent and the MCP server
+
+[`/agent`](https://encroe.vercel.app/agent) releases any watched escrow whose studio went silent and brings every
+released game back with the same eight checks, keeping a public log; `.github/workflows/preserve.yml` runs it every
+30 minutes. Its first sweep brought back five released escrows (Rust, C++, C and the go/no-go core), all eight checks
+passing. Any AI agent can do the same through the site's MCP server:
+
+```bash
+claude mcp add --transport http encroe https://encroe.vercel.app/api/mcp
+```
+
 ## Check it without our site
 
 ```bash
@@ -62,6 +90,7 @@ cd web && npm ci && npm test   # the browser code, against real released data fr
 | A played world is sealed and verified green, and a player checks their items from the browser | [ember-3924](docs/results/escrow/ember-3924/README.md) |
 | Anyone releases a silent studio; the game comes back in a browser and play goes on | [kill-827e](docs/results/escrow/kill-827e/README.md) |
 | A visitor does it from the site, with no wallet | [kill-beaa](docs/results/escrow/kill-beaa/README.md) |
+| The escrow works for any language: Rust, C++ and C cores all pass the same pinned verifier and come back in a browser | [cores](docs/results/escrow/cores/README.md); `web/lib/cores/cores.test.ts` |
 | The browser code matches the Rust tools | `web/lib/encroe/release.test.ts`, `web/lib/game/proof.test.ts`: real released epochs and on-chain roots |
 
 ## Where to look in the code
@@ -72,6 +101,7 @@ cd web && npm ci && npm test   # the browser code, against real released data fr
 | The verifier the enclave runs (pinned by hash `9c0eb2e7…`) | [`crates/encore-verifier`](crates/encore-verifier) |
 | Sealing: CKD identity, IBE, AES-GCM package, salted player leaves | [`crates/encore-crypto`](crates/encore-crypto), [`crates/encore-cli`](crates/encore-cli) |
 | The game's server core (every rule of Embergate) | [`crates/embergate-core/src/lib.rs`](crates/embergate-core/src/lib.rs) |
+| The same interface in C++ and C, and what any game must export | [`cores/`](cores/README.md) |
 | The game server: signed moves into the core | [`web/lib/game/world.ts`](web/lib/game/world.ts), [`web/app/api/move`](web/app/api/move/route.ts) |
 | Reviving in the browser | [`web/lib/encroe/release.ts`](web/lib/encroe/release.ts), [`web/lib/encroe/revive.ts`](web/lib/encroe/revive.ts) |
 | The studio's side, scripted | [`scripts/studio/bot.sh`](scripts/studio/bot.sh), [`scripts/testnet/escrow.sh`](scripts/testnet/escrow.sh) |
