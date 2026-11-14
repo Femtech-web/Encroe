@@ -1,0 +1,18 @@
+{
+  "v": 1,
+  "game": "embergate",
+  "epoch": 5,
+  "predecessor": "encroe-embergate.testnet",
+  "path": "encroe/embergate/1",
+  "domain_id": 2,
+  "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj",
+  "app_id": "0cd11e504723619ec5ac514dcbb493505fc1aa17ae44a273ffd66986980fb628",
+  "sealed_key": {
+    "u": "a4a8d0b39a77e85aef4440112e97695eeb2207aea3125fd99215f40e848608dbe60fc8dd33a352be0d1dc12d7e5dcaee074f092d649a4370fad0ffdae062e8904c3f718edf032e4dbec924f29d59dcd7aa303231437f8cdf99ed28df00930ae3",
+    "v": "284787f45b2fbeb370cd2eedf97a5c034ae13027856d25cbd20ded91f8dbbecc"
+  },
+  "pkg_sha256": "eab46b1a9443aea629fa9a7ae805e86210fc994c188f4fa4a47c720e4df6543d",
+  "root": "20005a1b39b4c774aef84e56fc4a2c324ad0167aadc2d32776f2f554d1b02d65",
+  "core_sha256": "49ff0c57f10f24b9091eae3bd218b28a642d581f698871f6b3c65b7effa9cb62",
+  "players": 1
+}
