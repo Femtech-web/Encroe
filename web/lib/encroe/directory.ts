@@ -1,4 +1,4 @@
-import { RPC, viewStatus, type EscrowStatus } from "../game/near";
+import { viewCall, viewStatus, type EscrowStatus } from "../game/near";
 import { CATALOGS, type Catalog } from "../cores/catalog";
 import { CORE_RUNS, ESCROWS } from "./escrows";
 import POOL from "./pool.json";
@@ -30,29 +30,7 @@ export type Row = {
 };
 
 export async function view<T>(account: string, method: string, args: object = {}): Promise<T | null> {
-  try {
-    const res = await fetch(RPC, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        jsonrpc: "2.0",
-        id: 1,
-        method: "query",
-        params: {
-          request_type: "call_function",
-          finality: "final",
-          account_id: account,
-          method_name: method,
-          args_base64: Buffer.from(JSON.stringify(args)).toString("base64"),
-        },
-      }),
-      cache: "no-store",
-    });
-    const body = (await res.json()) as { result?: { result: number[] } };
-    return body.result ? (JSON.parse(new TextDecoder().decode(new Uint8Array(body.result.result))) as T) : null;
-  } catch {
-    return null;
-  }
+  return viewCall<T>(account, method, args).catch(() => null);
 }
 
 /** Escrows studios created through the factory, oldest first; empty until it is deployed. */

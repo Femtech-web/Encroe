@@ -1,5 +1,5 @@
 import { createHash, createPrivateKey, sign } from "node:crypto";
-import { RPC } from "@/lib/game/near";
+import { rpcCall } from "@/lib/game/near";
 import { base58Decode } from "@/lib/encroe/release";
 
 /** One NEAR function call, signed on the server with a full-access ed25519 key (ported from Klear's tx.ts). */
@@ -89,15 +89,10 @@ function nextNonce(signer: string, chain: bigint): bigint {
   return n;
 }
 
+// A signed transaction is the same transaction on any RPC (the chain keeps one by its hash), so sends fall back too.
 async function rpc(method: string, params: unknown): Promise<Record<string, unknown>> {
-  const res = await fetch(RPC, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ jsonrpc: "2.0", id: "encroe", method, params }),
-    cache: "no-store",
-  });
-  const body = (await res.json()) as { result?: Record<string, unknown>; error?: unknown };
-  if (!body.result) throw new Error(`NEAR RPC ${method}: ${JSON.stringify(body.error ?? res.status).slice(0, 200)}`);
+  const body = await rpcCall<Record<string, unknown>>(method, params, { timeoutMs: 30_000 });
+  if (!body.result) throw new Error(`NEAR RPC ${method}: ${JSON.stringify(body.error).slice(0, 200)}`);
   return body.result;
 }
 

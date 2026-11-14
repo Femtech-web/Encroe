@@ -9,6 +9,8 @@ const CORES = {
   "Embergate (Rust)": "embergate.wasm",
   "Matchday (C++)": "matchday.wasm",
   "Neon City (C)": "neon-city.wasm",
+  "Starhaul (Zig)": "starhaul.wasm",
+  "Orchard (Go)": "orchard.wasm",
 };
 const modules = Object.fromEntries(
   Object.entries(CORES).map(([name, file]) => [
@@ -204,6 +206,137 @@ describe("Neon City (C): a city economy", () => {
       },
     ]);
     expect(core.call("job", 0, 4, 1)).toBe(1);
+  });
+});
+
+describe("Starhaul (Zig): a space freight economy", () => {
+  const CREDITS = 1,
+    FUEL = 2,
+    ORE = 3,
+    ICE = 4,
+    ALLOY = 5,
+    STANDING = 6,
+    SKIFF = 20,
+    HAULER = 21,
+    REFINERY = 30;
+  const qty = (core: Core, item: number) => core.items(0).find(([id]) => id === item)?.[1] ?? 0;
+
+  async function pilot(items?: Items) {
+    const core = await Core.create(modules["Starhaul (Zig)"]);
+    core.load(items ? [{ pk: key(7), items }] : []);
+    if (!items) expect(core.join(key(7))).toBe(0);
+    return core;
+  }
+
+  it("starts a pilot with credits, fuel and a skiff", async () => {
+    expect((await pilot()).items(0)).toEqual([
+      [CREDITS, 400],
+      [FUEL, 6],
+      [SKIFF, 1],
+    ]);
+  });
+
+  it("mines the inner belt once per tick, burning fuel, and only the belts its ships reach", async () => {
+    const core = await pilot();
+    expect(core.call("mine", 0, 1, 1)).toBe(0);
+    const [item, got] = core.out(2);
+    expect(item).toBe(ORE);
+    expect(got).toBeGreaterThanOrEqual(2);
+    expect(got).toBeLessThanOrEqual(4);
+    expect([qty(core, ORE), qty(core, FUEL)]).toEqual([got, 5]);
+    expect(core.call("mine", 0, 1, 1)).toBe(4);
+    expect(core.call("mine", 0, 2, 2)).toBe(1);
+    expect(core.call("mine", 0, 9, 2)).toBe(5);
+  });
+
+  it("refines three ore and one ice into alloy, and pays for contracts in credits and standing", async () => {
+    const core = await pilot([
+      [CREDITS, 10],
+      [ORE, 9],
+      [ICE, 1],
+      [REFINERY, 1],
+    ]);
+    expect(core.call("refine", 0)).toBe(0);
+    expect([qty(core, ORE), qty(core, ICE), qty(core, ALLOY)]).toEqual([6, 0, 1]);
+    expect(core.call("refine", 0)).toBe(1);
+    expect(core.call("deliver", 0, 1, 1)).toBe(0);
+    const [credits, standing, rush] = core.out(3);
+    expect(credits).toBe(rush ? 60 : 40);
+    expect([qty(core, CREDITS), qty(core, STANDING), qty(core, ORE)]).toEqual([10 + credits, standing, 0]);
+    expect(core.call("deliver", 0, 3, 2)).toBe(1);
+  });
+
+  it("buys from the station and sells ships back at half", async () => {
+    const core = await pilot();
+    expect(core.call("buy", 0, HAULER)).toBe(1);
+    expect(core.call("buy", 0, FUEL)).toBe(0);
+    expect(core.call("sell", 0, SKIFF)).toBe(0);
+    expect([qty(core, CREDITS), qty(core, FUEL), qty(core, SKIFF)]).toEqual([426, 7, 0]);
+    expect(core.call("sell", 0, FUEL)).toBe(5);
+  });
+});
+
+describe("Orchard (Go): a farm and county fair", () => {
+  const COINS = 1,
+    WATER = 2,
+    APPLES = 3,
+    CIDER = 6,
+    RIBBONS = 8,
+    BEEHIVE = 20,
+    PRESS = 21;
+  const qty = (core: Core, item: number) => core.items(0).find(([id]) => id === item)?.[1] ?? 0;
+
+  async function farmer(items?: Items) {
+    const core = await Core.create(modules["Orchard (Go)"]);
+    core.load(items ? [{ pk: key(9), items }] : []);
+    if (!items) expect(core.join(key(9))).toBe(0);
+    return core;
+  }
+
+  it("starts a farmer with coins and water", async () => {
+    expect((await farmer()).items(0)).toEqual([
+      [COINS, 120],
+      [WATER, 6],
+    ]);
+  });
+
+  it("tends the apple trees once per tick with water, and the other rows only with what they need", async () => {
+    const core = await farmer();
+    expect(core.call("tend", 0, 1, 1)).toBe(0);
+    const [item, got] = core.out(2);
+    expect(item).toBe(APPLES);
+    expect([qty(core, APPLES), qty(core, WATER)]).toEqual([got, 5]);
+    expect(core.call("tend", 0, 1, 1)).toBe(4);
+    expect(core.call("tend", 0, 2, 2)).toBe(1);
+    expect(core.call("tend", 0, 3, 2)).toBe(1);
+    expect(core.call("tend", 0, 7, 2)).toBe(5);
+  });
+
+  it("presses cider and enters it at the fair, where two entries in five win", async () => {
+    const core = await farmer([
+      [COINS, 5],
+      [APPLES, 8],
+      [PRESS, 1],
+    ]);
+    expect(core.call("make", 0, 1)).toBe(0);
+    expect(core.call("make", 0, 2)).toBe(1);
+    expect([qty(core, APPLES), qty(core, CIDER)]).toEqual([4, 1]);
+    expect(core.call("fair", 0, 1, 1)).toBe(0);
+    const [won, prize] = core.out(2);
+    expect(prize).toBe(won ? 60 : 0);
+    expect([qty(core, CIDER), qty(core, RIBBONS), qty(core, COINS)]).toEqual([0, won, 5 + prize]);
+    expect(core.call("fair", 0, 1, 2)).toBe(1);
+  });
+
+  it("buys from the farm shop and sells produce at its price", async () => {
+    const core = await farmer();
+    expect(core.call("buy", 0, BEEHIVE)).toBe(0);
+    expect(core.call("buy", 0, PRESS)).toBe(1);
+    expect(core.call("tend", 0, 1, 1)).toBe(0);
+    const apples = qty(core, APPLES);
+    expect(core.call("sell", 0, APPLES)).toBe(0);
+    expect([qty(core, COINS), qty(core, APPLES)]).toEqual([42, apples - 1]);
+    expect(core.call("sell", 0, WATER)).toBe(5);
   });
 });
 

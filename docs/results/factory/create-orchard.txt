@@ -1,0 +1,47 @@
+├  Unsigned transaction:
+│    signer_id:    encore-pub-6b4dad.testnet
+│    receiver_id:  encroe.testnet
+│    actions:
+│       -- function call:      
+│                       method name:  create_escrow
+│                       args:         {
+│                                       "game": "Orchard",
+│                                       "grace_s": 1209600,
+│                                       "name": "orchard",
+│                                       "owner": "encore-pub-6b4dad.testnet"
+│                                     }
+│                       gas:          300.0 Tgas
+│                       deposit:      5 NEAR
+│     
+├  Your transaction was signed successfully.
+│    Public key: ed25519:454aDeGXb1XDHWKwZTgFS5w75hmdQVyBW1PMn7XAWW8X
+│    Signature:  ed25519:2r4LmUUTrtagVi7UJheG7yoGcnSxdYzX5hv3xckC9m8KJVgKxEWU2k2DZuoxRe77BGrHw1zuhAtb9yNYJJZxCz5n
+│     
+├  Transaction Execution Info:
+│    Gas used: 42.7 Tgas
+│    Transaction fee: 0.0104742399632175 NEAR
+│    Transaction ID: P8eGdrWEmSND4Xf93xJqoYnL96dv5nCqbQh72QPkVaB
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/P8eGdrWEmSND4Xf93xJqoYnL96dv5nCqbQh72QPkVaB
+│     
+├  Function execution logs:
+│    Logs [encroe.testnet]:   No logs
+│    Logs [orchard.encroe.testnet]:   No logs
+│    Logs [encore-pub-6b4dad.testnet]:   No logs
+│    Logs [encroe.testnet]:   No logs
+│    Logs [encore-pub-6b4dad.testnet]:   No logs
+│    Logs [encore-pub-6b4dad.testnet]:   No logs
+│     
+
+Function execution return value (printed to stdout):
+true
+
+
+The "create_escrow" call to <encroe.testnet> on behalf of <encore-pub-6b4dad.testnet> succeeded.
+
+
+
+
+Here is your console command if you need to script it or re-run:
+    /Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near contract call-function as-transaction encroe.testnet create_escrow json-args '{"name": "orchard", "owner": "encore-pub-6b4dad.testnet", "game": "Orchard", "grace_s": 1209600}' prepaid-gas '300.0 Tgas' attached-deposit '5 NEAR' sign-as encore-pub-6b4dad.testnet network-config testnet sign-with-legacy-keychain send
+

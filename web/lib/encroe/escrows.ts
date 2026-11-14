@@ -1,4 +1,4 @@
-import { RPC, viewStatus, type EscrowStatus } from "../game/near";
+import { query, viewStatus, type EscrowStatus } from "../game/near";
 import { base58Decode, bytesToHex } from "./release";
 import POOL from "./pool.json";
 
@@ -34,23 +34,10 @@ export const ESCROWS: { id: string; results: string; story: string }[] = [
 ];
 
 export async function accessKeys(account: string): Promise<number | null> {
-  try {
-    const res = await fetch(RPC, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        jsonrpc: "2.0",
-        id: 1,
-        method: "query",
-        params: { request_type: "view_access_key_list", finality: "final", account_id: account },
-      }),
-      cache: "no-store",
-    });
-    const body = (await res.json()) as { result?: { keys: unknown[] } };
-    return body.result ? body.result.keys.length : null;
-  } catch {
-    return null;
-  }
+  const body = await query<{ keys: unknown[] }>({ request_type: "view_access_key_list", account_id: account }).catch(
+    () => null,
+  );
+  return body?.result ? body.result.keys.length : null;
 }
 
 export type Live = { id: string; results: string; story: string; status: EscrowStatus | null; keys: number | null };
@@ -74,7 +61,10 @@ export async function killTarget(): Promise<{ escrow: string; fresh: boolean } |
   return pool.length ? { escrow: pool[0], fresh: false } : null;
 }
 
-/** The same escrow, three languages: each game's core sealed, verified by the enclave, released and revived. */
+/**
+ * The same escrow, five languages: each game's core sealed and verified by the enclave; the first three also released
+ * and revived, the last two holding their live worlds.
+ */
 export const CORE_RUNS: {
   game: string;
   language: string;
@@ -83,6 +73,8 @@ export const CORE_RUNS: {
   source: string;
   sha256: string;
   escrow: string;
+  /** Its live world on this site. */
+  play: string;
 }[] = [
   {
     game: "Embergate",
@@ -92,6 +84,7 @@ export const CORE_RUNS: {
     source: "crates/embergate-core/src/lib.rs",
     sha256: "49ff0c57f10f24b9091eae3bd218b28a642d581f698871f6b3c65b7effa9cb62",
     escrow: "encroe-kill-827e.testnet",
+    play: "/play/embergate",
   },
   {
     game: "Matchday",
@@ -101,6 +94,7 @@ export const CORE_RUNS: {
     source: "cores/matchday/matchday.cpp",
     sha256: "f149751774f754b956636225c79d294494e1b5dc2c523867eeb2d5b3f96dba4a",
     escrow: "encroe-matchday-5d60.testnet",
+    play: "/play/matchday",
   },
   {
     game: "Neon City",
@@ -110,6 +104,27 @@ export const CORE_RUNS: {
     source: "cores/neon-city/neon_city.c",
     sha256: "3f4a1e626aa6fc2e819aaaf5e3ee718e0e6307de87d47c895a93addb336bb3d2",
     escrow: "encroe-neon-city-19f9.testnet",
+    play: "/play/neon-city",
+  },
+  {
+    game: "Starhaul",
+    language: "Zig",
+    toolchain: "zig 0.17 → wasm32",
+    genre: "a space freight economy: mine asteroid belts, refine alloy, fly contracts, buy ships",
+    source: "cores/starhaul/starhaul.zig",
+    sha256: "f8a50a172e7da0c34c64c08443194d9e737da720749d31b775ada99ad64c463e",
+    escrow: "starhaul.encroe.testnet",
+    play: "/play/starhaul",
+  },
+  {
+    game: "Orchard",
+    language: "Go",
+    toolchain: "TinyGo 0.44 → wasm32",
+    genre: "a farm and county fair: tend rows and hives, press cider, make jam, win ribbons",
+    source: "cores/orchard/main.go",
+    sha256: "91665f535afb63e4f9c86a5cd33eefde9eac9550e416a679457ac73068cd0e0f",
+    escrow: "orchard.encroe.testnet",
+    play: "/play/orchard",
   },
 ];
 
@@ -118,23 +133,8 @@ export const ESCROW_CODE_SHA256 = "08d9174fedb6374971b076591d915423d2fab6bc7f5bb
 
 /** SHA-256 of the code an account runs, as NEAR reports it; null if it runs none or the read failed. */
 export async function codeSha256(account: string): Promise<string | null> {
-  try {
-    const res = await fetch(RPC, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        jsonrpc: "2.0",
-        id: 1,
-        method: "query",
-        params: { request_type: "view_code", finality: "final", account_id: account },
-      }),
-      cache: "no-store",
-    });
-    const body = (await res.json()) as { result?: { hash: string } };
-    return body.result ? bytesToHex(base58Decode(body.result.hash)) : null;
-  } catch {
-    return null;
-  }
+  const body = await query<{ hash: string }>({ request_type: "view_code", account_id: account }).catch(() => null);
+  return body?.result ? bytesToHex(base58Decode(body.result.hash)) : null;
 }
 
 /** True for the escrows this site may act on: ours (encroe-*) and the factory's (<name>.encroe.testnet). */

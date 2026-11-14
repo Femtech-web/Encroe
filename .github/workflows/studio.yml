@@ -9,6 +9,7 @@ name: studio
 # ENCROE_STUDIO_TOKEN) and the studio's and the stranger's testnet key files. Made with:
 #   tar czf - .env -C "$HOME" .near-credentials/testnet/encore-pub-6b4dad.testnet.json \
 #     .near-credentials/testnet/encore-stranger-6b4dad.testnet.json | base64 | gh secret set ENCROE_STUDIO_SECRETS
+# STUDIO_COMMIT_EMAIL is the GitHub commit email of the Vercel project owner.
 # Testnet only. Turn it off with the repository variable STUDIO_ENABLED=false.
 
 on:
@@ -31,7 +32,7 @@ jobs:
     env:
       ENCROE_GAME_URL: https://encroe.vercel.app
       # Each game's public world and its escrow: Embergate's ours, the others made by the factory (encroe.testnet).
-      WORLDS: "embergate:encroe-embergate.testnet matchday:matchday.encroe.testnet neon-city:neon-city.encroe.testnet"
+      WORLDS: "embergate:encroe-embergate.testnet matchday:matchday.encroe.testnet neon-city:neon-city.encroe.testnet starhaul:starhaul.encroe.testnet orchard:orchard.encroe.testnet"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -63,7 +64,7 @@ jobs:
           failed=0
           for w in $WORLDS; do
             g=${w%%:*}
-            players=$(curl -sf "$ENCROE_GAME_URL/api/games/$g/world" | python3 -c 'import json,sys;print(json.load(sys.stdin)["players"])')
+            players=$(curl -sf "$ENCROE_GAME_URL/api/games/$g/world" | python3 -c 'import json,sys;print(json.load(sys.stdin)["players"])' || echo 0)
             if [ "$players" -gt 0 ]; then
               ESCROW_NAME=$g ESCROW_ACCOUNT=${w##*:} STUDIO_GAME=$g ENCROE_CORE=web/public/core/$g.wasm \
                 scripts/studio/bot.sh seal || { echo "seal $g failed"; failed=1; }
@@ -74,13 +75,16 @@ jobs:
           exit $failed
       - name: publish the record
         if: always()
+        env:
+          STUDIO_COMMIT_EMAIL: ${{ secrets.STUDIO_COMMIT_EMAIL }}
         run: |
-          git config user.name "encroe-studio"
-          git config user.email "encroe-studio@users.noreply.github.com"
-          for d in docs/results/escrow/embergate docs/results/escrow/matchday docs/results/escrow/neon-city; do
+          for d in docs/results/escrow/{embergate,matchday,neon-city,starhaul,orchard}; do
             [ -d "$d" ] && git add "$d"
           done
           git diff --cached --quiet && exit 0
+          : "${STUDIO_COMMIT_EMAIL:?Set STUDIO_COMMIT_EMAIL to the GitHub commit email of the Vercel project owner}"
+          git config user.name "encroe-studio"
+          git config user.email "$STUDIO_COMMIT_EMAIL"
           git commit -m "studio: epoch records $(date -u +%Y-%m-%dT%H:%MZ)"
           git pull --rebase --autostash
           git push

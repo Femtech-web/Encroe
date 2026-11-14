@@ -9,10 +9,19 @@ only call this interface. Any language that compiles to `wasm32` with **no impor
 | Embergate | Rust | crafting world | [`crates/embergate-core`](../crates/embergate-core/src/lib.rs) | `cargo build --target wasm32-unknown-unknown` |
 | Matchday | C++20 | football card club (the Ultimate Team genre) | [`matchday/matchday.cpp`](matchday/matchday.cpp) | `zig c++ -target wasm32-freestanding` |
 | Neon City | C11 | open-world city economy (the GTA Online genre) | [`neon-city/neon_city.c`](neon-city/neon_city.c) | `zig cc -target wasm32-freestanding` |
+| Starhaul | Zig | space freight economy | [`starhaul/starhaul.zig`](starhaul/starhaul.zig) | `zig build-exe -target wasm32-freestanding -fno-entry --export=...` |
+| Orchard | Go | farm and county fair | [`orchard/main.go`](orchard/main.go) | `tinygo build -target=wasm-unknown -gc=none` |
 
-`scripts/build/cores.sh` builds the C and C++ cores (with Zig 0.17, which bundles clang and needs no system
-toolchain), refuses any core that imports anything, and copies them to `web/public/core`. Their tests, and the same
-checks the enclave makes, run on all three in [`web/lib/cores/cores.test.ts`](../web/lib/cores/cores.test.ts).
+`scripts/build/cores.sh` builds the C, C++, Zig and Go cores (Zig 0.17, which bundles clang; TinyGo 0.44 with
+Binaryen; each sha256-checked into `.tools/`), refuses any core that imports anything or carries a local path, and
+copies them to `web/public/core`. The builds are reproducible: rebuilt from source, each core hashes to the
+`core_sha256` its escrow committed. Their tests, and the same checks the enclave makes, run on all five in
+[`web/lib/cores/cores.test.ts`](../web/lib/cores/cores.test.ts).
+
+**Go:** use TinyGo's plain `//export`, not `//go:wasmexport`. The latter traps until `_initialize` runs, and the
+enclave calls no initializer. Build with `-gc=none` so any allocation fails to link, and keep only your exports
+(`scripts/build/keep-exports.mjs`). **C#:** a Unity or .NET core needs NativeAOT-LLVM's WebAssembly target, still
+experimental; it would seal the same way, and is not here yet.
 
 ## The interface
 

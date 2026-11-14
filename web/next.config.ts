@@ -22,7 +22,14 @@ const nextConfig: NextConfig = {
   // The API runs the sealed core from public/core; ship it with the functions.
   outputFileTracingIncludes: { "/api/**": ["./public/core/**"] },
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    // The game cores and the wallet connector change only with a deploy: browsers and the CDN keep them for an hour
+    // and serve the old copy for a day while fetching a new one. Every core is checked by its hash anyway.
+    const cached = [{ key: "Cache-Control", value: "public, max-age=3600, stale-while-revalidate=86400" }];
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      { source: "/core/:file*", headers: cached },
+      { source: "/wallet-connectors/:file*", headers: cached },
+    ];
   },
 };
 

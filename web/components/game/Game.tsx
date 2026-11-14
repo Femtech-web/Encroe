@@ -6,6 +6,7 @@ import { forgetKey, loadKey, saveKey, saveName, type Me } from "@/lib/game/clien
 import { ITEMS, NODES, RECIPES, canForge, qtyOf, renown, title, type ItemId, type Items } from "@/lib/game/items";
 import { newSecretKey, publicKeyOf } from "@/lib/game/moves";
 import { SERVER, type Transport, type WorldView } from "@/lib/game/transport";
+import { usePoll } from "@/lib/play/usePoll";
 import { Gate } from "./Gate";
 import { Glyph } from "./Glyph";
 import { SealCheck } from "./SealCheck";
@@ -45,11 +46,7 @@ export function Game({ transport = SERVER }: { transport?: Transport }) {
       .catch(() => undefined);
   }, [transport]);
 
-  useEffect(() => {
-    refresh();
-    const id = setInterval(refresh, 3000);
-    return () => clearInterval(id);
-  }, [refresh]);
+  usePoll(refresh, 3000);
 
   const cooling = me ? me.next_gather_at > now : false;
   useEffect(() => {

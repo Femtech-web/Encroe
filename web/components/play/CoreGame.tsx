@@ -1,12 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { SealCheck } from "@/components/game/SealCheck";
 import type { Catalog, CoreMove } from "@/lib/cores/catalog";
-import { NAME } from "@/lib/game/moves";
+import { NAME, publicKeyOf } from "@/lib/game/moves";
 import type { GameId } from "@/lib/game/games";
 import type { Items } from "@/lib/game/items";
 import type { Driver, Standing } from "@/lib/play/drivers";
+import { usePoll } from "@/lib/play/usePoll";
+import { SCENES, type SceneProps } from "./scenes";
 
 /**
  * Any game, from its catalog: the player's items, the game's own moves with their choices, the board and what is
@@ -34,6 +36,8 @@ export function CoreGame({
   const [picks, setPicks] = useState<Record<string, number>>({});
   const [busy, setBusy] = useState(false);
   const [name, setName] = useState("");
+  const [last, setLast] = useState<SceneProps["last"]>(null);
+  const Scene = SCENES[catalog.game];
 
   const refresh = useCallback(async () => {
     const [m, w] = await Promise.all([driver.me(), driver.world()]);
@@ -41,29 +45,25 @@ export function CoreGame({
     setWorld(w);
   }, [driver]);
 
-  useEffect(() => {
-    let alive = true;
-    const tick = () => alive && refresh().catch(() => undefined);
-    tick();
-    const id = setInterval(tick, 3000);
-    return () => {
-      alive = false;
-      clearInterval(id);
-    };
-  }, [refresh]);
+  const poll = useCallback(() => refresh().catch(() => undefined), [refresh]);
+  usePoll(poll, 3000);
 
   const label = (id: number) => catalog.items[id] ?? `item ${id}`;
   const items = me?.items ?? [];
 
-  async function play(m: CoreMove) {
+  async function play(m: CoreMove, chosen?: number[]) {
     setBusy(true);
-    const args = m.args.flatMap((a, i) => {
-      if (a.kind === "tick") return [];
-      const pick = picks[`${m.name}:${i}`];
-      if (a.kind === "choice") return [pick ?? a.options[0][0]];
-      return [pick ?? items.find(([id]) => id >= a.from)?.[0] ?? 0];
-    });
-    setSaid(await driver.call(m, args));
+    const args =
+      chosen ??
+      m.args.flatMap((a, i) => {
+        if (a.kind === "tick") return [];
+        const pick = picks[`${m.name}:${i}`];
+        if (a.kind === "choice") return [pick ?? a.options[0][0]];
+        return [pick ?? items.find(([id]) => id >= a.from)?.[0] ?? 0];
+      });
+    const result = await driver.call(m, args);
+    setSaid(result);
+    setLast((prev) => ({ move: m.name, args, ...result, n: (prev?.n ?? 0) + 1 }));
     await refresh();
     setBusy(false);
   }
@@ -121,6 +121,25 @@ export function CoreGame({
             Join {catalog.game}
           </button>
         </form>
+      )}
+
+      {Scene && world && (
+        <div className="mt-6">
+          <Scene
+            me={me ?? null}
+            pk={publicKeyOf(sk)}
+            board={world.board}
+            events={world.events}
+            players={world.players}
+            last={last}
+            busy={busy}
+            live={live}
+            act={(move, args) => {
+              const m = catalog.moves.find((x) => x.name === move);
+              if (m && me) void play(m, args);
+            }}
+          />
+        </div>
       )}
 
       <p

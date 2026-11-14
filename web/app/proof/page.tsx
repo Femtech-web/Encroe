@@ -94,9 +94,9 @@ export default async function ProofPage() {
 
       <section className="mt-20" aria-labelledby="langs">
         <h2 id="langs" className="font-display text-h1 font-black">
-          Three languages, one verifier
+          Five languages, one verifier
         </h2>
-        <div className="mt-6 grid gap-4 md:grid-cols-3">
+        <div className="mt-6 grid gap-4 md:grid-cols-3 lg:grid-cols-5">
           {CORE_RUNS.map((c, i) => (
             <Link
               key={c.game}
@@ -112,12 +112,14 @@ export default async function ProofPage() {
             </Link>
           ))}
         </div>
-        <a
-          href={doc("docs/results/escrow/cores/README.md")}
-          className="mt-4 inline-block text-sm text-gold underline underline-offset-4"
-        >
-          The cores run, every transaction
-        </a>
+        <p className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+          <a href={doc("docs/results/escrow/cores/README.md")} className="text-gold underline underline-offset-4">
+            Rust, C++ and C: sealed, released, revived
+          </a>
+          <a href={doc("docs/results/escrow/engines/README.md")} className="text-gold underline underline-offset-4">
+            Zig and Go: sealed, verified green
+          </a>
+        </p>
       </section>
 
       <section className="mt-20" aria-labelledby="first">

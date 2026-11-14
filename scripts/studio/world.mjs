@@ -1,5 +1,5 @@
 // Plays a scripted world through a sealed core and prints it as a players file (`encore seal --players-file`):
-//   node scripts/studio/world.mjs <matchday|neon-city|embergate> <players> > world.json
+//   node scripts/studio/world.mjs <matchday|neon-city|starhaul|orchard|embergate> <players> > world.json
 // Every move runs in the core itself; the players are scripted test players with random keys, and say so.
 import { randomBytes } from "node:crypto";
 import { readFileSync } from "node:fs";
@@ -32,6 +32,14 @@ for (let round = 0; round < 24; round++, tick++) {
     } else if (game === "neon-city") {
       if (round === 16 && style >= 2) x.buy(p, 21);
       else if (!ok(x.job(p, style >= 2 && round > 16 ? 2 : 1, tick))) for (let f = 0; f < 4; f++) x.buy(p, 2);
+    } else if (game === "starhaul") {
+      if (round === 18 && style >= 2) x.buy(p, 30);
+      else if (style >= 2 && round > 18 && ok(x.refine(p))) x.deliver(p, 1, tick);
+      else if (!ok(x.deliver(p, 1, tick)) && !ok(x.mine(p, 1, tick))) for (let f = 0; f < 3; f++) x.buy(p, 2);
+    } else if (game === "orchard") {
+      if (round === 1 && style >= 2) x.buy(p, 20);
+      else if (round % 6 === 5) x.sell(p, 3);
+      else if (!ok(x.tend(p, style >= 2 && round % 2 ? 3 : 1, tick))) for (let w = 0; w < 3; w++) x.buy(p, 2);
     } else {
       ok(x.gather(p, 1 + ((p + round) % 6), tick)) && round % 4 === 3 && x.craft(p, 1);
     }

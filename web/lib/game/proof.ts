@@ -72,7 +72,9 @@ export function merklePath(leaves: string[], index: number): [string, boolean][]
     const right = i % 2 === 0;
     const sib = right ? (level[i + 1] ?? level[i]) : level[i - 1];
     path.push([bytesToHex(sib), right]);
-    level = Array.from({ length: Math.ceil(level.length / 2) }, (_, j) => node(level[2 * j], level[2 * j + 1] ?? level[2 * j]));
+    level = Array.from({ length: Math.ceil(level.length / 2) }, (_, j) =>
+      node(level[2 * j], level[2 * j + 1] ?? level[2 * j]),
+    );
     i = Math.floor(i / 2);
   }
   return path;

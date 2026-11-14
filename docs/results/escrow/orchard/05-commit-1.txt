@@ -1,0 +1,51 @@
+├  Unsigned transaction:
+│    signer_id:    encore-pub-6b4dad.testnet
+│    receiver_id:  orchard.encroe.testnet
+│    actions:
+│       -- function call:      
+│                       method name:  commit
+│                       args:         {
+│                                       "commitment": {
+│                                         "app_id": "6ab33e7691b8e64a40075e948a7e3f161393fd3097cd7ec1090288717fba15b8",
+│                                         "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj",
+│                                         "core_sha256": "91665f535afb63e4f9c86a5cd33eefde9eac9550e416a679457ac73068cd0e0f",
+│                                         "epoch": 1,
+│                                         "game": "orchard",
+│                                         "pkg_sha256": "aa5d59b2f86b2ada2c21de7dafa2f4472a7fb798bd665067d2eb0815c871e37d",
+│                                         "players": 8,
+│                                         "root": "8f93a3c3bac6626e544be7897ef58ed854a40d61fe9c9a20e9bf373d859c71b7",
+│                                         "sealed_u": "b60951cd41fd7a303cb81b5760efc712561026425fbe0fefa98a3988ed7af5b70fb96d86b49d0f987d90b89c0da3088906791bd2ec03915b7c07b37d9fa382de2cad426a67ed5397837ebfe324254756b975e455b84a4f76a8e2496f46e7d29e",
+│                                         "sealed_v": "918911e6ca586447541c697e99a0820f0ed1acbbf34df7ffeba91768ce05657f"
+│                                       }
+│                                     }
+│                       gas:          50.0 Tgas
+│                       deposit:      0 NEAR
+│     
+├  Your transaction was signed successfully.
+│    Public key: ed25519:454aDeGXb1XDHWKwZTgFS5w75hmdQVyBW1PMn7XAWW8X
+│    Signature:  ed25519:4uHRdBEC8FXdD53e4eUuR3m8Ci3ZMzk51i7iHqmFRSKwP1iYh7nb6Kdcw8cjZUqptgSK2WPPpcmxzMcPjzfaEN9m
+│     
+├  Transaction Execution Info:
+│    Gas used: 8.8 Tgas
+│    Transaction fee: 0.000855385294005 NEAR
+│    Transaction ID: CcSPErHvVAZZjFfqjcKi4m1m4tYZ1jHkDbBtFEPUXCEE
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/CcSPErHvVAZZjFfqjcKi4m1m4tYZ1jHkDbBtFEPUXCEE
+│     
+├  Function execution logs:
+│    Logs [orchard.encroe.testnet]:   No logs
+│    Logs [encore-pub-6b4dad.testnet]:   No logs
+│     
+├  Function execution return value:
+│    Empty return value
+│     
+
+
+The "commit" call to <orchard.encroe.testnet> on behalf of <encore-pub-6b4dad.testnet> succeeded.
+
+
+
+
+Here is your console command if you need to script it or re-run:
+    /Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near contract call-function as-transaction orchard.encroe.testnet commit json-args '{"commitment": {"game": "orchard", "epoch": 1, "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj", "app_id": "6ab33e7691b8e64a40075e948a7e3f161393fd3097cd7ec1090288717fba15b8", "pkg_sha256": "aa5d59b2f86b2ada2c21de7dafa2f4472a7fb798bd665067d2eb0815c871e37d", "root": "8f93a3c3bac6626e544be7897ef58ed854a40d61fe9c9a20e9bf373d859c71b7", "core_sha256": "91665f535afb63e4f9c86a5cd33eefde9eac9550e416a679457ac73068cd0e0f", "players": 8, "sealed_u": "b60951cd41fd7a303cb81b5760efc712561026425fbe0fefa98a3988ed7af5b70fb96d86b49d0f987d90b89c0da3088906791bd2ec03915b7c07b37d9fa382de2cad426a67ed5397837ebfe324254756b975e455b84a4f76a8e2496f46e7d29e", "sealed_v": "918911e6ca586447541c697e99a0820f0ed1acbbf34df7ffeba91768ce05657f"}}' prepaid-gas '50.0 Tgas' attached-deposit '0 NEAR' sign-as encore-pub-6b4dad.testnet network-config testnet sign-with-legacy-keychain send
+

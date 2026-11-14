@@ -1,6 +1,7 @@
 "use client";
 
 import type { NearConnector } from "@hot-labs/near-connect";
+import { RPCS } from "@/lib/game/near";
 import wallets from "@/lib/wallet/wallets.json";
 
 /** One NEAR transaction as NEAR Connect takes it. */
@@ -15,10 +16,8 @@ export interface Tx {
 /**
  * The NEAR wallet, through NEAR Connect (the connector NEAR's docs recommend). Wallets run in sandboxed
  * iframes; the list is pinned to the four that support testnet (wallets.json, from NEAR Connect's own
- * manifest), and their RPC is FastNEAR's. The page's account is a tiny external store for React. (Ported from Klear.)
+ * manifest), and they read NEAR through the site's RPCs, FastNEAR's first. The page's account is a tiny external store for React. (Ported from Klear.)
  */
-
-export const NEAR_RPC_TESTNET = "https://test.rpc.fastnear.com";
 
 let connector: NearConnector | null = null;
 let account: string | null = null;
@@ -36,7 +35,7 @@ async function get(nonce?: string): Promise<NearConnector> {
     manifest: structuredClone(wallets) as never,
     features: { testnet: true, signAndSendTransaction: true },
     autoConnect: false,
-    providers: { testnet: [NEAR_RPC_TESTNET] },
+    providers: { testnet: RPCS },
     cspNonce: nonce,
     footerBranding: null,
   });

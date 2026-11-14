@@ -39,9 +39,24 @@ curl -s https://test.rpc.fastnear.com -H 'content-type: application/json' -d '{"
 shasum -a 256 web/public/core/embergate.wasm   # 49ff0c57…, the core_sha256 in epoch-1/commitment.json
 ```
 
-## What it does not show yet
+## The studio goes silent, a stranger releases it, the world opens (2026-11-14)
 
-- A public deployment: the game ran on our machine. The hosted game (Vercel, its world in Upstash Redis) seals the
-  same way, with `ENCROE_GAME_URL` pointed at it.
-- The release of this world and its restoration in a browser: the next step. The grace period is 6 hours, so after
-  our last heartbeat anyone may release it.
+We stopped the heartbeat. Six hours later `scripts/testnet/escrow.sh watch`, running as an unrelated account, saw
+the release condition met and called `release`; NEAR's MPC network answered, and the released key opened the sealed
+world with every committed hash checked.
+
+| Step | Transaction | Result |
+|---|---|---|
+| A stranger releases it (`encore-stranger-6b4dad.testnet`) | [`3ujuvHYJ…`](https://testnet.nearblocks.io/txns/3ujuvHYJxuknoWzrbB7XXxveH7TZhpPiTxS2oKCDqDBz) | phase `released` |
+| The release is NEAR's MPC network's, for this contract | | app id matches, pairing holds ([check](11-release-check.json)) |
+| The released key opens the package | | package, core and root match the commitment; 5 players ([open](12-open.json)) |
+
+The browser does the same from public data: [/revive](https://encroe.vercel.app/revive) with
+`encroe-ember-3924.testnet`.
+
+## What it does not show
+
+- A public deployment: this world ran on our machine. The hosted world is sealed the same way by the studio
+  workflow, into [`encroe-embergate`](../embergate/README.md).
+- A real studio's disappearance: we stopped the heartbeat ourselves, the only way to show a studio going silent on
+  demand.

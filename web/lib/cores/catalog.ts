@@ -23,6 +23,8 @@ export type CoreMove = {
 };
 
 const MATCH_RESULT = ["lost", "drew", "won"];
+const STARHAUL_CARGO: Record<number, string> = { 3: "ore", 4: "ice", 5: "alloy" };
+const ORCHARD_PRODUCE: Record<number, string> = { 3: "apples", 4: "pears", 5: "honey" };
 
 const MATCHDAY_CARDS = [
   "J. Okafor · GK",
@@ -187,6 +189,164 @@ export const CATALOGS: Record<string, Catalog> = {
         ],
       },
       { name: "sell", label: "Sell back at half", args: [{ kind: "owned", from: 20 }] },
+    ],
+  },
+  f8a50a172e7da0c34c64c08443194d9e737da720749d31b775ada99ad64c463e: {
+    game: "Starhaul",
+    language: "Zig",
+    genre: "space freight economy",
+    items: {
+      1: "Credits",
+      2: "Fuel",
+      3: "Ore",
+      4: "Ice",
+      5: "Alloy",
+      6: "Standing",
+      20: "Skiff",
+      21: "Hauler",
+      22: "Ice cutter",
+      23: "Deep miner",
+      30: "Refinery",
+    },
+    moves: [
+      {
+        name: "mine",
+        label: "Mine a belt",
+        args: [
+          {
+            kind: "choice",
+            options: [
+              [1, "Inner belt · skiff, 1 fuel"],
+              [2, "Ice ring · ice cutter, 1 fuel"],
+              [3, "Outer belt · hauler, 2 fuel"],
+              [4, "Deep field · deep miner, 3 fuel"],
+            ],
+          },
+          { kind: "tick" },
+        ],
+        says: { words: 2, read: ([item, qty]) => `+${qty} ${STARHAUL_CARGO[item] ?? `item ${item}`}` },
+      },
+      { name: "refine", label: "Refine 3 ore + 1 ice into alloy", args: [] },
+      {
+        name: "deliver",
+        label: "Fly a contract",
+        args: [
+          {
+            kind: "choice",
+            options: [
+              [1, "6 ore to the shipyards · 40"],
+              [2, "4 ice to the colony · 45"],
+              [3, "2 alloy to the station · 180, 5 standing"],
+            ],
+          },
+          { kind: "tick" },
+        ],
+        says: {
+          words: 3,
+          read: ([credits, standing, rush]) =>
+            `${rush ? "Rush order! " : ""}+${credits} credits, +${standing} standing`,
+        },
+      },
+      {
+        name: "buy",
+        label: "Buy",
+        args: [
+          {
+            kind: "choice",
+            options: [
+              [2, "Fuel · 4"],
+              [20, "Skiff · 60"],
+              [21, "Hauler · 500"],
+              [22, "Ice cutter · 350"],
+              [23, "Deep miner · 2000"],
+              [30, "Refinery · 700"],
+            ],
+          },
+        ],
+      },
+      { name: "sell", label: "Sell back at half", args: [{ kind: "owned", from: 20 }] },
+    ],
+  },
+  "91665f535afb63e4f9c86a5cd33eefde9eac9550e416a679457ac73068cd0e0f": {
+    game: "Orchard",
+    language: "Go",
+    genre: "farm and county fair",
+    items: {
+      1: "Coins",
+      2: "Water",
+      3: "Apples",
+      4: "Pears",
+      5: "Honey",
+      6: "Cider",
+      7: "Jam",
+      8: "Ribbons",
+      20: "Beehive",
+      21: "Cider press",
+      22: "Jam kitchen",
+      23: "Pear grove",
+    },
+    moves: [
+      {
+        name: "tend",
+        label: "Tend a row",
+        args: [
+          {
+            kind: "choice",
+            options: [
+              [1, "Apple trees · 1 water"],
+              [2, "Pear grove · 1 water"],
+              [3, "Hives"],
+            ],
+          },
+          { kind: "tick" },
+        ],
+        says: { words: 2, read: ([item, qty]) => `+${qty} ${ORCHARD_PRODUCE[item] ?? `item ${item}`}` },
+      },
+      {
+        name: "make",
+        label: "Make",
+        args: [
+          {
+            kind: "choice",
+            options: [
+              [1, "Cider · 4 apples, press"],
+              [2, "Jam · 3 pears + honey, kitchen"],
+            ],
+          },
+        ],
+      },
+      {
+        name: "fair",
+        label: "Enter the county fair",
+        args: [
+          {
+            kind: "choice",
+            options: [
+              [1, "Cider · prize 60"],
+              [2, "Jam · prize 80"],
+            ],
+          },
+          { kind: "tick" },
+        ],
+        says: { words: 2, read: ([won, coins]) => (won ? `A ribbon! +${coins} coins` : "No ribbon this time") },
+      },
+      {
+        name: "buy",
+        label: "Buy",
+        args: [
+          {
+            kind: "choice",
+            options: [
+              [2, "Water · 1"],
+              [20, "Beehive · 80"],
+              [21, "Cider press · 150"],
+              [22, "Jam kitchen · 200"],
+              [23, "Pear grove · 400"],
+            ],
+          },
+        ],
+      },
+      { name: "sell", label: "Sell one", args: [{ kind: "owned", from: 3 }] },
     ],
   },
 };

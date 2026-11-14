@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased
+
+- **Seal from the browser** (`/studios/seal`): a studio seals, commits and verifies an epoch with three wallet
+  signatures; the package key leaves the tab only encrypted to OutLayer's keystore. The site's relayer puts committed
+  packages on FastFS (`/api/seal/fastfs`); a scheduled prover relays NEAR's quote check (`prove.yml`). Recorded:
+  [browser-seal](docs/results/escrow/browser-seal/README.md).
+- **Zig and Go cores:** Starhaul (Zig) and Orchard (Go, TinyGo), sealed into factory escrows and verified green
+  ([engines](docs/results/escrow/engines/README.md)); reproducible builds in `scripts/build/cores.sh`.
+- **Starhaul in 3D:** a live three.js sector on `/play/starhaul`; click a belt to mine it, and every pilot's ship
+  flies where the core says they worked.
+- **Faster and sturdier:** NEAR reads fall back across three public RPCs and share a short cache; the home page
+  streams; game polling pauses in hidden tabs; game cores are cached.
+- **Records:** ember-3924 released by a watcher and opened; Embergate's public world at epoch 4, sealed on CI.
+- **Fixes:** the Rust CI job builds the game core before the verifier's tests; transactions sign over a final block.
+
 ## v0.1.0
 
 The first release: [docs/releases/v0.1.0.md](docs/releases/v0.1.0.md).

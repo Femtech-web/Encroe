@@ -9,9 +9,9 @@ Everything below runs on NEAR testnet with real transactions. Nothing is mocked;
 
 ## Five minutes on the site: [encroe.vercel.app](https://encroe.vercel.app)
 
-1. **Play.** Open `/play`, enter a name. Your browser makes an ed25519 key; every move you make is signed with it.
-   Gather from the six nodes, forge a Lantern. Every rule runs in one wasm core, the same bytes the studio seals
-   (its sha256 is printed under the live feed).
+1. **Play.** Open `/play` and pick one of five games in five languages. Try **Starhaul** (Zig): a 3D sector where
+   you click an asteroid belt to mine it. Your browser makes an ed25519 key and signs every move; every rule runs in
+   the game's sealed wasm core, the same bytes its escrow committed (the sha256 is in the banner).
 2. **Check the vault.** On `/play`, press **Check** under "Is my stuff in the vault?". If you joined before the
    studio's last seal, your browser fetches your proof (salt and Merkle path) and checks it against the root it reads
    **from NEAR itself**, not from us. If you joined after, it says so.
@@ -91,6 +91,10 @@ cd web && npm ci && npm test   # the browser code, against real released data fr
 | Anyone releases a silent studio; the game comes back in a browser and play goes on | [kill-827e](docs/results/escrow/kill-827e/README.md) |
 | A visitor does it from the site, with no wallet | [kill-beaa](docs/results/escrow/kill-beaa/README.md) |
 | The escrow works for any language: Rust, C++ and C cores all pass the same pinned verifier and come back in a browser | [cores](docs/results/escrow/cores/README.md); `web/lib/cores/cores.test.ts` |
+| Zig and Go too: two more games, sealed into factory escrows, verified green; each rebuilds byte for byte | [engines](docs/results/escrow/engines/README.md) |
+| A studio can seal from its browser alone: the page's own code sealed a world, and the enclave and NEAR accepted it | [browser-seal](docs/results/escrow/browser-seal/README.md); `web/lib/encroe/seal.test.ts` (opened by the Rust tools) |
+| A live world stays sealed with nobody at the keyboard: a GitHub workflow heartbeats and seals it every six hours | [embergate](docs/results/escrow/embergate/README.md) (epoch 4, green) |
+| A silent studio's world is released by a watcher and opened, every hash matching | [ember-3924](docs/results/escrow/ember-3924/README.md) |
 | The browser code matches the Rust tools | `web/lib/encroe/release.test.ts`, `web/lib/game/proof.test.ts`: real released epochs and on-chain roots |
 
 ## Where to look in the code
@@ -101,7 +105,9 @@ cd web && npm ci && npm test   # the browser code, against real released data fr
 | The verifier the enclave runs (pinned by hash `9c0eb2e7…`) | [`crates/encore-verifier`](crates/encore-verifier) |
 | Sealing: CKD identity, IBE, AES-GCM package, salted player leaves | [`crates/encore-crypto`](crates/encore-crypto), [`crates/encore-cli`](crates/encore-cli) |
 | The game's server core (every rule of Embergate) | [`crates/embergate-core/src/lib.rs`](crates/embergate-core/src/lib.rs) |
-| The same interface in C++ and C, and what any game must export | [`cores/`](cores/README.md) |
+| The same interface in C++, C, Zig and Go, and what any game must export | [`cores/`](cores/README.md) |
+| Sealing in the browser, and its routes | [`web/lib/encroe/seal.ts`](web/lib/encroe/seal.ts), [`web/app/api/seal`](web/app/api/seal) |
+| Starhaul's 3D sector (it shows; the core decides) | [`web/components/play/StarhaulScene.tsx`](web/components/play/StarhaulScene.tsx) |
 | The game server: signed moves into the core | [`web/lib/game/world.ts`](web/lib/game/world.ts), [`web/app/api/move`](web/app/api/move/route.ts) |
 | Reviving in the browser | [`web/lib/encroe/release.ts`](web/lib/encroe/release.ts), [`web/lib/encroe/revive.ts`](web/lib/encroe/revive.ts) |
 | The studio's side, scripted | [`scripts/studio/bot.sh`](scripts/studio/bot.sh), [`scripts/testnet/escrow.sh`](scripts/testnet/escrow.sh) |
@@ -111,8 +117,12 @@ cd web && npm ci && npm test   # the browser code, against real released data fr
 - **Testnet only.** No mainnet transaction was sent.
 - **Simulated silence.** In every recorded release we stop the studio's heartbeat ourselves; that is the only way to
   show a studio disappearing on demand. The contract cannot tell the difference, which is the point.
-- **Scripted players.** The sealed worlds hold one player played by hand and four scripted through the same signed API.
+- **Scripted players.** Some sealed worlds hold scripted test players (every move made by the core itself); each
+  write-up says which. Neon City's browser-sealed epoch holds our own dev-server players.
+- **One stranded epoch each** in `encroe-embergate` (epoch 2) and `neon-city.encroe` (epoch 1): committed, never
+  verifiable. Both causes are fixed and written up; epochs only move forward, so nothing was rewritten.
 - **The enclave is OutLayer's.** Its operator keys are not trusted: a run counts only after NEAR's own DCAP verifier
   accepts the quote bound to that exact run.
 - **Limits.** A world holds 64 players (the snapshot and the enclave's checks are sized for it). A revived world runs
-  in each player's browser; shared hosting after a release, and paying hosts on proof, are not built.
+  in each player's browser; shared hosting after a release, and paying hosts on proof, are not built. Unity's C# is not
+  among the languages yet.

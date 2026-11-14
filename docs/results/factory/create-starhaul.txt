@@ -1,0 +1,47 @@
+├  Unsigned transaction:
+│    signer_id:    encore-pub-6b4dad.testnet
+│    receiver_id:  encroe.testnet
+│    actions:
+│       -- function call:      
+│                       method name:  create_escrow
+│                       args:         {
+│                                       "game": "Starhaul",
+│                                       "grace_s": 1209600,
+│                                       "name": "starhaul",
+│                                       "owner": "encore-pub-6b4dad.testnet"
+│                                     }
+│                       gas:          300.0 Tgas
+│                       deposit:      5 NEAR
+│     
+├  Your transaction was signed successfully.
+│    Public key: ed25519:454aDeGXb1XDHWKwZTgFS5w75hmdQVyBW1PMn7XAWW8X
+│    Signature:  ed25519:2AfKYDr2SrWGrg4R5H7sDaFj4PCtwuF3TMPvMoLrnAGm1NcmMFcdCS4ywg4HmQck2S9M6HEyTazP23DQJxZ2MtLY
+│     
+├  Transaction Execution Info:
+│    Gas used: 42.7 Tgas
+│    Transaction fee: 0.0104745052137811 NEAR
+│    Transaction ID: C6XQfNJ94J5RFfF3yhRiPcGpzdXW2coV8oc7qsEpVrvT
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/C6XQfNJ94J5RFfF3yhRiPcGpzdXW2coV8oc7qsEpVrvT
+│     
+├  Function execution logs:
+│    Logs [encroe.testnet]:   No logs
+│    Logs [starhaul.encroe.testnet]:   No logs
+│    Logs [encore-pub-6b4dad.testnet]:   No logs
+│    Logs [encroe.testnet]:   No logs
+│    Logs [encore-pub-6b4dad.testnet]:   No logs
+│    Logs [encore-pub-6b4dad.testnet]:   No logs
+│     
+
+Function execution return value (printed to stdout):
+true
+
+
+The "create_escrow" call to <encroe.testnet> on behalf of <encore-pub-6b4dad.testnet> succeeded.
+
+
+
+
+Here is your console command if you need to script it or re-run:
+    /Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near contract call-function as-transaction encroe.testnet create_escrow json-args '{"name": "starhaul", "owner": "encore-pub-6b4dad.testnet", "game": "Starhaul", "grace_s": 1209600}' prepaid-gas '300.0 Tgas' attached-deposit '5 NEAR' sign-as encore-pub-6b4dad.testnet network-config testnet sign-with-legacy-keychain send
+

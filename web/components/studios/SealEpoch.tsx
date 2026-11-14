@@ -60,6 +60,8 @@ const OURS = [
   ["embergate", "Embergate (Rust)"],
   ["matchday", "Matchday (C++)"],
   ["neon-city", "Neon City (C)"],
+  ["starhaul", "Starhaul (Zig)"],
+  ["orchard", "Orchard (Go)"],
 ] as const;
 const TGAS = 10n ** 12n;
 

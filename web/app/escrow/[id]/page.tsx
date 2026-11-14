@@ -8,6 +8,7 @@ import { ReleaseAction } from "@/components/escrow/ReleaseAction";
 import { FACTORY, clock, factoryListings, human, row, view, type Origin } from "@/lib/encroe/directory";
 import { ESCROW_CODE_SHA256, accessKeys, codeSha256, isEscrowId } from "@/lib/encroe/escrows";
 import { packageUrl } from "@/lib/encroe/revive";
+import { viewCall } from "@/lib/game/near";
 import POOL from "@/lib/encroe/pool.json";
 
 type Run = {
@@ -36,7 +37,23 @@ export default async function EscrowPage({ params }: { params: Promise<{ id: str
     accessKeys(id),
     codeSha256(id),
   ]);
-  if (!r.state || !r.status) notFound();
+  if (!r.state || !r.status) {
+    // Only NEAR saying there is no such escrow is a 404; RPCs that did not answer are a moment to retry.
+    const missing = await viewCall(id, "status").then(
+      () => false,
+      (e: Error) => /UNKNOWN_ACCOUNT|does not exist|CodeDoesNotExist|MethodNotFound/i.test(e.message),
+    );
+    if (missing) notFound();
+    return (
+      <main className="mx-auto max-w-page px-5 pt-10 pb-24">
+        <h1 className="font-display text-h1 font-black">{id}</h1>
+        <p role="alert" className="mt-4 max-w-2xl text-ink-2">
+          NEAR&apos;s public RPCs did not answer just now. This page reads the escrow straight from the chain, so it has
+          nothing to show until they do; reload in a moment.
+        </p>
+      </main>
+    );
+  }
   const s = r.status;
   const st = r.state;
   const c = st.commitment;

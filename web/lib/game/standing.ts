@@ -21,5 +21,19 @@ export function standing(game: GameId, items: Items): { score: number; title: st
         title: respect >= 50 ? "Kingpin" : respect >= 20 ? "Fixer" : respect >= 5 ? "Driver" : "Newcomer",
       };
     }
+    case "starhaul": {
+      const standing = qtyOf(items, 6);
+      return {
+        score: qtyOf(items, 1) + 20 * standing + 50 * qtyOf(items, 5),
+        title: standing >= 40 ? "Admiral" : standing >= 15 ? "Captain" : standing >= 3 ? "Hauler" : "Rookie",
+      };
+    }
+    case "orchard": {
+      const ribbons = qtyOf(items, 8);
+      return {
+        score: qtyOf(items, 1) + 100 * ribbons,
+        title: ribbons >= 10 ? "Champion" : ribbons >= 3 ? "Prizewinner" : ribbons ? "Ribboned" : "Farmhand",
+      };
+    }
   }
 }

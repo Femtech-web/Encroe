@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense, cache } from "react";
 import { Heartbeat } from "@/components/home/Heartbeat";
 import { NearStack } from "@/components/home/NearStack";
 import { Roadmap } from "@/components/home/Roadmap";
@@ -48,16 +49,14 @@ const BADGE: Record<EscrowStatus["badge"], string> = {
   red: "text-flare",
 };
 
-export default async function Home() {
-  const [escrows, target, world, cores] = await Promise.all([
-    liveEscrows(),
-    killTarget(),
-    readWorld().catch(() => null),
-    Promise.all(CORE_RUNS.map((c) => viewStatus(c.escrow).catch(() => null))),
-  ]);
-  const killHref = target ? `/revive?escrow=${target.escrow}` : "/revive";
-  const released = escrows.filter((e) => e.status?.phase === "released").length;
+// The page goes out at once; each section that reads NEAR streams in when its reads land. Each read is made once per
+// request, however many sections show it.
+const escrowsNow = cache(liveEscrows);
+const targetNow = cache(killTarget);
+const worldNow = cache(() => readWorld().catch(() => null));
+const coresNow = cache(() => Promise.all(CORE_RUNS.map((c) => viewStatus(c.escrow).catch(() => null))));
 
+export default function Home() {
   return (
     <main>
       <section className="mx-auto max-w-page px-5 pt-10 pb-6 sm:pt-16">
@@ -81,12 +80,9 @@ export default async function Home() {
           >
             Play a game
           </Link>
-          <Link
-            href={killHref}
-            className="rounded-md border-2 border-flare px-7 py-4 font-display font-bold tracking-wide text-flare uppercase transition hover:bg-flare hover:text-void"
-          >
-            Kill a studio →
-          </Link>
+          <Suspense fallback={<KillLink href="/revive" />}>
+            <KillLinkNow />
+          </Suspense>
         </div>
       </section>
 
@@ -95,20 +91,9 @@ export default async function Home() {
       </div>
 
       <section aria-label="Live on NEAR testnet" className="mx-auto max-w-page px-5">
-        <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-4">
-          <Stat
-            label="escrows on this page, all locked"
-            value={`${escrows.filter((e) => e.keys === 0).length}/${escrows.length}`}
-            note="0 access keys each"
-          />
-          <Stat label="released by strangers" value={String(released)} note="a stranger's or a visitor's click" />
-          <Stat
-            label="players in Embergate"
-            value={world ? String(world.players.length) : "–"}
-            note="max 64 per world"
-          />
-          <Stat label="mocked transactions" value="0" note="every claim links to NEAR" />
-        </dl>
+        <Suspense fallback={<LiveStats />}>
+          <LiveStatsNow />
+        </Suspense>
       </section>
 
       <section className="mx-auto mt-28 max-w-page px-5" aria-labelledby="problem">
@@ -159,7 +144,7 @@ export default async function Home() {
             tone="ember"
             href="/play"
             cta="Pick a game"
-            body="Embergate (Rust), Matchday (C++) or Neon City (C). Every move is signed by a key your browser makes, and every rule runs in the one server core the studio seals."
+            body="Five games in five languages: Embergate (Rust), Matchday (C++), Neon City (C), Starhaul in 3D (Zig) and Orchard (Go). Every move is signed by a key your browser makes, and every rule runs in the one server core the studio seals."
           />
           <Act
             n="II"
@@ -169,14 +154,9 @@ export default async function Home() {
             cta="Is my stuff in there?"
             body="Once the studio seals an epoch, ask whether your items are inside. Your browser reads the root from NEAR and checks your proof itself."
           />
-          <Act
-            n="III"
-            title="Kill the studio"
-            tone="flare"
-            href={killHref}
-            cta={target?.fresh ? "Release a silent studio" : "See a killed studio"}
-            body="A studio here has gone silent. Release its escrow: one click, a real NEAR transaction, nobody's permission. The contract checks the silence, not us."
-          />
+          <Suspense fallback={<KillAct href="/revive" fresh={false} />}>
+            <KillActNow />
+          </Suspense>
           <Act
             n="IV"
             title="Bring it back"
@@ -198,9 +178,9 @@ export default async function Home() {
           read from NEAR testnet as this page loaded. Each run, every transaction, is written up in the repository.
         </p>
         <div className="mt-8 space-y-3">
-          {escrows.map((e) => (
-            <EscrowRow key={e.id} e={e} />
-          ))}
+          <Suspense fallback={<p className="font-mono text-xs text-ink-3">Reading NEAR testnet…</p>}>
+            <EscrowRowsNow />
+          </Suspense>
         </div>
       </section>
 
@@ -211,53 +191,12 @@ export default async function Home() {
         </h2>
         <p className="mt-4 max-w-2xl text-ink-2">
           A game server compiled to WebAssembly is just bytes: the enclave runs them, the verifier judges how they
-          behave, and a browser brings them back. Three games in three languages, each sealed into its own locked
-          escrow, checked by the same pinned verifier, released and revived.
+          behave, and a browser brings them back. Five games in five languages, each sealed into its own keyless escrow
+          and checked by the same pinned verifier; three of them released and revived, two holding live worlds.
         </p>
-        <div className="mt-10 grid gap-4 lg:grid-cols-3">
-          {CORE_RUNS.map((c, i) => {
-            const s = cores[i];
-            return (
-              <article key={c.game} className="flex flex-col rounded-xl border border-line bg-panel p-6">
-                <p className="font-display text-5xl font-black text-gold">{c.language}</p>
-                <h3 className="mt-4 font-display text-h2 font-black">{c.game}</h3>
-                <p className="mt-2 flex-1 text-sm text-ink-2">{c.genre}</p>
-                <dl className="mt-5 space-y-1 font-mono text-[11px] text-ink-3">
-                  <div>
-                    <dt className="inline">built </dt>
-                    <dd className="inline text-ink-2">{c.toolchain}</dd>
-                  </div>
-                  <div>
-                    <dt className="inline">core </dt>
-                    <dd className="inline text-ink-2">{c.sha256.slice(0, 16)}…</dd>
-                  </div>
-                  <div className="truncate">
-                    <dt className="inline">escrow </dt>
-                    <dd className="inline text-ink-2">{c.escrow}</dd>
-                  </div>
-                  <div>
-                    <dt className="inline">on NEAR now </dt>
-                    <dd className={`inline ${s ? BADGE[s.badge] : ""}`}>{s ? `${s.phase} · ${s.badge}` : "unknown"}</dd>
-                  </div>
-                </dl>
-                <div className="mt-5 flex flex-wrap gap-2 text-xs">
-                  <Link
-                    href={`/revive?escrow=${c.escrow}`}
-                    className="rounded-sm bg-gold px-3 py-2 font-display font-bold tracking-wide text-void uppercase"
-                  >
-                    Bring it back
-                  </Link>
-                  <a
-                    href={`${REPO}/blob/main/${c.source}`}
-                    className="rounded-sm border border-line px-3 py-2 text-ink-2 hover:border-gold hover:text-gold"
-                  >
-                    The {c.language} source
-                  </a>
-                </div>
-              </article>
-            );
-          })}
-        </div>
+        <Suspense fallback={<EngineCards />}>
+          <EngineCardsNow />
+        </Suspense>
       </section>
 
       <NearStack />
@@ -417,4 +356,128 @@ function Door({ href, tone, title, body }: { href: string; tone: string; title: 
       <p className="mt-3 text-sm text-ink-2">{body}</p>
     </Link>
   );
+}
+
+function KillLink({ href }: { href: string }) {
+  return (
+    <Link
+      href={href}
+      className="rounded-md border-2 border-flare px-7 py-4 font-display font-bold tracking-wide text-flare uppercase transition hover:bg-flare hover:text-void"
+    >
+      Kill a studio →
+    </Link>
+  );
+}
+
+async function KillLinkNow() {
+  const target = await targetNow();
+  return <KillLink href={target ? `/revive?escrow=${target.escrow}` : "/revive"} />;
+}
+
+function KillAct({ href, fresh }: { href: string; fresh: boolean }) {
+  return (
+    <Act
+      n="III"
+      title="Kill the studio"
+      tone="flare"
+      href={href}
+      cta={fresh ? "Release a silent studio" : "See a killed studio"}
+      body="A studio here has gone silent. Release its escrow: one click, a real NEAR transaction, nobody's permission. The contract checks the silence, not us."
+    />
+  );
+}
+
+async function KillActNow() {
+  const target = await targetNow();
+  return <KillAct href={target ? `/revive?escrow=${target.escrow}` : "/revive"} fresh={!!target?.fresh} />;
+}
+
+/** The live numbers; "…" while NEAR is being read. */
+function LiveStats({ escrows, players }: { escrows?: Live[]; players?: number | null }) {
+  const reading = "…";
+  return (
+    <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-4">
+      <Stat
+        label="escrows on this page, all locked"
+        value={escrows ? `${escrows.filter((e) => e.keys === 0).length}/${escrows.length}` : reading}
+        note="0 access keys each"
+      />
+      <Stat
+        label="released by strangers"
+        value={escrows ? String(escrows.filter((e) => e.status?.phase === "released").length) : reading}
+        note="a stranger's or a visitor's click"
+      />
+      <Stat
+        label="players in Embergate"
+        value={players === undefined ? reading : players === null ? "–" : String(players)}
+        note="max 64 per world"
+      />
+      <Stat label="mocked transactions" value="0" note="every claim links to NEAR" />
+    </dl>
+  );
+}
+
+async function LiveStatsNow() {
+  const [escrows, world] = await Promise.all([escrowsNow(), worldNow()]);
+  return <LiveStats escrows={escrows} players={world ? world.players.length : null} />;
+}
+
+async function EscrowRowsNow() {
+  return (await escrowsNow()).map((e) => <EscrowRow key={e.id} e={e} />);
+}
+
+/** One card per language; `cores` is each escrow's status, or undefined while NEAR is being read. */
+function EngineCards({ cores }: { cores?: (EscrowStatus | null)[] }) {
+  return (
+    <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {CORE_RUNS.map((c, i) => {
+        const s = cores?.[i];
+        return (
+          <article key={c.game} className="flex flex-col rounded-xl border border-line bg-panel p-6">
+            <p className="font-display text-5xl font-black text-gold">{c.language}</p>
+            <h3 className="mt-4 font-display text-h2 font-black">{c.game}</h3>
+            <p className="mt-2 flex-1 text-sm text-ink-2">{c.genre}</p>
+            <dl className="mt-5 space-y-1 font-mono text-[11px] text-ink-3">
+              <div>
+                <dt className="inline">built </dt>
+                <dd className="inline text-ink-2">{c.toolchain}</dd>
+              </div>
+              <div>
+                <dt className="inline">core </dt>
+                <dd className="inline text-ink-2">{c.sha256.slice(0, 16)}…</dd>
+              </div>
+              <div className="truncate">
+                <dt className="inline">escrow </dt>
+                <dd className="inline text-ink-2">{c.escrow}</dd>
+              </div>
+              <div>
+                <dt className="inline">on NEAR now </dt>
+                <dd className={`inline ${s ? BADGE[s.badge] : ""}`}>
+                  {s ? `${s.phase} · ${s.badge}` : cores ? "unknown" : "reading…"}
+                </dd>
+              </div>
+            </dl>
+            <div className="mt-5 flex flex-wrap gap-2 text-xs">
+              <Link
+                href={s?.phase === "released" ? `/revive?escrow=${c.escrow}` : c.play}
+                className="rounded-sm bg-gold px-3 py-2 font-display font-bold tracking-wide text-void uppercase"
+              >
+                {s?.phase === "released" ? "Bring it back" : "Play it live"}
+              </Link>
+              <a
+                href={`${REPO}/blob/main/${c.source}`}
+                className="rounded-sm border border-line px-3 py-2 text-ink-2 hover:border-gold hover:text-gold"
+              >
+                The {c.language} source
+              </a>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  );
+}
+
+async function EngineCardsNow() {
+  return <EngineCards cores={await coresNow()} />;
 }

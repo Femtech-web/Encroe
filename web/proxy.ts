@@ -1,9 +1,9 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { RPC } from "@/lib/game/near";
+import { RPCS } from "@/lib/game/near";
 
 /**
- * A strict Content-Security-Policy with a fresh nonce per request. The browser talks to this site, to one NEAR
- * RPC and to FastFS (sealed packages on NEAR), which it reads directly so its checks never rest on our word. WebAssembly is allowed because the
+ * A strict Content-Security-Policy with a fresh nonce per request. The browser talks to this site, to NEAR's public
+ * RPCs and to FastFS (sealed packages on NEAR), which it reads directly so its checks never rest on our word. WebAssembly is allowed because the
  * browser runs the sealed game core itself after a release.
  */
 /** Pages where a studio connects a NEAR wallet: NEAR Connect runs the wallet's code in a sandboxed iframe that
@@ -30,7 +30,7 @@ export function proxy(request: NextRequest) {
     "style-src 'self' 'unsafe-inline'",
     `img-src 'self' data: blob:${wallet ? " https://raw.githubusercontent.com https://storage.herewallet.app" : ""}`,
     "font-src 'self'",
-    `connect-src 'self' ${RPC} https://test.fastfs.io${wallet ? " " + WALLET_HOSTS.join(" ") : ""}${dev ? " ws: http://127.0.0.1:* http://localhost:*" : ""}`,
+    `connect-src 'self' ${RPCS.join(" ")} https://test.fastfs.io${wallet ? " " + WALLET_HOSTS.join(" ") : ""}${dev ? " ws: http://127.0.0.1:* http://localhost:*" : ""}`,
     wallet ? "frame-src 'self' https://wallet.intear.tech" : "frame-src 'none'",
     "object-src 'none'",
     "base-uri 'self'",

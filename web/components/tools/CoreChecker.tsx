@@ -8,6 +8,8 @@ const OURS = [
   ["embergate.wasm", "Embergate · Rust"],
   ["matchday.wasm", "Matchday · C++"],
   ["neon-city.wasm", "Neon City · C"],
+  ["starhaul.wasm", "Starhaul · Zig"],
+  ["orchard.wasm", "Orchard · Go"],
 ];
 
 /** Your compiled core, checked in your browser against what the enclave will check. Nothing is uploaded. */

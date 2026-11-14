@@ -1,0 +1,7 @@
+silent at 2026-11-14T06:33:14Z
+{"at": 1794638006, "step": "10-release-1794637994", "tx": "3ujuvHYJxuknoWzrbB7XXxveH7TZhpPiTxS2oKCDqDBz", "refused": null, "request_id": null}
+phase released | badge green | epoch 1 | proven run 0 | release condition met True
+  run 0 epoch 1 | output_ok True | t1 UpToDate | accepted True
+{"app_id_matches_predecessor_and_path":true,"pairing_e_sig_g2_eq_e_Q_pk":true,"sig_hex":"9485dacf80e03f3085ab8b64ca4cf5191bb2b06ffb70662e60cbeb86b2ae8452d5083b9f05eb027ba371070b5f9d74a0","sig_near":"bls12381g1:6SzhwmX6KosXH9CLiZMw9eAz4zsAWzJpwq8LtyQWtwEa32XDD3ci1kfCuZkXYnacwZ"}
+{"core_sha256_matches":true,"epoch":1,"game":"ember-3924","pkg_sha256_matches":true,"players":5,"recovered_key_sha256":"436c84e2e9f6517d69614e15058cc7ba436e2ee24260ca5a4b1c0215d046a222","root_matches":true}
+scripts/testnet/escrow.sh: line 213: silent at 2026-11-14T06:33:31Z: command not found

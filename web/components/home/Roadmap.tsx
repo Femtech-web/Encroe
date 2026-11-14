@@ -9,8 +9,8 @@ const NEXT = [
     body: "A player's sealed items can follow them out of the game. With NEAR Chain Signatures, the escrow itself signs a transfer on Ethereum or Solana, so a Phoenix relic becomes a token its owner holds anywhere.",
   },
   {
-    title: "Every engine",
-    body: "Rust, C++ and C cores are sealed today. Unity's C# (NativeAOT to WebAssembly), Go (TinyGo) and Zig follow the same interface: no imports, the shared exports.",
+    title: "Unity's C#",
+    body: "Rust, C++, C, Zig and Go cores are sealed and verified today. Unity's C# comes next, through NativeAOT to WebAssembly, on the same interface: no imports, the shared exports.",
   },
   {
     title: "Mainnet, and bigger worlds",

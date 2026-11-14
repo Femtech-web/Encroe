@@ -7,3 +7,4 @@
 {"at": 1794607967, "step": "07-verify-1-1794607872", "tx": "HYt9nrCfAtGe7S8BdaoH22qyZQfS9SMR7geit9BAyk9X", "refused": null, "request_id": 41103}
 {"at": 1794607981, "step": "08-prove-41103-run0", "tx": "DnuNFHa6q4wDcNv8BuNvubqS88NBgK6sQTirDaAUyZuk", "refused": null, "request_id": 41103}
 {"at": 1794608700, "step": "05-package-1", "tx": "DQwPi8QMnn9BK97vw22REucfRaZdncapzEdJhPqgmSYp", "refused": null, "request_id": null}
+{"at": 1794638006, "step": "10-release-1794637994", "tx": "3ujuvHYJxuknoWzrbB7XXxveH7TZhpPiTxS2oKCDqDBz", "refused": null, "request_id": null}

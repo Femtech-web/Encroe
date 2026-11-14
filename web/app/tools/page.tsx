@@ -32,6 +32,22 @@ zig c++ -target wasm32-freestanding -O2 -g0 -nostdlib -std=c++20 \\
     code: `zig cc -target wasm32-freestanding -O2 -g0 -nostdlib -std=c11 \\
   -Wl,--no-entry -Wl,--strip-all -o core.wasm core.c`,
   },
+  {
+    lang: "Zig",
+    example: "cores/starhaul/starhaul.zig",
+    code: `# export exactly the interface and your moves
+zig build-exe core.zig -target wasm32-freestanding -fno-entry -O ReleaseSmall -fstrip \\
+  --export=input_ptr --export=output_ptr --export=load --export=get_state --export=trade \\
+  --export=player_count --export=get_key --export=join ... -femit-bin=core.wasm`,
+  },
+  {
+    lang: "Go",
+    example: "cores/orchard/main.go",
+    code: `# TinyGo, with //export (not //go:wasmexport: the enclave calls no _initialize)
+tinygo build -target=wasm-unknown -gc=none -scheduler=none -panic=trap \\
+  -opt=z -no-debug -o core.wasm .
+# then keep only your exports: scripts/build/keep-exports.mjs`,
+  },
 ];
 
 export default function ToolsPage() {

@@ -1,0 +1,24 @@
+[package]
+name = "encroe-items"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Encroe's handover: a released game's items, claimed by their owners as tokens on other chains through NEAR Chain Signatures"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+near-sdk = "5.17"
+hex = "0.4"
+
+[dev-dependencies]
+near-sdk = { version = "5.17", features = ["unit-testing"] }
+
+[profile.release]
+codegen-units = 1
+opt-level = "z"
+lto = true
+debug = false
+panic = "abort"
+overflow-checks = true

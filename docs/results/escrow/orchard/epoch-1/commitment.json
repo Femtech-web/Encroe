@@ -1,0 +1,18 @@
+{
+  "v": 1,
+  "game": "orchard",
+  "epoch": 1,
+  "predecessor": "orchard.encroe.testnet",
+  "path": "encroe/orchard/1",
+  "domain_id": 2,
+  "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj",
+  "app_id": "6ab33e7691b8e64a40075e948a7e3f161393fd3097cd7ec1090288717fba15b8",
+  "sealed_key": {
+    "u": "b60951cd41fd7a303cb81b5760efc712561026425fbe0fefa98a3988ed7af5b70fb96d86b49d0f987d90b89c0da3088906791bd2ec03915b7c07b37d9fa382de2cad426a67ed5397837ebfe324254756b975e455b84a4f76a8e2496f46e7d29e",
+    "v": "918911e6ca586447541c697e99a0820f0ed1acbbf34df7ffeba91768ce05657f"
+  },
+  "pkg_sha256": "aa5d59b2f86b2ada2c21de7dafa2f4472a7fb798bd665067d2eb0815c871e37d",
+  "root": "8f93a3c3bac6626e544be7897ef58ed854a40d61fe9c9a20e9bf373d859c71b7",
+  "core_sha256": "91665f535afb63e4f9c86a5cd33eefde9eac9550e416a679457ac73068cd0e0f",
+  "players": 8
+}

@@ -1,4 +1,4 @@
-import { RPC } from "../game/near";
+import { viewCall } from "../game/near";
 import { merkleRoot, playerLeaf } from "../game/proof";
 import {
   appId,
@@ -61,27 +61,8 @@ export const packageUrls = (owner: string, escrow: string, pkgSha256: string) =>
   packageUrl(RELAYER, escrow, pkgSha256),
 ];
 
-export async function viewState(escrow: string, rpc = RPC): Promise<EscrowState> {
-  const res = await fetch(rpc, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({
-      jsonrpc: "2.0",
-      id: 1,
-      method: "query",
-      params: {
-        request_type: "call_function",
-        finality: "final",
-        account_id: escrow,
-        method_name: "get_state",
-        args_base64: "e30=",
-      },
-    }),
-    cache: "no-store",
-  });
-  const body = (await res.json()) as { result?: { result: number[] }; error?: { message?: string } };
-  if (!body.result) throw new Error(`${escrow}: ${body.error?.message ?? `HTTP ${res.status}`}`);
-  return JSON.parse(new TextDecoder().decode(new Uint8Array(body.result.result))) as EscrowState;
+export function viewState(escrow: string, rpc?: string): Promise<EscrowState> {
+  return viewCall<EscrowState>(escrow, "get_state", {}, rpc);
 }
 
 export type Sources = {

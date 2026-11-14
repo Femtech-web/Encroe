@@ -1,4 +1,4 @@
-import { RPC, viewCall } from "../game/near";
+import { rpcCall, viewCall } from "../game/near";
 import { storeArgs } from "./outlayer";
 
 /**
@@ -40,19 +40,9 @@ export function requestIdOf(outcome: unknown): number | null {
 }
 
 /** The same, from the chain, for a wallet that returned only the hash (once the run is done, so is the transaction). */
-export async function requestIdFromTx(hash: string, sender: string, rpc = RPC): Promise<number | null> {
-  const res = await fetch(rpc, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({
-      jsonrpc: "2.0",
-      id: 1,
-      method: "tx",
-      params: { tx_hash: hash, sender_account_id: sender, wait_until: "EXECUTED_OPTIMISTIC" },
-    }),
-    cache: "no-store",
-  });
-  return requestIdOf(((await res.json()) as { result?: unknown }).result);
+export async function requestIdFromTx(hash: string, sender: string): Promise<number | null> {
+  const body = await rpcCall("tx", { tx_hash: hash, sender_account_id: sender, wait_until: "EXECUTED_OPTIMISTIC" });
+  return requestIdOf(body.result);
 }
 
 export const near = (yocto: bigint) => `${(Number(yocto / 10n ** 18n) / 1e6).toFixed(4)} NEAR`;
