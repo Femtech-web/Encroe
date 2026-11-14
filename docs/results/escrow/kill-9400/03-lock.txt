@@ -1,0 +1,28 @@
+├  Unsigned transaction:
+│    signer_id:    encroe-kill-9400.testnet
+│    receiver_id:  encroe-kill-9400.testnet
+│    actions:
+│       -- delete access key:  
+│                       public key:   ed25519:4esM8D5eg548a792ERR7CCzCPaar4gU6TnKtmbo29ags
+│     
+├  Your transaction was signed successfully.
+│    Public key: ed25519:4esM8D5eg548a792ERR7CCzCPaar4gU6TnKtmbo29ags
+│    Signature:  ed25519:3Pmea8gDFcqoTevcSzAaGFR8Cy15Nv6YDbf1F6jWupjptgNQhcjCQT2ZgxQWGd1tNK3XzT2bHQLQ9R1jnapRjQtE
+│     
+├  Transaction Execution Info:
+│    Gas used: 0.630 Tgas
+│    Transaction fee: 0.000040601225 NEAR
+│    Transaction ID: 94wDdFPYxVPW5P8tak1mRQpM1NHX7DKmz55y7ALRc7T3
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/94wDdFPYxVPW5P8tak1mRQpM1NHX7DKmz55y7ALRc7T3
+│     
+
+
+Access key <ed25519:4esM8D5eg548a792ERR7CCzCPaar4gU6TnKtmbo29ags> for account <encroe-kill-9400.testnet> has been successfully deleted.
+
+
+
+
+Here is your console command if you need to script it or re-run:
+    /Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near account delete-keys encroe-kill-9400.testnet public-keys ed25519:4esM8D5eg548a792ERR7CCzCPaar4gU6TnKtmbo29ags network-config testnet sign-with-legacy-keychain send
+

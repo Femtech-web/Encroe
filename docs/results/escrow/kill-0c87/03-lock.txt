@@ -1,0 +1,28 @@
+├  Unsigned transaction:
+│    signer_id:    encroe-kill-0c87.testnet
+│    receiver_id:  encroe-kill-0c87.testnet
+│    actions:
+│       -- delete access key:  
+│                       public key:   ed25519:4CqJUvPtMAj68yGVZBUA3NQqPAonkLECWx3Jp2CmdKAU
+│     
+├  Your transaction was signed successfully.
+│    Public key: ed25519:4CqJUvPtMAj68yGVZBUA3NQqPAonkLECWx3Jp2CmdKAU
+│    Signature:  ed25519:5hNDzZWJJJq9xfdAxqbqGeM7QxwRWVHLRgF7r1RcHj3HtdFYdttZ8WBYKG1oTdAXmb4vG23mgr7mqVDzVYyna6CQ
+│     
+├  Transaction Execution Info:
+│    Gas used: 0.630 Tgas
+│    Transaction fee: 0.000040601225 NEAR
+│    Transaction ID: HrEtRg3zbfTN8v31iUPUmd9efPnkWVFcuPGkmWEwbnpr
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/HrEtRg3zbfTN8v31iUPUmd9efPnkWVFcuPGkmWEwbnpr
+│     
+
+
+Access key <ed25519:4CqJUvPtMAj68yGVZBUA3NQqPAonkLECWx3Jp2CmdKAU> for account <encroe-kill-0c87.testnet> has been successfully deleted.
+
+
+
+
+Here is your console command if you need to script it or re-run:
+    /Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near account delete-keys encroe-kill-0c87.testnet public-keys ed25519:4CqJUvPtMAj68yGVZBUA3NQqPAonkLECWx3Jp2CmdKAU network-config testnet sign-with-legacy-keychain send
+

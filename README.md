@@ -19,6 +19,8 @@
 ![Keyless](https://img.shields.io/badge/escrows-keyless%20·%200%20access%20keys-c6ff3d)
 ![NEAR](https://img.shields.io/badge/NEAR-MPC%20key%20derivation%20·%20Chain%20Signatures%20·%20DCAP%20verifier%20·%20FastFS-ff5a1f)
 
+**NEAR HACKATHON tracks:** Games With Real Economies · Privacy & Private AI · Open Innovation
+
 </div>
 
 ## The problem
@@ -214,7 +216,7 @@ flowchart LR
 | `matchday`, `neon-city`, `starhaul`, `orchard` `.encroe.testnet` | The public worlds' escrows, made by the factory |
 | [`encroe-embergate.testnet`](https://encroe.vercel.app/escrow/encroe-embergate.testnet) | Embergate's public world: 14-day grace, sealed every six hours |
 | `encroe-life-52e4`, `-ember-3924`, `-kill-827e`, `-kill-beaa`, `-matchday-5d60`, `-neon-city-19f9` | Recorded runs ([`docs/results/escrow`](docs/results/escrow)) |
-| `encroe-kill-5609`, `-kill-da6a`, `-kill-19d2` | Silent studios, left for visitors to release |
+| `encroe-kill-19d2`, `-kill-0c87`, `-kill-9400`, `-kill-5781` | Silent studios, sealed and verified green, left for visitors to release (`-kill-5609` was released by [an AI agent](docs/results/agent-runs/README.md), `-kill-da6a` by a visitor) |
 | `encore-pub-6b4dad.testnet`, `encore-stranger-6b4dad.testnet` | The studio, and an unrelated account that verifies, proves and releases |
 | [`encroe-items-ba9e16.testnet`](docs/results/items/README.md) | The item handover: keyless; its MPC-derived EVM signer is `0x30e6…AbbCd` |
 | [`EncroeItems` on Base Sepolia](https://sepolia.basescan.org/address/0x94365D73B3C539680622E681aEAcefeC01c8a2e1) | `0x94365D73…a2e1`: mints only claims that signer signed |
@@ -294,8 +296,34 @@ through Chain Signatures, RPC fallback and streamed pages.
 
 ## NEAR Hackathon
 
-- **The author's other entry:** [Klear](https://github.com/Femtech-web/Klear), rules for AI traders enforced on NEAR.
-  The two are independent; Klear reuses this repository's borsh types for NEAR's DCAP verifier.
+- **Tracks entered:** Games With Real Economies (`games`, primary), Privacy & Private AI (`privacy`) and Open
+  Innovation (`open`). `games`: a game's economy (every player's items, the rules that move them) that outlives its
+  studio with no dev patch, items that leave the game as tokens players own, and players who never touch a wallet or
+  see the chain. `privacy`: confidential computation (a sealed build verified inside an Intel TDX enclave without
+  anyone opening it, attested on NEAR) and players' items encrypted and salted until the release. `open`: game
+  preservation fits no other category: a key nobody holds, released by a contract on silence.
+- **NEAR, for what only it does here:** confidential key derivation used as identity-based encryption (a key that
+  exists nowhere until the contract asks), the DCAP verifier (the enclave is trusted only after NEAR checks its
+  quote), Chain Signatures (a keyless contract signs item claims for Base), contracts with no access keys and a
+  factory that never gives one, FastFS (the sealed game lives on NEAR), and NEAR Connect (studios seal from the
+  browser).
+- **Built during the hackathon:** every commit is from 2026-11-13 on, and the go/no-go experiments it grew from
+  ([GO_NO_GO.md](GO_NO_GO.md)) from 2026-11-11; the hackathon ran 2026-11-01 to 11-14.
+- **AI-assisted:** written with Claude Code. The design, the threat model and every decision on scope were reviewed
+  by the author.
+- **Libraries and tools:** near-sdk 5.17, arkworks (BLS12-381), aes-gcm, sha2/sha3 and hex (Rust); Solidity 0.8.28
+  with Foundry and forge-std; Next.js 16, React 19, Tailwind CSS 4, three.js 0.187, @noble/curves, @noble/hashes and
+  @noble/ciphers, @hot-labs/near-connect, tested with Vitest; near-cli-rs, cargo-near, OutLayer, Zig 0.17, TinyGo
+  0.44 and Binaryen for the cores.
+- **Business model (proposed, not built):** studios pay a flat fee per escrow created through the factory and the
+  enclave's cost per verification (cents); players and fans could fund a hosting pool for a revived game; a small
+  share of hosting payments would fund the network of agents that watch every escrow. Nothing is charged on testnet.
+- **The author's other entry:** [Klear](https://github.com/Femtech-web/Klear) ([live](https://klear-near.vercel.app)):
+  *let AI trade your money, without giving it the keys.* An investor's rules live in a keyless NEAR contract that is
+  the only signer of their accounts on Hyperliquid and Base, through Chain Signatures; if the AI fails, anyone can
+  bring the money home and is paid only once it arrives. The two projects are independent and were built side by
+  side: Klear reuses this repository's borsh types for NEAR's DCAP verifier, and Encroe's item token on Base Sepolia
+  was deployed and relayed from Klear's testnet relayer (disclosed in [the record](docs/results/items/README.md)).
 - **The name:** this project was called Encore until 2026-11-13. Deployed accounts, crates and recorded results keep
   that name: renaming them would change their hashes and break the on-chain records.
 

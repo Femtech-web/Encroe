@@ -194,7 +194,7 @@ export function StarhaulScene({ me, pk, board, events, last, act, busy, live, pl
     controls.enableDamping = true;
     controls.enablePan = false;
     controls.minDistance = 18;
-    controls.maxDistance = 110;
+    controls.maxDistance = 160;
     controls.maxPolarAngle = Math.PI * 0.47;
     controls.autoRotate = !reduced;
     controls.autoRotateSpeed = 0.25;
@@ -351,6 +351,10 @@ export function StarhaulScene({ me, pk, board, events, last, act, busy, live, pl
       };
     });
 
+    // Whether this pilot has joined (before that, no belt "needs" anything) and whether the frame is phone-narrow.
+    let joined = false;
+    let narrow = false;
+
     // Ships and floating words.
     const ships = new Map<string, Ship>();
     const floats: Float[] = [];
@@ -418,6 +422,7 @@ export function StarhaulScene({ me, pk, board, events, last, act, busy, live, pl
         if (s) s.flash = 1;
       },
       reach(owned) {
+        joined = owned.size > 0;
         for (const belt of belts) belt.reachable = owned.has(belt.b.ship);
       },
     };
@@ -463,12 +468,17 @@ export function StarhaulScene({ me, pk, board, events, last, act, busy, live, pl
     renderer.domElement.addEventListener("pointerup", onUp);
     renderer.domElement.addEventListener("pointerleave", onLeave);
 
+    // A portrait screen sees less of the sector across, so the camera stands back until every belt fits.
+    const BASE_DISTANCE = camera.position.length();
     const resize = () => {
       const w = host.clientWidth;
       const h = host.clientHeight;
       renderer.setSize(w, h, false);
       camera.aspect = w / Math.max(h, 1);
       camera.updateProjectionMatrix();
+      camera.position.setLength(BASE_DISTANCE * Math.max(1, 1.45 / camera.aspect));
+      controls.update();
+      narrow = w < 640;
     };
     const ro = new ResizeObserver(resize);
     ro.observe(host);
@@ -482,7 +492,10 @@ export function StarhaulScene({ me, pk, board, events, last, act, busy, live, pl
     const place = (el: HTMLElement, at: THREE.Vector3, dy = 0) => {
       screen.copy(at).project(camera);
       const behind = screen.z > 1;
-      el.style.left = `${((screen.x + 1) / 2) * host.clientWidth}px`;
+      // Labels are centred on their point; keep each one inside the frame.
+      const half = el.offsetWidth / 2 + 6;
+      const x = ((screen.x + 1) / 2) * host.clientWidth;
+      el.style.left = `${Math.min(Math.max(x, half), host.clientWidth - half)}px`;
       el.style.top = `${((1 - screen.y) / 2) * host.clientHeight + dy}px`;
       el.style.visibility = behind ? "hidden" : "visible";
     };
@@ -502,7 +515,8 @@ export function StarhaulScene({ me, pk, board, events, last, act, busy, live, pl
         belt.group.rotation.y += dt * (0.05 / (i + 1));
         const on = hovered === belt.b.n;
         belt.bandMat.opacity += ((on ? 0.12 : 0) - belt.bandMat.opacity) * Math.min(dt * 10, 1);
-        belt.label.textContent = belt.reachable ? belt.b.name : `${belt.b.name} · needs ${belt.b.needs}`;
+        belt.label.textContent =
+          belt.reachable || !joined || narrow ? belt.b.name : `${belt.b.name} · needs ${belt.b.needs}`;
         belt.label.style.borderColor = on ? "#c6ff3d" : "rgba(214,196,255,0.2)";
         belt.label.style.color = belt.reachable ? (on ? "#c6ff3d" : "#f6f0ff") : "#9d8fbb";
         belt.label.style.background = "rgba(13,8,23,0.55)";

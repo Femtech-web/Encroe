@@ -19,6 +19,7 @@ export const metadata: Metadata = {
   title: { default: "Encroe: the studio shut down. The game didn't.", template: "%s · Encroe" },
   description:
     "A studio seals its game server into a keyless NEAR contract. Anyone can check it is real; if the studio goes silent, the game goes to its players.",
+  twitter: { card: "summary_large_image" },
 };
 
 export const viewport: Viewport = { themeColor: "#07040d" };

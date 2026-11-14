@@ -1,0 +1,26 @@
+{
+  "verifier": "encore-verifier/0.1.0",
+  "mode": "secret",
+  "game": "kill-5781",
+  "epoch": 1,
+  "pkg_sha256": "deaf4a056408fd14100689430d5d7c2b76f4b4df8e1de4b08b4f5093abce00ed",
+  "sealed_key_sha256": "49afb3231e3a413bfb47d445cbffccb46692396f577d010cf466637a557f1a75",
+  "root": "27c06dcd0ee1f0a1318133c0996019acee90a9ea5868ecabe051da0289a6f94a",
+  "core_sha256": "49ff0c57f10f24b9091eae3bd218b28a642d581f698871f6b3c65b7effa9cb62",
+  "seed": "59b37dcfe8b0065d5427b09972d5fe358a8a301d4b51d6c9059757a32619b81e",
+  "checks": {
+    "app_id": true,
+    "pkg_sha256": true,
+    "key_binding": true,
+    "decrypt": true,
+    "core_sha256": true,
+    "root": true,
+    "states_served": true,
+    "conservation": true
+  },
+  "sampled": 5,
+  "trades_applied": 15,
+  "transcript_sha256": "35c062b2bdda3d23eff6945d8308b65412538e302b48455e98c53149ab75efce",
+  "pass": true,
+  "error": null
+}
