@@ -5,7 +5,7 @@ import { readWorld } from "@/lib/game/server";
 
 export const metadata: Metadata = {
   title: "Play",
-  description: "Three games, three languages, every rule in a sealed server core. Pick one and play.",
+  description: "Five games, five languages, one in 3D: every rule in a sealed server core. Pick one and play.",
 };
 
 export default async function PlayPage() {
@@ -17,8 +17,8 @@ export default async function PlayPage() {
         Pick a world. <span className="text-ember">It can&rsquo;t be switched off.</span>
       </h1>
       <p className="mt-6 max-w-2xl text-lg text-ink-2">
-        Three games in three languages. In each, every rule runs in one sealed WebAssembly core, and every move is
-        signed by a key your browser makes and keeps.
+        Five games in five languages, one of them in 3D. In each, every rule runs in one sealed WebAssembly core, and
+        every move is signed by a key your browser makes and keeps.
       </p>
       <div className="mt-12 grid gap-4 lg:grid-cols-3">
         {GAME_IDS.map((id, i) => {
@@ -29,7 +29,10 @@ export default async function PlayPage() {
               href={`/play/${id}`}
               className="group flex min-h-80 flex-col rounded-xl border border-line bg-panel p-7 transition hover:-translate-y-0.5 hover:border-line-strong"
             >
-              <p className={`font-mono text-xs tracking-[0.25em] uppercase ${g.tone}`}>{g.language}</p>
+              <p className={`font-mono text-xs tracking-[0.25em] uppercase ${g.tone}`}>
+                {g.language}
+                {id === "starhaul" && " · 3D"}
+              </p>
               <h2 className="mt-3 font-display text-4xl font-black">{g.name}</h2>
               <p className="mt-1 text-sm text-ink-3">{g.genre}</p>
               <p className="mt-4 flex-1 text-ink-2">{g.blurb}</p>

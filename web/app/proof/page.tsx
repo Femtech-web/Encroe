@@ -7,7 +7,7 @@ import { viewStatus } from "@/lib/game/near";
 export const metadata: Metadata = {
   title: "Proof",
   description:
-    "The evidence behind Encroe: every recorded run on NEAR testnet, the attacks it refuses, the three languages, and the experiments that came first.",
+    "The evidence behind Encroe: every recorded run on NEAR testnet, the attacks it refuses, the five languages, the item handover, an AI agent's run, and the experiments that came first.",
 };
 
 const doc = (p: string) => `${REPO}/blob/main/${p}`;
@@ -42,7 +42,7 @@ export default async function ProofPage() {
         something (a studio going silent, scripted players), its write-up says so.
       </p>
 
-      <div className="mt-10 grid gap-4 md:grid-cols-3">
+      <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Card
           href="/break"
           tone="text-flare"
@@ -60,6 +60,24 @@ export default async function ProofPage() {
           tone="text-ember"
           title="The agent's record"
           body="Every game it brought back, with all eight checks, every 30 minutes."
+        />
+        <Card
+          href={doc("docs/results/agent-runs/README.md")}
+          tone="text-ember"
+          title="An AI agent did it"
+          body="Claude Code, unmodified, with only our MCP server: it released a silent studio's game and brought it back, all 8 checks, in 48 s."
+        />
+        <Card
+          href={doc("docs/results/items/README.md")}
+          tone="text-gold"
+          title="Items on another chain"
+          body="A released world's items minted on Base Sepolia through NEAR Chain Signatures; forged, inflated and repeated claims refused."
+        />
+        <Card
+          href={doc("docs/attacks.md")}
+          tone="text-flare"
+          title="Every attack, and its cost"
+          body="Each way to cheat Encroe we tried, what stopped it, and where the refusal is recorded."
         />
       </div>
 

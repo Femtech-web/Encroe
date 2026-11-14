@@ -8,6 +8,13 @@ const STACK = [
     tone: "text-acid",
   },
   {
+    name: "Chain Signatures",
+    account: "encroe-items · domain 0",
+    role: "The handover",
+    body: "The same MPC network signs for a keyless contract on other chains. After a release, it signs each player's claim to their own sealed items, once, and a token contract on Base Sepolia mints exactly that.",
+    tone: "text-acid",
+  },
+  {
     name: "DCAP verifier",
     account: "tee-verifier-2026-07-22.testnet",
     role: "The proof",
@@ -20,6 +27,13 @@ const STACK = [
     role: "The rules",
     body: "An account with no keys can never change its code. The factory creates every escrow without one, so the release condition it is born with is the one it dies with.",
     tone: "text-ember",
+  },
+  {
+    name: "NEAR Connect",
+    account: "the studio's wallet",
+    role: "The studio",
+    body: "A studio creates its escrow, seals its world, heartbeats and ends service from its own wallet, in the browser. Its package key leaves the tab only encrypted to the enclave's keystore.",
+    tone: "text-gold",
   },
   {
     name: "OutLayer",
@@ -49,12 +63,13 @@ export function NearStack() {
     <section className="mx-auto mt-28 max-w-page px-5" aria-labelledby="near">
       <p className="font-mono text-xs tracking-[0.3em] text-ember uppercase">How NEAR makes this possible</p>
       <h2 id="near" className="mt-4 max-w-4xl font-display text-h1 font-black">
-        A key nobody holds, a proof nobody fakes, rules nobody changes.
+        A key nobody holds, a proof nobody fakes, rules nobody changes, items nobody locks in.
       </h2>
       <p className="mt-4 max-w-2xl text-ink-2">
-        Every piece of the promise is a NEAR primitive. Take one away and the escrow needs someone to trust again.
+        Every piece of the promise is a NEAR primitive. Take one away and the escrow needs someone to trust again. The
+        same network that releases a game signs its players&rsquo; items onto another chain.
       </p>
-      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {STACK.map((s) => (
           <article key={s.name} className="flex flex-col rounded-xl border border-line bg-panel p-6">
             <p className={`font-mono text-xs tracking-[0.25em] uppercase ${s.tone}`}>{s.role}</p>

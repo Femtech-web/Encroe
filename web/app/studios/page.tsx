@@ -20,7 +20,7 @@ const STEPS = [
   {
     n: "2",
     title: "Compile your server core",
-    body: "Your game's rules and players' state, built to WebAssembly with no imports: Rust, C++, C, or anything that targets wasm32. Then drop the .wasm into the core checker.",
+    body: "Your game's rules and players' state, built to WebAssembly with no imports: Rust, C++, C, Zig, Go, or anything that targets wasm32. Then drop the .wasm into the core checker.",
     code: "# Rust\ncargo build --release --target wasm32-unknown-unknown\n# C++ (C: zig cc, -std=c11)\nzig c++ -target wasm32-freestanding -O2 -g0 -nostdlib \\\n  -Wl,--no-entry -Wl,--strip-all -o core.wasm core.cpp",
     link: { href: "/tools#core", label: "Check your core in the browser · all build recipes" },
   },

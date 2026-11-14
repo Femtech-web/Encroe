@@ -135,9 +135,9 @@ export default function Home() {
       <section className="mx-auto mt-28 max-w-page px-5" aria-labelledby="acts">
         <p className="font-mono text-xs tracking-[0.3em] text-gold uppercase">Try it yourself</p>
         <h2 id="acts" className="mt-4 font-display text-h1 font-black">
-          Four acts. Five minutes. All real.
+          Five acts. Five minutes. All real.
         </h2>
-        <div className="mt-10 grid gap-4 md:grid-cols-2">
+        <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           <Act
             n="I"
             title="Play"
@@ -164,6 +164,14 @@ export default function Home() {
             href="/revive"
             cta="Bring a game back"
             body="Watch your browser rebuild the game from NEAR alone: eight checks, from the key's signature to every player's items. Then play on, with no server at all."
+          />
+          <Act
+            n="V"
+            title="Take your items out"
+            tone="acid"
+            href="/revive"
+            cta="Claim after a release"
+            body="A released world's items can leave the game: NEAR Chain Signatures signs your claim with a key nobody holds, and a token on Base Sepolia mints exactly what you earned, once."
           />
         </div>
       </section>

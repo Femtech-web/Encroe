@@ -95,6 +95,8 @@ cd web && npm ci && npm test   # the browser code, against real released data fr
 | A studio can seal from its browser alone: the page's own code sealed a world, and the enclave and NEAR accepted it | [browser-seal](docs/results/escrow/browser-seal/README.md); `web/lib/encroe/seal.test.ts` (opened by the Rust tools) |
 | A live world stays sealed with nobody at the keyboard: a GitHub workflow heartbeats and seals it every six hours | [embergate](docs/results/escrow/embergate/README.md) (epoch 4, green) |
 | A released world's items leave the game: minted on Base Sepolia, signed through NEAR Chain Signatures by a key nobody holds; forged, inflated, live-escrow and repeated claims refused | [items](docs/results/items/README.md); `contracts/encroe-items`, `contracts/evm` (the same digest on both sides) |
+| Any AI agent can do the preserving: Claude Code, unmodified, with only the MCP server, released a silent studio's game and brought it back, all 8 checks, in 48 s; the game was back 17.5 s after the release transaction | [agent run](docs/results/agent-runs/20261114-0843-release-and-revive/README.md), with its full transcript |
+| Every way to cheat we tried, what stopped it and what it costs; every byte format and the test holding its two implementations together | [docs/attacks.md](docs/attacks.md), [docs/crypto-spec.md](docs/crypto-spec.md) |
 | A silent studio's world is released by a watcher and opened, every hash matching | [ember-3924](docs/results/escrow/ember-3924/README.md) |
 | The browser code matches the Rust tools | `web/lib/encroe/release.test.ts`, `web/lib/game/proof.test.ts`: real released epochs and on-chain roots |
 

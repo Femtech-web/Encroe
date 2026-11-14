@@ -64,6 +64,12 @@ const CLAIMS: { claim: string; evidence: string; href: string }[] = [
   },
   {
     claim:
+      "An AI agent nobody wrote for Encroe preserves a game: Claude Code, with only the MCP server, released a silent studio's game and brought it back, all 8 checks, in 48 s",
+    evidence: "the agent run",
+    href: doc("docs/results/agent-runs/README.md"),
+  },
+  {
+    claim:
       "A released world's items leave the game: minted on Base Sepolia through NEAR Chain Signatures, signed by a key nobody holds; forged, inflated and repeated claims refused",
     evidence: "the items run",
     href: doc("docs/results/items/README.md"),
@@ -257,6 +263,10 @@ cd web && npm ci && npm test # the browser code against real released data`}</pr
           <li>
             A world holds 64 players. A revived world runs in each player&rsquo;s browser; shared hosting, paid on
             proof, is designed, not built.
+          </li>
+          <li>
+            Item claims were relayed to Base Sepolia from a testnet account of the author&rsquo;s other project
+            (Klear&rsquo;s); anyone can relay one, since the token checks the MPC signature, not the sender.
           </li>
         </ul>
         <a href={doc("JUDGES.md")} className="mt-4 inline-block text-sm text-acid underline underline-offset-4">

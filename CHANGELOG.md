@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased
+## v0.2.0
+
+Release notes: [docs/releases/v0.2.0.md](docs/releases/v0.2.0.md).
 
 - **Seal from the browser** (`/studios/seal`): a studio seals, commits and verifies an epoch with three wallet
   signatures; the package key leaves the tab only encrypted to OutLayer's keystore. The site's relayer puts committed
@@ -13,6 +15,10 @@
 - **Items handed over on another chain:** `contracts/encroe-items` (keyless, `encroe-items-ba9e16.testnet`) checks a
   player's claim against a released escrow's root and has NEAR's MPC network sign it; `EncroeItems` on Base Sepolia
   mints exactly that, once. The claim panel on `/revive`. Recorded: [items](docs/results/items/README.md).
+- **An AI agent's run:** Claude Code, unmodified, with only the MCP server, released a silent studio's game and
+  brought it back with all 8 checks in 48 s ([agent run](docs/results/agent-runs/20261114-0843-release-and-revive/README.md)).
+- **Docs and tests:** [docs/attacks.md](docs/attacks.md) (27 attacks, their defences and costs),
+  [docs/crypto-spec.md](docs/crypto-spec.md) (every format), 110 property cases over generated worlds.
 - **Faster and sturdier:** NEAR reads fall back across three public RPCs and share a short cache; the home page
   streams; game polling pauses in hidden tabs; game cores are cached.
 - **Records:** ember-3924 released by a watcher and opened; Embergate's public world at epoch 4, sealed on CI.

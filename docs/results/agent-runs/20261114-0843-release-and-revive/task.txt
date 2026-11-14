@@ -1,0 +1,4 @@
+You are a game-preservation agent on NEAR testnet. Using only the Encroe MCP tools: find a game whose studio has gone
+silent, and inspect its escrow before you act (its access keys, its code, its verification). If it checks out, release
+it, wait until it is released, then bring the game back and confirm every check. Then report what happened: which
+game, what you checked before acting, each step, and what the revived world holds.

@@ -8,7 +8,7 @@ import { REPO } from "@/lib/encroe/escrows";
 export const metadata: Metadata = {
   title: "Tools",
   description:
-    "Check your game core before you seal it, check your players file, find your items in a released game, and build recipes for Rust, C++ and C.",
+    "Check your game core before you seal it, check your players file, find your items in a released game, and build recipes for Rust, C++, C, Zig and Go.",
 };
 
 const RECIPES = [
@@ -104,7 +104,7 @@ export default function ToolsPage() {
         id="build"
         kicker="For studios"
         title="Build recipes"
-        intro="Any language that compiles to wasm32 with no imports. These are the exact commands behind the three cores we
+        intro="Any language that compiles to wasm32 with no imports. These are the exact commands behind the five cores we
         sealed; each one is a working template."
       >
         <div className="grid gap-4 lg:grid-cols-3">

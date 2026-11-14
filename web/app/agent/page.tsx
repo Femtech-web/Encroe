@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SweepButton } from "@/components/agent/SweepButton";
 import { log, reports, watchList } from "@/lib/encroe/agent";
+import { REPO } from "@/lib/encroe/escrows";
 
 export const metadata: Metadata = {
   title: "The preservation agent",
@@ -23,6 +24,17 @@ export default async function AgentPage() {
         An agent watches every escrow. When a studio goes silent past its grace period, it releases the game, which
         anyone may do. When a game is released, it brings it back from NEAR and FastFS alone, runs every check, and
         keeps the report here. It holds no key that matters and asks nobody&rsquo;s permission.
+      </p>
+      <p className="mt-3 max-w-2xl text-sm text-ink-3">
+        Any AI can do the same through this site&rsquo;s MCP server. Claude Code, unmodified and given nothing else,
+        found a silent studio, checked its escrow, released it and brought the game back with all 8 checks in 48
+        seconds.{" "}
+        <a
+          href={`${REPO}/blob/main/docs/results/agent-runs/README.md`}
+          className="text-acid underline underline-offset-4"
+        >
+          The run, with its transcript
+        </a>
       </p>
       <div className="mt-8 flex flex-wrap items-center gap-3">
         <SweepButton />

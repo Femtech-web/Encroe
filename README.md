@@ -15,7 +15,7 @@
 [![Studio](https://github.com/Femtech-web/Encroe/actions/workflows/studio.yml/badge.svg)](https://github.com/Femtech-web/Encroe/actions/workflows/studio.yml)
 [![Preserve](https://github.com/Femtech-web/Encroe/actions/workflows/preserve.yml/badge.svg)](https://github.com/Femtech-web/Encroe/actions/workflows/preserve.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-c6ff3d)](LICENSE)
-![Tests](https://img.shields.io/badge/tests-130%20passing-c6ff3d)
+![Tests](https://img.shields.io/badge/tests-240%20passing-c6ff3d)
 ![Keyless](https://img.shields.io/badge/escrows-keyless%20·%200%20access%20keys-c6ff3d)
 ![NEAR](https://img.shields.io/badge/NEAR-MPC%20key%20derivation%20·%20Chain%20Signatures%20·%20DCAP%20verifier%20·%20FastFS-ff5a1f)
 
@@ -50,6 +50,15 @@ Encroe makes that promise enforce itself, with code nobody controls.
 
 No lawyer, no escrow agent, no permission. Not even we can stop it.
 
+## The one moment
+
+A studio went silent. An AI agent nobody wrote for Encroe (Claude Code, unmodified, with only this site's MCP server)
+found it, checked its escrow had no keys, ran the published code and was verified green, and released it. **4.8
+seconds** after the release transaction, NEAR's MPC network published a key that had existed nowhere. **17.5 seconds**
+after it, the game was back from NEAR alone: the key's signature, the package's hash, the decryption, the verified
+core, all five players' items under NEAR's root, a boot with no imports. Nobody asked anyone's permission
+([the run](docs/results/agent-runs/20261114-0843-release-and-revive/README.md), with its full transcript; the silence was ours).
+
 ## See it for yourself (no account, five minutes)
 
 | Try | Where | What happens |
@@ -78,6 +87,7 @@ simulates something (a studio going silent, scripted test players), its write-up
 | Any language works | [Rust, C++, C](docs/results/escrow/cores/README.md) sealed, released and revived; [Zig and Go](docs/results/escrow/engines/README.md) sealed and verified green |
 | A released world's items leave the game, signed by a key nobody holds | [items](docs/results/items/README.md): a player's sealed items minted on Base Sepolia through NEAR Chain Signatures; a forged, an inflated, a live-escrow and a repeated claim all refused |
 | An escrow can be keyless from its first block | [factory](docs/results/factory/README.md): `encroe.testnet` creates each escrow with no access key, ever |
+| Any AI agent can preserve a game | [agent run](docs/results/agent-runs/20261114-0843-release-and-revive/README.md): Claude Code, unmodified, with only the MCP server, released a silent studio's game and brought it back, all 8 checks, in 48 s |
 | The rules hold under attack | [/break](https://encroe.vercel.app/break): six attacks, six refusals, in the contract's own words |
 
 ## Five games, five languages
@@ -124,6 +134,10 @@ game back with every check, and find a player's items in it.
 ```bash
 claude mcp add --transport http encroe https://encroe.vercel.app/api/mcp
 ```
+
+Off-the-shelf Claude Code did exactly that with nothing else: it found a silent studio, inspected its escrow, released
+it and brought the game back with all 8 checks, in 48 seconds ([the run](docs/results/agent-runs/20261114-0843-release-and-revive/README.md),
+with its task, configuration and full transcript).
 
 Our own [preservation agent](https://encroe.vercel.app/agent) uses the same tools every 30 minutes
 ([`preserve.yml`](.github/workflows/preserve.yml)). It releases any watched escrow whose studio went silent, brings
@@ -175,15 +189,20 @@ flowchart LR
 
 ## Checked and attacked
 
-- **[Properties](docs/properties.md):** fifteen guarantees, each with the test that holds it and the live run that
+- **[Properties](docs/properties.md):** twenty guarantees, each with the test that holds it and the live run that
   shows it. **[Threat model](docs/threat-model.md):** who could cheat, how, and what stops them.
   **[What you trust](docs/trust.md):** what you rely on in each part, and how to check it yourself.
-- **Attacked live:** [/break](https://encroe.vercel.app/break) sends six attacks to locked escrows. A test checks every
-  refusal it expects is written in the contract's source.
+  **[Crypto spec](docs/crypto-spec.md):** every byte committed, encrypted, signed or checked, and the test that holds
+  its two implementations together.
+- **[27 attacks, and what each costs](docs/attacks.md):** every way to cheat we tried, what stopped it, and where the
+  refusal is on record; 12 of them run live on testnet and refused. [/break](https://encroe.vercel.app/break) sends six
+  of them to locked escrows on demand, and a test checks every refusal it expects is in the contract's source.
 - **Tested:** 31 Rust tests (CKD vectors, IBE, the verifier, the escrow, the factory, the item handover, the game
-  core), 5 Solidity tests (the item token) and 94 site tests
-  (the browser's crypto against real released epochs, browser sealing against the Rust sealer, all five cores held to
-  the enclave's checks, the RPC fallback). CI runs them with a secret scan on every push.
+  core), 5 Solidity tests (the item token) and 204 site tests: the browser's crypto against real released epochs,
+  browser sealing against the Rust sealer, all five cores held to the enclave's checks, the RPC fallback, and 110
+  property cases over generated worlds (every path reaches the root and no other leaf's does; any change to an item,
+  salt, epoch or game changes it; item claims prove only their own leaf). CI runs them with a secret scan on every
+  push.
 - **Built to stay up:** the site reads NEAR through three public RPCs and falls back when one is rate-limited or down;
   pages stream, so they appear at once while live numbers load.
 
@@ -223,7 +242,7 @@ Python 3. `npm install` at the root provides `near-cli-rs` and `cargo-near`.
 npm install
 make test                        # 31 Rust and 5 Solidity tests (Foundry), plus native-vs-wasm determinism
 scripts/build/cores.sh           # the C++, C, Zig and Go cores (Zig, TinyGo and Binaryen in .tools/, sha256-checked)
-cd web && npm ci && npm test     # 94 site tests
+cd web && npm ci && npm test     # 204 site tests, 110 of them property cases
 npm run dev                      # http://localhost:3000; the worlds are kept in web/.data
 make reproduce-e1                # a third party's check of a release, from public data only
 ```
