@@ -11,3 +11,8 @@
 {"at": 1794617400, "step": "09-heartbeat-1794617394", "tx": "E1tmPT1zerXgvrtTzPDYJMWVekWEgUFRABw2GCY1XtHW", "refused": null, "request_id": null}
 {"at": 1794617405, "step": "05-commit-2", "tx": "3B8qHgCzf6YPKQg5XL6rtkkcMrbxQWEDVJrR87ZAY922", "refused": null, "request_id": null}
 {"at": 1794617410, "step": "05-package-2", "tx": "3x9y8dNU2ZoPcDonso61GpspZdkJzCCBDGC4vhaMEjA8", "refused": null, "request_id": null}
+{"at": 1794617617, "step": "06-secret-3", "tx": "CbU8mDYSxZr4FekgSQUoddBHbg5EXThx5dkQCPMAmWsQ", "refused": null, "request_id": null}
+{"at": 1794617623, "step": "05-commit-3", "tx": "9gVa9vRSGJQmkZ5hRJr4gC1bW1aCW8i7jreJ3A9hVpJ9", "refused": null, "request_id": null}
+{"at": 1794617629, "step": "05-package-3", "tx": "7uR8VWjAwgK7hSyLdTsCwcKPDK6BNXSoWucr26vKo7YD", "refused": null, "request_id": null}
+{"at": 1794617742, "step": "07-verify-3-1794617630", "tx": "JDc5mJ9ou2hcMvtDBZtEzr1fVY41smv3kC7tqjuHhjAC", "refused": null, "request_id": 41740}
+{"at": 1794617756, "step": "08-prove-41740-run1", "tx": "31caeEHJou78gmuYALTRT9EAx4mB2KQitW93JdeuJrha", "refused": null, "request_id": 41740}

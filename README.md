@@ -8,7 +8,26 @@ without opening it. If the studio goes silent, anyone can release it, and the ga
 everything they earned. No lawyer, no escrow agent, no permission, no key anyone holds.
 
 **Live: [encroe.vercel.app](https://encroe.vercel.app)**, on NEAR testnet, with a game to play, a studio to kill
-and a world to bring back. [For judges](JUDGES.md) · [the thesis](docs/thesis.md) · [evidence](docs/results/escrow)
+and a world to bring back. [For judges](JUDGES.md) · [the thesis](docs/thesis.md) · [what you trust](docs/trust.md)
+· [threat model](docs/threat-model.md) · [properties](docs/properties.md) · [evidence](docs/results/escrow)
+
+## Try it now, no account
+
+- **Kill a studio** ([encroe.vercel.app](https://encroe.vercel.app), "Kill a studio"): a studio sealed its world, got it
+  verified, and went silent. Press **Release it**: a real NEAR transaction that only its silence allows. Then watch
+  your browser bring the game back from NEAR alone and play on.
+- **Try to break it** ([/break](https://encroe.vercel.app/break)): six real attacks on live, locked escrows, each
+  refused on chain in the contract's own words.
+- **Check a game core** ([/tools](https://encroe.vercel.app/tools)): drop any compiled core and your browser runs
+  what the enclave will.
+
+## The one moment
+
+A studio disappears. Its game's escrow, a NEAR contract nobody holds a key to, notices the silence. A stranger asks
+for the release; NEAR's MPC network publishes the key that existed nowhere until then. A player's browser takes the
+sealed package from NEAR, checks it is exactly the build an Intel TDX enclave verified while the studio lived, opens
+it, finds their key among the players, and the game runs again, with their Phoenix still in their satchel. No one
+asked anyone's permission, and no one could have stopped it.
 
 ## For judges
 
@@ -30,8 +49,10 @@ our site, and every claim with its transaction, are in **[JUDGES.md](JUDGES.md)*
 |---|---|---|
 | [`/play`](https://encroe.vercel.app/play) | players | Embergate, with signed moves, and **"Is my stuff in the vault?"**: your proof checked against NEAR's root |
 | [`/studios`](https://encroe.vercel.app/studios) | studios | **Create your game's escrow from your wallet**: one call to the factory, `<name>.encroe.testnet`, keyless from birth |
+| [`/tools`](https://encroe.vercel.app/tools) | studios, players | **Check your core** before you seal it (the enclave's checks, in your browser), check your players file, build recipes, **find your items** in a released game |
 | [`/escrows`](https://encroe.vercel.app/escrows) | everyone | **The directory**: every escrow, read live from NEAR; each one's page shows its keys, code, sealed epoch, runs and what anyone may do |
 | [`/revive`](https://encroe.vercel.app/revive) | players | **Bring a released game back** in the browser, then play on: Embergate, Matchday (C++) and Neon City (C) |
+| [`/proof`](https://encroe.vercel.app/proof) | judges, skeptics | **The evidence, apart from the product**: every recorded run, the attacks, the three languages, the go/no-go experiments |
 | [`/break`](https://encroe.vercel.app/break) | skeptics | **Try to break it**: early release, fake heartbeat, fake seal, tampered build, replayed quote, double release, all refused live |
 | [`/agent`](https://encroe.vercel.app/agent) | everyone | **The preservation agent**: releases silent studios' games and brings them back on its own, every 30 minutes; its log |
 | [`/api/mcp`](https://encroe.vercel.app/api/mcp) | AI agents | **An MCP server**: `claude mcp add --transport http encroe https://encroe.vercel.app/api/mcp` |
@@ -101,6 +122,43 @@ sealed into its own locked escrow, verified by the enclave, released and revived
 The mechanism's go/no-go experiments (the MPC release, the verifier's secret gating, the TDX quote, NEAR's DCAP
 verifier) are in [GO_NO_GO.md](GO_NO_GO.md).
 
+## For studios
+
+1. **Create your escrow** at [/studios](https://encroe.vercel.app/studios), from your NEAR wallet: one call to the
+   factory, `<name>.encroe.testnet`, keyless from birth.
+2. **Compile your server core** with your own toolchain (Rust, C++, C, anything that targets wasm32 with no imports)
+   and **check it** at [/tools](https://encroe.vercel.app/tools#core) before you seal it. [The interface](cores/README.md).
+3. **Seal your live world**: `scripts/studio/bot.sh seal` exports your players, seals them with your core to NEAR's
+   MPC key, runs the pinned verifier locally, stores the epoch's key row, commits, hands every player their proof,
+   and has the enclave verify it.
+4. **Keep your heartbeat**: [`.github/workflows/studio.yml`](.github/workflows/studio.yml) sends it and re-seals your
+   world every six hours. Stop it, and after your grace period the game is your players'.
+
+## For AI agents
+
+The site is an MCP server: list escrows, inspect one, release a silent studio's game, bring a released game back with
+every check, find a player's items in it, read the agent's log.
+
+```bash
+claude mcp add --transport http encroe https://encroe.vercel.app/api/mcp
+```
+
+Our own [preservation agent](https://encroe.vercel.app/agent) uses the same engine every 30 minutes
+([`preserve.yml`](.github/workflows/preserve.yml)): it releases any watched escrow whose studio went silent and brings
+every released game back, keeping a public log.
+
+## Checked and attacked
+
+- **[Properties](docs/properties.md)**: fifteen guarantees, each with the test that holds it and the live run that
+  shows it. **[Threat model](docs/threat-model.md)**: who could cheat, how, and what stops them.
+  **[Trust](docs/trust.md)**: what you trust in each part, and how to check it yourself, including what the escrow
+  cannot know.
+- **Attacked live**: [/break](https://encroe.vercel.app/break) sends six attacks to locked escrows; a test checks every
+  refusal it expects is written in the contract's source.
+- **Tested**: 27 Rust tests (CKD vectors, IBE, the verifier, the escrow, the factory, the game core) and 61 site
+  tests, including the browser's crypto against real released epochs and all three cores held to the enclave's
+  checks. CI runs them, with a secret scan, on every push.
+
 ## NEAR, and why only NEAR
 
 | | Used for |
@@ -112,6 +170,29 @@ verifier) are in [GO_NO_GO.md](GO_NO_GO.md).
 | **OutLayer** (TDX) | Runs the pinned verifier on the sealed build; its operator keys are not trusted |
 | **Keyless from birth** (`encroe.testnet`) | The factory creates each studio's escrow as a subaccount with no access key at all, running the escrow build compiled into it |
 | **Promises and callbacks** | One release asks the MPC network and records its answer; one verify asks OutLayer and records its verdict |
+
+## Deployment (NEAR testnet)
+
+| Account | What it is |
+|---|---|
+| [`encroe-embergate.testnet`](https://encroe.vercel.app/escrow/encroe-embergate.testnet) | The site's public world: 14-day grace, sealed every six hours by the studio workflow |
+| `encroe.testnet` | The factory and directory (built and tested; deployed once testnet's faucet allows) |
+| `encroe-life-52e4`, `-ember-3924`, `-kill-827e`, `-kill-beaa`, `-matchday-5d60`, `-neon-city-19f9` | Recorded runs ([`docs/results/escrow`](docs/results/escrow)) |
+| `encroe-kill-5609`, `-kill-da6a`, `-kill-19d2` | Silent studios, left for visitors to release |
+| `encore-pub-6b4dad.testnet` | The studio (owner of our escrows) |
+| `encore-stranger-6b4dad.testnet` | An unrelated account: verification, proofs, releases in the recorded runs |
+| `encroe-relay-3778.testnet` | The site's throwaway relayer: gas for releases and attacks sent from the site |
+| `v1.signer-prod.testnet` | NEAR's MPC network (domain 2: confidential key derivation) |
+| `tee-verifier-2026-07-22.testnet` | NEAR's DCAP verifier |
+| `outlayer.testnet`, `worker.outlayer.testnet` | OutLayer (the enclave) and its registry of approved TDX images |
+
+| Build | sha256 |
+|---|---|
+| The escrow contract | `08d9174fedb6374971b076591d915423d2fab6bc7f5bb056be308178b3901fbf` |
+| The pinned verifier (wasm32-wasip2) | `9c0eb2e7a47e83c8feaa3d54780bf8848eb5ec13659d4e925b010e4faf756aad` |
+| Embergate's core (Rust) | `49ff0c57f10f24b9091eae3bd218b28a642d581f698871f6b3c65b7effa9cb62` |
+| Matchday's core (C++) | `f149751774f754b956636225c79d294494e1b5dc2c523867eeb2d5b3f96dba4a` |
+| Neon City's core (C) | `3f4a1e626aa6fc2e819aaaf5e3ee718e0e6307de87d47c895a93addb336bb3d2` |
 
 ## What is in the repository
 

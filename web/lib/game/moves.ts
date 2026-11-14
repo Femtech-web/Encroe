@@ -10,17 +10,22 @@ export type Move =
   | { kind: "gather"; node: number }
   | { kind: "forge"; recipe: number }
   | { kind: "gift"; to: string; item: number; qty: number }
+  /** Any move a game declares in its catalog, by export name; the server adds the player and any tick. */
+  | { kind: "call"; name: string; args: number[] }
   /** Not a move: asks for this player's inclusion proof. */
   | { kind: "proof" };
 
 export type SignedMove = { pk: string; nonce: number; move: Move; sig: string };
 
 export const DOMAIN = "encroe/embergate/v1";
+
+/** Each game signs under its own domain, so a move signed for one game is worthless in another. */
+export const domain = (game = "embergate") => `encroe/${game}/v1`;
 export const NAME = /^[A-Za-z0-9][A-Za-z0-9 _.-]{1,15}$/;
 const HEX32 = /^[0-9a-f]{64}$/;
 
 /** The exact text a player signs, e.g. `encroe/embergate/v1|<pk>|1731500000000|forge|3`. */
-export function moveText(pk: string, nonce: number, move: Move): string {
+export function moveText(pk: string, nonce: number, move: Move, game = "embergate"): string {
   const args =
     move.kind === "join"
       ? [move.name]
@@ -30,8 +35,10 @@ export function moveText(pk: string, nonce: number, move: Move): string {
           ? [move.recipe]
           : move.kind === "gift"
             ? [move.to, move.item, move.qty]
-            : [];
-  return [DOMAIN, pk, nonce, move.kind, ...args].join("|");
+            : move.kind === "call"
+              ? [move.name, move.args.join(",")]
+              : [];
+  return [domain(game), pk, nonce, move.kind, ...args].join("|");
 }
 
 export function newSecretKey(): Uint8Array {
@@ -42,15 +49,15 @@ export function publicKeyOf(secretKey: Uint8Array): string {
   return bytesToHex(ed25519.getPublicKey(secretKey));
 }
 
-export function signMove(secretKey: Uint8Array, move: Move, nonce = Date.now()): SignedMove {
+export function signMove(secretKey: Uint8Array, move: Move, nonce = Date.now(), game = "embergate"): SignedMove {
   const pk = publicKeyOf(secretKey);
-  const sig = bytesToHex(ed25519.sign(utf8ToBytes(moveText(pk, nonce, move)), secretKey));
+  const sig = bytesToHex(ed25519.sign(utf8ToBytes(moveText(pk, nonce, move, game)), secretKey));
   return { pk, nonce, move, sig };
 }
 
-export function signatureValid(s: SignedMove): boolean {
+export function signatureValid(s: SignedMove, game = "embergate"): boolean {
   try {
-    return ed25519.verify(hexToBytes(s.sig), utf8ToBytes(moveText(s.pk, s.nonce, s.move)), hexToBytes(s.pk));
+    return ed25519.verify(hexToBytes(s.sig), utf8ToBytes(moveText(s.pk, s.nonce, s.move, game)), hexToBytes(s.pk));
   } catch {
     return false;
   }
@@ -81,9 +88,14 @@ export function parseSignedMove(body: unknown): SignedMove | string {
       if (typeof m.to !== "string" || !HEX32.test(m.to)) return "to: a player's key";
       if (!int(m.item, 0, 2 ** 32 - 1) || !int(m.qty, 1, 2 ** 32 - 1)) return "item, qty";
       return { pk, nonce, sig, move: { kind: "gift", to: m.to, item: m.item, qty: m.qty } };
+    case "call":
+      if (typeof m.name !== "string" || !/^[a-z_]{2,32}$/.test(m.name)) return "name: a move's export name";
+      if (!Array.isArray(m.args) || m.args.length > 4 || !m.args.every((a) => int(a, 0, 2 ** 32 - 1)))
+        return "args: up to 4 unsigned 32-bit integers";
+      return { pk, nonce, sig, move: { kind: "call", name: m.name, args: m.args as number[] } };
     case "proof":
       return { pk, nonce, sig, move: { kind: "proof" } };
     default:
-      return "move.kind: join, gather, forge, gift or proof";
+      return "move.kind: join, gather, forge, gift, call or proof";
   }
 }

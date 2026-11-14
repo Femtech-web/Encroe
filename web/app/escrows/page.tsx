@@ -15,6 +15,16 @@ const ORIGIN: Record<Origin, string> = {
   pool: "a silent studio, left for visitors",
 };
 
+const GROUPS: [Origin, string, string][] = [
+  [
+    "factory",
+    "Studios' escrows",
+    "None yet: the factory opens on testnet soon, and every escrow it makes appears here.",
+  ],
+  ["ours", "Recorded runs: the evidence", ""],
+  ["pool", "Silent studios, left for visitors to release", "Every silent studio has been released."],
+];
+
 export default async function EscrowsPage() {
   const rows = await directory();
   return (
@@ -35,55 +45,64 @@ export default async function EscrowsPage() {
         </Link>
       </div>
 
-      <ul className="mt-10 space-y-3">
-        {rows.map((r) => {
-          const c = r.state?.commitment;
-          const t = r.status ? clock(r.status) : null;
-          return (
-            <li key={r.id}>
-              <Link
-                href={`/escrow/${r.id}`}
-                className="grid gap-3 rounded-lg border border-line bg-panel p-5 transition hover:border-line-strong md:grid-cols-[1.3fr_1fr_1.2fr] md:items-center"
-              >
-                <div className="min-w-0">
-                  <p className="font-display font-bold">
-                    {r.catalog?.game ?? r.listing?.game ?? c?.game ?? "Unsealed"}
-                    {r.catalog && <span className="ml-2 font-mono text-xs text-gold">{r.catalog.language}</span>}
-                  </p>
-                  <p className="mt-1 truncate font-mono text-xs text-ink-3">{r.id}</p>
-                  <p className="mt-1 text-xs text-ink-3">{r.note ?? ORIGIN[r.origin]}</p>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {r.status ? (
-                    <>
-                      <PhaseBadge phase={r.status.phase} />
-                      <VerifyBadge badge={r.status.badge} />
-                    </>
-                  ) : (
-                    <span className="font-mono text-xs text-ink-3">could not read NEAR</span>
-                  )}
-                </div>
-                <div className="text-sm text-ink-2 md:text-right">
-                  {c && (
-                    <p className="font-mono text-xs text-ink-3">
-                      epoch {c.epoch} · {c.players} players
-                    </p>
-                  )}
-                  {t && (
-                    <p
-                      className={
-                        t.tone === "silent" ? "text-flare" : t.tone === "released" ? "text-ember" : "text-acid"
-                      }
+      {GROUPS.map(([origin, title, empty]) => {
+        const group = rows.filter((r) => r.origin === origin);
+        return (
+          <section key={origin} className="mt-14" aria-label={title}>
+            <h2 className="font-display text-h2 font-black">{title}</h2>
+            {group.length === 0 && <p className="mt-3 text-sm text-ink-3">{empty}</p>}
+            <ul className="mt-5 space-y-3">
+              {group.map((r) => {
+                const c = r.state?.commitment;
+                const t = r.status ? clock(r.status) : null;
+                return (
+                  <li key={r.id}>
+                    <Link
+                      href={`/escrow/${r.id}`}
+                      className="grid gap-3 rounded-lg border border-line bg-panel p-5 transition hover:border-line-strong md:grid-cols-[1.3fr_1fr_1.2fr] md:items-center"
                     >
-                      {t.text}
-                    </p>
-                  )}
-                </div>
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
+                      <div className="min-w-0">
+                        <p className="font-display font-bold">
+                          {r.catalog?.game ?? r.listing?.game ?? c?.game ?? "Unsealed"}
+                          {r.catalog && <span className="ml-2 font-mono text-xs text-gold">{r.catalog.language}</span>}
+                        </p>
+                        <p className="mt-1 truncate font-mono text-xs text-ink-3">{r.id}</p>
+                        <p className="mt-1 text-xs text-ink-3">{r.note ?? ORIGIN[r.origin]}</p>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {r.status ? (
+                          <>
+                            <PhaseBadge phase={r.status.phase} />
+                            <VerifyBadge badge={r.status.badge} />
+                          </>
+                        ) : (
+                          <span className="font-mono text-xs text-ink-3">could not read NEAR</span>
+                        )}
+                      </div>
+                      <div className="text-sm text-ink-2 md:text-right">
+                        {c && (
+                          <p className="font-mono text-xs text-ink-3">
+                            epoch {c.epoch} · {c.players} players
+                          </p>
+                        )}
+                        {t && (
+                          <p
+                            className={
+                              t.tone === "silent" ? "text-flare" : t.tone === "released" ? "text-ember" : "text-acid"
+                            }
+                          >
+                            {t.text}
+                          </p>
+                        )}
+                      </div>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        );
+      })}
     </main>
   );
 }

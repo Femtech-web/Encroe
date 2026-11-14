@@ -9,7 +9,9 @@
 #   scripts/testnet/escrow.sh seal <epoch> [broken]    seal the game core (or its broken build), run the pinned
 #                                                     verifier on it locally, and commit it (a failing build is
 #                                                     committed only when asked for: broken). ENCROE_CORE picks
-#                                                     the core; PLAYERS_FILE seals a live world's players
+#                                                     the core; PLAYERS_FILE seals a live world's players;
+#                                                     COMMIT=0 stops before committing (then: secret, commit)
+#   scripts/testnet/escrow.sh commit <epoch>           commit a sealed epoch and put its package on FastFS
 #   scripts/testnet/escrow.sh package <epoch>          put the sealed package on FastFS, on NEAR itself, at
 #                                                     test.fastfs.io/<studio>/<escrow>/<pkg_sha256>.sealed, so
 #                                                     opening the game needs no studio server (seal does this)
@@ -133,6 +135,10 @@ seal)
   pass=$(python3 -I -c "import json;print(json.load(open('$OUT/epoch-$epoch/preflight.json'))['pass'])")
   echo "preflight (the pinned verifier, run locally): pass=$pass"
   [ "$pass" = True ] || [ "${3:-}" = broken ] || { echo "not committing a build that fails the verifier" >&2; exit 1; }
+  if [ "${COMMIT:-1}" = 1 ]; then "$0" commit "$epoch"; fi
+  ;;
+commit)
+  epoch=${2:?epoch}
   args=$(python3 -I -c "
 import json
 c=json.load(open('$OUT/epoch-$epoch/commitment.json'))

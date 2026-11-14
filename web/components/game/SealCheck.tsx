@@ -39,6 +39,13 @@ export function SealCheck({ sk }: { sk: Uint8Array }) {
         "/api/proof",
       );
       const status = await viewStatus(epoch.escrow);
+      // NEAR holds only the newest epoch's root: a proof for an older one cannot be checked against it.
+      if (status.epoch !== epoch.epoch) {
+        setError(
+          `The studio has sealed epoch ${status.epoch} since your proof (epoch ${epoch.epoch}). Your proof for it arrives as soon as the studio hands it over; check again shortly.`,
+        );
+        return;
+      }
       const leaf = playerLeaf(status.game ?? "", status.epoch ?? 0, entry.pk, entry.items, entry.salt);
       const root = rootFromPath(leaf, entry.path);
       setResult({

@@ -39,8 +39,12 @@ seal() {
   else curl -sf -m 30 -H "authorization: Bearer $ENCROE_STUDIO_TOKEN" "$GAME/api/studio/world" > "$world"; fi
   echo "epoch $epoch: $(python3 -I -c "import json;print(len(json.load(open('$world'))))" ) players from ${WORLD_FILE:-$GAME}, core $ENCROE_CORE"
 
-  PLAYERS_FILE=$world "$ESC" seal "$epoch"
+  # The secret row first, then the commit: a failure before the commit leaves nothing on chain, and the players'
+  # proofs go to the game as soon as the root they prove against is committed.
+  COMMIT=0 PLAYERS_FILE=$world "$ESC" seal "$epoch"
   "$ESC" secret "$epoch"
+  "$ESC" commit "$epoch"
+  [ "${PUBLISH:-1}" = 1 ] && publish "$epoch"
   "$ESC" verify "$epoch"
   request=$(python3 -I -c "
 import json
@@ -59,7 +63,6 @@ print([r for r in rows if r['step'].startswith('07-verify-$epoch-')][-1]['reques
   echo "badge after the run: $badge"
   # The attestation is published shortly after the run; NEAR's DCAP verifier then decides.
   for _ in $(seq 12); do "$ESC" prove "$request" && break; sleep 15; done
-  [ "${PUBLISH:-1}" = 1 ] && publish "$epoch"
   return 0
 }
 

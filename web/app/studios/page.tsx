@@ -21,13 +21,14 @@ const STEPS = [
     n: "2",
     title: "Compile your server core",
     body: "Your game's rules and players' state, built to WebAssembly with no imports: Rust, C++, C, or anything that targets wasm32.",
-    link: { href: `${REPO}/blob/main/cores/README.md`, label: "The interface a core exports" },
+    link: { href: "/tools#core", label: "Check your core in the browser" },
   },
   {
     n: "3",
     title: "Seal your live world",
     body: "One command exports your players, seals them with your core to NEAR's MPC key, checks the build with the pinned verifier, commits it, and has the enclave verify it.",
     code: "ESCROW_ACCOUNT=your-game.encroe.testnet ESCROW_NAME=your-game \\\n  ENCROE_GAME_URL=https://your.game scripts/studio/bot.sh seal",
+    link: { href: "/tools#world", label: "Check your players file first" },
   },
   {
     n: "4",
