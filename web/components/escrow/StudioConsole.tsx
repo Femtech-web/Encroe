@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { ConnectNear } from "@/components/wallet/ConnectNear";
 import { useNearAccount, useTx } from "@/lib/wallet/useNear";
@@ -75,6 +76,12 @@ export function StudioConsole({ escrow, owner, nonce }: { escrow: string; owner:
             Declare end of life
           </button>
         </span>
+        <Link
+          href={`/studios/seal?escrow=${escrow}`}
+          className="text-sm text-gold underline underline-offset-4 hover:text-ink"
+        >
+          Seal a new epoch
+        </Link>
       </div>
       {state.kind === "done" && (
         <p className="mt-3 text-sm text-acid">Done{state.hash ? `: ${state.hash.slice(0, 12)}…` : "."}</p>

@@ -27,9 +27,9 @@ const STEPS = [
   {
     n: "3",
     title: "Seal your live world",
-    body: "One command exports your players, seals them with your core to NEAR's MPC key, checks the build with the pinned verifier, commits it, and has the enclave verify it.",
+    body: "From your browser: drop in your core and players file, and your wallet signs three times (the key row, the commitment, the verification). The enclave checks the sealed build and NEAR checks the enclave. Or let a scheduled job run the same steps:",
     code: "ESCROW_ACCOUNT=your-game.encroe.testnet ESCROW_NAME=your-game \\\n  ENCROE_GAME_URL=https://your.game scripts/studio/bot.sh seal",
-    link: { href: "/tools#world", label: "Check your players file first" },
+    link: { href: "/studios/seal", label: "Seal from your browser" },
   },
   {
     n: "4",

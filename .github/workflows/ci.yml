@@ -44,6 +44,11 @@ jobs:
         with:
           targets: wasm32-unknown-unknown
       - uses: Swatinem/rust-cache@v2
+      # The verifier's conformance tests seal the game core, as built and as deliberately broken.
+      - run: |
+          cd crates/encore-core-game
+          cargo build --release --target wasm32-unknown-unknown
+          cargo build --release --target wasm32-unknown-unknown --features broken --target-dir target-broken
       - run: cargo test --release -p encore-crypto -p encore-verifier
       - run: cd crates/embergate-core && cargo test && cargo build --release --target wasm32-unknown-unknown
 
