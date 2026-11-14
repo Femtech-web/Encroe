@@ -9,6 +9,18 @@ thesis, in one page: [docs/thesis.md](docs/thesis.md).
 Everything below runs on NEAR testnet with real transactions. Nothing is mocked; where a run simulates something
 (a studio going silent, scripted test players), it says so.
 
+## One command: every claim, checked live
+
+From a clone, with Node 20+ and nothing to install (no account, no key):
+
+```bash
+node scripts/check-live.mjs
+```
+
+Fourteen lines, each `PASS` with what it read from NEAR testnet, Base Sepolia or the live site, then
+`14 of 14 passed.` It exits non-zero if any claim fails. [The script](scripts/check-live.mjs) is plain Node and
+short enough to read before you run it.
+
 ## Five minutes on the site: [encroe.vercel.app](https://encroe.vercel.app)
 
 1. **Play.** Open `/play` and pick one of five games in five languages. Try **Starhaul** (Zig): a 3D sector where

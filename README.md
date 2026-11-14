@@ -14,6 +14,7 @@
 [![CI](https://github.com/Femtech-web/Encroe/actions/workflows/ci.yml/badge.svg)](https://github.com/Femtech-web/Encroe/actions/workflows/ci.yml)
 [![Studio](https://github.com/Femtech-web/Encroe/actions/workflows/studio.yml/badge.svg)](https://github.com/Femtech-web/Encroe/actions/workflows/studio.yml)
 [![Preserve](https://github.com/Femtech-web/Encroe/actions/workflows/preserve.yml/badge.svg)](https://github.com/Femtech-web/Encroe/actions/workflows/preserve.yml)
+[![Live check](https://github.com/Femtech-web/Encroe/actions/workflows/live-check.yml/badge.svg)](https://github.com/Femtech-web/Encroe/actions/workflows/live-check.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-c6ff3d)](LICENSE)
 ![Tests](https://img.shields.io/badge/tests-240%20passing-c6ff3d)
 ![Keyless](https://img.shields.io/badge/escrows-keyless%20·%200%20access%20keys-c6ff3d)
@@ -72,8 +73,21 @@ core, all five players' items under NEAR's root, a boot with no imports. Nobody 
 | **Try to break it** | [/break](https://encroe.vercel.app/break) | Six real attacks on locked escrows: early release, fake heartbeat, fake seal, tampered build, replayed proof, double release. Each is refused on chain. |
 
 **Watch first:** [the demo video](https://youtu.be/nnDuYhpsjj0). Then the guided path is [/judges](https://encroe.vercel.app/judges), and
-[JUDGES.md](JUDGES.md) has every claim
-with its transaction and the commands to check it without our site.
+[JUDGES.md](JUDGES.md) has every claim with its transaction and the commands to check it without our site.
+
+**Check every claim in one command**, from a clone, with Node 20+ and nothing to install, no account and no key:
+
+```bash
+node scripts/check-live.mjs
+```
+
+It reads NEAR testnet, Base Sepolia and the live site, and prints one line per claim, each `PASS` with what it read,
+then `14 of 14 passed.` in about ten seconds: the factory and all 15 escrows keyless and running the published build;
+five games in five languages verified green; each served core byte for byte the one its escrow committed, with no
+imports; the sealed game on NEAR; a living studio unreleasable; six released by strangers, a visitor, a watcher and
+an AI agent; four silent studios waiting; four refusals on chain in the contract's own words; the item token's signer
+rederived from NEAR's MPC network; two players' items minted on Base. A
+[workflow](.github/workflows/live-check.yml) runs it every six hours.
 
 ## Proven on testnet
 
@@ -238,8 +252,8 @@ flowchart LR
 
 ## Run it from source
 
-Requirements: Rust with the `wasm32-unknown-unknown` and `wasm32-wasip2` targets, `wasmtime`, Node.js 20+ and
-Python 3. `npm install` at the root provides `near-cli-rs` and `cargo-near`.
+Requirements: Rust with the `wasm32-unknown-unknown` and `wasm32-wasip2` targets, `wasmtime`, Foundry (`forge`),
+Node.js 20+ and Python 3. `npm install` at the root provides `near-cli-rs` and `cargo-near`.
 
 ```bash
 npm install
@@ -319,6 +333,11 @@ through Chain Signatures, RPC fallback and streamed pages.
 - **Business model (proposed, not built):** studios pay a flat fee per escrow created through the factory and the
   enclave's cost per verification (cents); players and fans could fund a hosting pool for a revived game; a small
   share of hosting payments would fund the network of agents that watch every escrow. Nothing is charged on testnet.
+- **Sustainability:** nothing depends on us staying around. Escrows are keyless and their rules permanent, sealed
+  games live on NEAR (FastFS), and the revive code runs from any copy of this repository; if our site, relayer and
+  agent all vanished, any player could still release a silent studio's game and play it. What it costs to keep a game
+  insured is small and paid by the studio: one escrow (5 NEAR of storage, once), a heartbeat transaction, and an
+  enclave run per sealed epoch (about 0.0013 NEAR measured; the 0.14 NEAR deposit is mostly refunded).
 - **The author's other entry:** [Klear](https://github.com/Femtech-web/Klear) ([live](https://klear-near.vercel.app)):
   *let AI trade your money, without giving it the keys.* An investor's rules live in a keyless NEAR contract that is
   the only signer of their accounts on Hyperliquid and Base, through Chain Signatures; if the AI fails, anyone can
