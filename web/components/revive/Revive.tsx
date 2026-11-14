@@ -11,7 +11,7 @@ import type { World } from "@/lib/game/world";
 import POOL from "@/lib/encroe/pool.json";
 import { sha256Hex } from "@/lib/encroe/release";
 import { LIVE, NotReleased, revive, type Revived, type Step } from "@/lib/encroe/revive";
-import { CorePlay } from "./CorePlay";
+import { RevivedPlay } from "@/components/play/RevivedPlay";
 import { ReleasePanel } from "./ReleasePanel";
 
 const STEPS: { id: string; label: string }[] = [
@@ -108,7 +108,7 @@ export function Revive({ initial, tamper = false }: { initial?: string; tamper?:
   if (playing && transport && playable) return <Game transport={transport} />;
   if (playing && revived && catalog && moves)
     return (
-      <CorePlay
+      <RevivedPlay
         module={revived.module}
         players={revived.pkg.players}
         catalog={{ ...catalog, moves }}

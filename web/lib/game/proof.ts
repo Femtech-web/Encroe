@@ -62,3 +62,18 @@ export function merkleRoot(leaves: string[]): string {
     );
   return bytesToHex(level[0]);
 }
+
+/** Sibling hashes bottom-up for leaf `index`, `true` when the sibling is on the right (game.rs `merkle_path`). */
+export function merklePath(leaves: string[], index: number): [string, boolean][] {
+  const path: [string, boolean][] = [];
+  let level = leaves.map(hexToBytes);
+  let i = index;
+  while (level.length > 1) {
+    const right = i % 2 === 0;
+    const sib = right ? (level[i + 1] ?? level[i]) : level[i - 1];
+    path.push([bytesToHex(sib), right]);
+    level = Array.from({ length: Math.ceil(level.length / 2) }, (_, j) => node(level[2 * j], level[2 * j + 1] ?? level[2 * j]));
+    i = Math.floor(i / 2);
+  }
+  return path;
+}

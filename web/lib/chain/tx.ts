@@ -125,7 +125,7 @@ export async function functionCall(
   method: string,
   args: Record<string, unknown>,
   tgas = 30,
-  options: { settle?: boolean; depositYocto?: bigint } = {},
+  options: { settle?: boolean; depositYocto?: bigint; rawArgs?: Uint8Array; gas?: bigint } = {},
 ): Promise<Sent> {
   const raw = base58Decode(secretKey.replace(/^ed25519:/, ""));
   if (raw.length !== 64) throw new Error("expected a 64-byte ed25519 secret key");
@@ -142,10 +142,11 @@ export async function functionCall(
     publicKey,
     nonce: nextNonce(signer, BigInt(access.nonce as number)),
     receiver,
-    blockHash: base58Decode(access.block_hash as string),
+    // A final block every RPC node knows: an optimistic one can be unknown to the node that gets the send ("Expired").
+    blockHash: base58Decode(((await rpc("block", { finality: "final" })).header as { hash: string }).hash),
     method,
-    args: Buffer.from(JSON.stringify(args)),
-    gas: BigInt(tgas) * 10n ** 12n,
+    args: options.rawArgs ? Buffer.from(options.rawArgs) : Buffer.from(JSON.stringify(args)),
+    gas: options.gas ?? BigInt(tgas) * 10n ** 12n,
     deposit: options.depositYocto ?? 0n,
   });
   const key = createPrivateKey({ key: Buffer.concat([PKCS8_ED25519, seed]), format: "der", type: "pkcs8" });

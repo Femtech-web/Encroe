@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
+import { StudioConsoleClient } from "@/components/escrow/StudioConsoleClient";
 import { PhaseBadge, VerifyBadge } from "@/components/escrow/Badges";
 import { ReleaseAction } from "@/components/escrow/ReleaseAction";
 import { FACTORY, clock, factoryListings, human, row, view, type Origin } from "@/lib/encroe/directory";
@@ -125,7 +127,7 @@ export default async function EscrowPage({ params }: { params: Promise<{ id: str
                 </Link>
                 {id === "encroe-embergate.testnet" && (
                   <Link
-                    href="/play"
+                    href="/play/embergate"
                     className="rounded-md bg-acid px-4 py-2 font-display text-xs font-bold text-void uppercase"
                   >
                     Check my items
@@ -165,6 +167,12 @@ export default async function EscrowPage({ params }: { params: Promise<{ id: str
           {!runs?.length && <li className="text-sm text-ink-3">No runs yet.</li>}
         </ol>
       </section>
+
+      {s.phase !== "released" && s.phase !== "releasing" && (
+        <div className="mt-10">
+          <StudioConsoleClient escrow={id} owner={st.owner} nonce={(await headers()).get("x-nonce") ?? undefined} />
+        </div>
+      )}
 
       <section className="mt-10 rounded-xl border border-line bg-panel-2 p-6" aria-labelledby="studio">
         <h2 id="studio" className="font-display text-lg font-bold">

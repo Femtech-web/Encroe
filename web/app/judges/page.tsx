@@ -82,7 +82,7 @@ export default async function JudgesPage() {
     {
       n: "1",
       title: "Play",
-      href: "/play",
+      href: "/play/embergate",
       cta: "Enter Embergate",
       tone: "bg-ember",
       body: "Enter a name, gather, forge a Lantern. Your browser makes a key and signs every move; every rule runs in the one wasm core the studio seals.",
@@ -90,7 +90,7 @@ export default async function JudgesPage() {
     {
       n: "2",
       title: "Check the vault",
-      href: "/play",
+      href: "/play/embergate",
       cta: "Is my stuff in there?",
       tone: "bg-acid",
       body: "Press Check. Your browser fetches your proof and verifies it against the root it reads from NEAR itself. (If you joined after the last seal, it says so: the studio re-seals every six hours.)",

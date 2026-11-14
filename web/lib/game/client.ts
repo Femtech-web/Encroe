@@ -40,12 +40,12 @@ export type Me = { name: string; items: Items; next_gather_at: number; nonce: nu
 let lastNonce = 0;
 
 /** Signs and plays a move; nonces strictly increase even within one millisecond. */
-export async function send<T = Me>(sk: Uint8Array, move: Move, url = "/api/move"): Promise<T> {
+export async function send<T = Me>(sk: Uint8Array, move: Move, url = "/api/move", game = "embergate"): Promise<T> {
   lastNonce = Math.max(Date.now(), lastNonce + 1);
   const res = await fetch(url, {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify(signMove(sk, move, lastNonce)),
+    body: JSON.stringify(signMove(sk, move, lastNonce, game)),
   });
   const body = (await res.json()) as T & { error?: string };
   if (!res.ok) throw new Error(body.error ?? `HTTP ${res.status}`);

@@ -47,10 +47,10 @@ our site, and every claim with its transaction, are in **[JUDGES.md](JUDGES.md)*
 
 | Page | For | What it does |
 |---|---|---|
-| [`/play`](https://encroe.vercel.app/play) | players | Embergate, with signed moves, and **"Is my stuff in the vault?"**: your proof checked against NEAR's root |
+| [`/play`](https://encroe.vercel.app/play) | players | **Pick a game and play it live**: Embergate (Rust), Matchday (C++), Neon City (C), every move signed by your browser's key and decided by the game's sealed core on the server; **"Is my stuff in the vault?"**: your proof checked against NEAR's root |
 | [`/studios`](https://encroe.vercel.app/studios) | studios | **Create your game's escrow from your wallet**: one call to the factory, `<name>.encroe.testnet`, keyless from birth |
 | [`/tools`](https://encroe.vercel.app/tools) | studios, players | **Check your core** before you seal it (the enclave's checks, in your browser), check your players file, build recipes, **find your items** in a released game |
-| [`/escrows`](https://encroe.vercel.app/escrows) | everyone | **The directory**: every escrow, read live from NEAR; each one's page shows its keys, code, sealed epoch, runs and what anyone may do |
+| [`/escrows`](https://encroe.vercel.app/escrows) | everyone | **The directory**: every escrow, read live from NEAR; each one's page shows its keys, code, sealed epoch, runs and what anyone may do, and a **studio console** (heartbeat, end of life) for its studio's wallet |
 | [`/revive`](https://encroe.vercel.app/revive) | players | **Bring a released game back** in the browser, then play on: Embergate, Matchday (C++) and Neon City (C) |
 | [`/proof`](https://encroe.vercel.app/proof) | judges, skeptics | **The evidence, apart from the product**: every recorded run, the attacks, the three languages, the go/no-go experiments |
 | [`/break`](https://encroe.vercel.app/break) | skeptics | **Try to break it**: early release, fake heartbeat, fake seal, tampered build, replayed quote, double release, all refused live |
@@ -106,6 +106,7 @@ Every escrow is locked (0 access keys) before anything is sealed. Each run is wr
 | [`encroe-kill-beaa`](docs/results/escrow/kill-beaa/README.md) | The same, from the site: a visitor's click released it, the page brought it back |
 | [`encroe-matchday-5d60`, `encroe-neon-city-19f9`](docs/results/escrow/cores/README.md) | C++ and C game servers: sealed, verified green by the enclave, released, revived and played on in a browser |
 | [`encroe-embergate`](docs/results/escrow/embergate/README.md) | **The site's public world**, sealed by the studio's bot with a 14-day grace: alive, so it holds |
+| [`encroe.testnet`, `matchday.encroe.testnet`, `neon-city.encroe.testnet`](docs/results/factory/README.md) | **The factory**, locked, and the first escrows it made: keyless from birth, the published build, listed; Matchday's sealed and verified green |
 
 ### Any engine, any language
 
@@ -132,7 +133,8 @@ verifier) are in [GO_NO_GO.md](GO_NO_GO.md).
    MPC key, runs the pinned verifier locally, stores the epoch's key row, commits, hands every player their proof,
    and has the enclave verify it.
 4. **Keep your heartbeat**: [`.github/workflows/studio.yml`](.github/workflows/studio.yml) sends it and re-seals your
-   world every six hours. Stop it, and after your grace period the game is your players'.
+   world every six hours, or send it yourself from your escrow's page with your wallet (the studio console, which
+   also declares end of life with a notice period). Stop it, and after your grace period the game is your players'.
 
 ## For AI agents
 
@@ -176,7 +178,8 @@ every released game back, keeping a public log.
 | Account | What it is |
 |---|---|
 | [`encroe-embergate.testnet`](https://encroe.vercel.app/escrow/encroe-embergate.testnet) | The site's public world: 14-day grace, sealed every six hours by the studio workflow |
-| `encroe.testnet` | The factory and directory (built and tested; deployed once testnet's faucet allows) |
+| [`encroe.testnet`](docs/results/factory/README.md) | The factory and directory: locked; every escrow it creates is keyless from birth |
+| `matchday.encroe.testnet`, `neon-city.encroe.testnet` | The public Matchday and Neon City worlds' escrows, made by the factory |
 | `encroe-life-52e4`, `-ember-3924`, `-kill-827e`, `-kill-beaa`, `-matchday-5d60`, `-neon-city-19f9` | Recorded runs ([`docs/results/escrow`](docs/results/escrow)) |
 | `encroe-kill-5609`, `-kill-da6a`, `-kill-19d2` | Silent studios, left for visitors to release |
 | `encore-pub-6b4dad.testnet` | The studio (owner of our escrows) |
@@ -247,8 +250,6 @@ world's salts are not: each player gets only their own.
    all three can be revived and played in the browser after a release.
 5. **After a release, each player hosts their own copy** in the browser. Shared hosting, paid on proof, is not built.
 6. **The verifier samples** 16 players and seeded trades per run; it is a strong check, not a proof of every path.
-7. **The factory waits on testnet's faucet.** Its contract is built and tested; deploying `encroe.testnet` needs a
-   funded account, and the faucet was rate-limiting when this was written. The studios page opens when it is live.
 
 ## Next, and not built yet
 

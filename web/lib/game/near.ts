@@ -41,3 +41,27 @@ export async function viewStatus(escrow: string, rpc = RPC): Promise<EscrowStatu
   if (!body.result) throw new Error(`${escrow}: ${body.error?.message ?? `HTTP ${res.status}`}`);
   return JSON.parse(new TextDecoder().decode(new Uint8Array(body.result.result))) as EscrowStatus;
 }
+
+/** Any contract view, straight from NEAR's RPC (browser or server). */
+export async function viewCall<T>(account: string, method: string, args: object = {}, rpc = RPC): Promise<T> {
+  const res = await fetch(rpc, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      jsonrpc: "2.0",
+      id: 1,
+      method: "query",
+      params: {
+        request_type: "call_function",
+        finality: "final",
+        account_id: account,
+        method_name: method,
+        args_base64: btoa(JSON.stringify(args)),
+      },
+    }),
+    cache: "no-store",
+  });
+  const body = (await res.json()) as { result?: { result: number[] }; error?: { message?: string } };
+  if (!body.result) throw new Error(`${account}.${method}: ${body.error?.message ?? `HTTP ${res.status}`}`);
+  return JSON.parse(new TextDecoder().decode(new Uint8Array(body.result.result))) as T;
+}

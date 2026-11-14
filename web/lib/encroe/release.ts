@@ -45,7 +45,7 @@ export function appId(predecessor: string, path: string): Uint8Array {
   return sha3_256(utf8ToBytes(`${APP_ID_PREFIX}${predecessor},${path}`));
 }
 
-function hashPoint(pk: Uint8Array, app: Uint8Array) {
+export function hashPoint(pk: Uint8Array, app: Uint8Array) {
   return bls.G1.hashToCurve(concatBytes(pk, app), { DST: NEAR_CKD_DST });
 }
 
@@ -59,10 +59,10 @@ export function releaseValid(pk: Uint8Array, app: Uint8Array, sig: Uint8Array): 
 }
 
 type Fp2 = { c0: bigint; c1: bigint };
-type Fp12 = { c0: { c0: Fp2; c1: Fp2; c2: Fp2 }; c1: { c0: Fp2; c1: Fp2; c2: Fp2 } };
+export type Fp12 = { c0: { c0: Fp2; c1: Fp2; c2: Fp2 }; c1: { c0: Fp2; c1: Fp2; c2: Fp2 } };
 
 /** arkworks' uncompressed encoding of a pairing output: twelve 48-byte little-endian field elements, c0 first. */
-function gtBytes(gt: Fp12): Uint8Array {
+export function gtBytes(gt: Fp12): Uint8Array {
   const out = new Uint8Array(576);
   let at = 0;
   for (const six of [gt.c0, gt.c1])

@@ -8,7 +8,7 @@ import { RPC } from "@/lib/game/near";
  */
 /** Pages where a studio connects a NEAR wallet: NEAR Connect runs the wallet's code in a sandboxed iframe that
  * inherits this policy, so these pages also allow the wallets' hosts, and nothing else. */
-const WALLET_PAGES = /^\/studios$/;
+const WALLET_PAGES = /^\/(studios(\/seal)?|escrow\/[^/]+)$/;
 const WALLET_HOSTS = [
   "https://raw.githubusercontent.com/hot-dao/near-selector/refs/heads/main/repository/nightly.js",
   "https://raw.githubusercontent.com/near/near-cli-connect/refs/heads/main/dist/near-cli.js",

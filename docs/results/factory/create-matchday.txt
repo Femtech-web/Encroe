@@ -1,0 +1,47 @@
+├  Unsigned transaction:
+│    signer_id:    encore-pub-6b4dad.testnet
+│    receiver_id:  encroe.testnet
+│    actions:
+│       -- function call:      
+│                       method name:  create_escrow
+│                       args:         {
+│                                       "game": "Matchday",
+│                                       "grace_s": 1209600,
+│                                       "name": "matchday",
+│                                       "owner": "encore-pub-6b4dad.testnet"
+│                                     }
+│                       gas:          300.0 Tgas
+│                       deposit:      5 NEAR
+│     
+├  Your transaction was signed successfully.
+│    Public key: ed25519:454aDeGXb1XDHWKwZTgFS5w75hmdQVyBW1PMn7XAWW8X
+│    Signature:  ed25519:55PjnNgy26vmmLQeMuqbqmu8Scr7fUGeQ4ePDKEZPXCnp1Smwh9Rpfrf4Ka2k58HizYY38aFtcEbd7yVFzpzShQU
+│     
+├  Transaction Execution Info:
+│    Gas used: 42.7 Tgas
+│    Transaction fee: 0.0104731372137811 NEAR
+│    Transaction ID: 2Fh73w4fg9dhvpFuBQSLSuqARMyWHLMts8TpWTFXpReH
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/2Fh73w4fg9dhvpFuBQSLSuqARMyWHLMts8TpWTFXpReH
+│     
+├  Function execution logs:
+│    Logs [encroe.testnet]:   No logs
+│    Logs [matchday.encroe.testnet]:   No logs
+│    Logs [encore-pub-6b4dad.testnet]:   No logs
+│    Logs [encroe.testnet]:   No logs
+│    Logs [encore-pub-6b4dad.testnet]:   No logs
+│    Logs [encore-pub-6b4dad.testnet]:   No logs
+│     
+
+Function execution return value (printed to stdout):
+true
+
+
+The "create_escrow" call to <encroe.testnet> on behalf of <encore-pub-6b4dad.testnet> succeeded.
+
+
+
+
+Here is your console command if you need to script it or re-run:
+    /Users/mac/work/web3/near/encore/node_modules/near-cli-rs/node_modules/.bin_real/near contract call-function as-transaction encroe.testnet create_escrow json-args '{"name": "matchday", "owner": "encore-pub-6b4dad.testnet", "game": "Matchday", "grace_s": 1209600}' prepaid-gas '300.0 Tgas' attached-deposit '5 NEAR' sign-as encore-pub-6b4dad.testnet network-config testnet sign-with-legacy-keychain send
+

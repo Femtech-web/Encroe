@@ -29,8 +29,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
-      ESCROW_NAME: embergate
       ENCROE_GAME_URL: https://encroe.vercel.app
+      # Each game's public world and its escrow: Embergate's ours, the others made by the factory (encroe.testnet).
+      WORLDS: "embergate:encroe-embergate.testnet matchday:matchday.encroe.testnet neon-city:neon-city.encroe.testnet"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -52,20 +53,35 @@ jobs:
           mkdir -p "$HOME/.near-credentials/testnet"
           mv .near-credentials/testnet/*.json "$HOME/.near-credentials/testnet/"
           rm -rf .near-credentials
-      - name: heartbeat
-        run: scripts/studio/bot.sh heartbeat
-      - name: seal the live world
+      - name: heartbeats
         run: |
-          players=$(curl -sf https://encroe.vercel.app/api/world | python3 -c 'import json,sys;print(json.load(sys.stdin)["players"])')
-          if [ "$players" -gt 0 ]; then scripts/studio/bot.sh seal; else echo "no players yet"; fi
+          for w in $WORLDS; do
+            ESCROW_NAME=${w%%:*} ESCROW_ACCOUNT=${w##*:} scripts/studio/bot.sh heartbeat || echo "heartbeat ${w%%:*} failed"
+          done
+      - name: seal every live world that has players
+        run: |
+          failed=0
+          for w in $WORLDS; do
+            g=${w%%:*}
+            players=$(curl -sf "$ENCROE_GAME_URL/api/games/$g/world" | python3 -c 'import json,sys;print(json.load(sys.stdin)["players"])')
+            if [ "$players" -gt 0 ]; then
+              ESCROW_NAME=$g ESCROW_ACCOUNT=${w##*:} STUDIO_GAME=$g ENCROE_CORE=web/public/core/$g.wasm \
+                scripts/studio/bot.sh seal || { echo "seal $g failed"; failed=1; }
+            else
+              echo "$g: no players yet"
+            fi
+          done
+          exit $failed
       - name: publish the record
         if: always()
         run: |
           git config user.name "encroe-studio"
           git config user.email "encroe-studio@users.noreply.github.com"
-          git add "docs/results/escrow/$ESCROW_NAME"
+          for d in docs/results/escrow/embergate docs/results/escrow/matchday docs/results/escrow/neon-city; do
+            [ -d "$d" ] && git add "$d"
+          done
           git diff --cached --quiet && exit 0
-          git commit -m "studio: $ESCROW_NAME epoch record $(date -u +%Y-%m-%dT%H:%MZ)"
+          git commit -m "studio: epoch records $(date -u +%Y-%m-%dT%H:%MZ)"
           git pull --rebase --autostash
           git push
       - name: remove the keys

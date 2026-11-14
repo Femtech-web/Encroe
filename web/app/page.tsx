@@ -79,7 +79,7 @@ export default async function Home() {
             href="/play"
             className="rounded-md bg-ember px-7 py-4 font-display font-bold tracking-wide text-void uppercase transition hover:shadow-ember"
           >
-            Play Embergate
+            Play a game
           </Link>
           <Link
             href={killHref}
@@ -158,14 +158,14 @@ export default async function Home() {
             title="Play"
             tone="ember"
             href="/play"
-            cta="Enter Embergate"
-            body="Gather from six nodes, forge relics, chase the Phoenix. Every move is signed by a key your browser makes, and every rule runs in the one server core the studio seals."
+            cta="Pick a game"
+            body="Embergate (Rust), Matchday (C++) or Neon City (C). Every move is signed by a key your browser makes, and every rule runs in the one server core the studio seals."
           />
           <Act
             n="II"
             title="Check the vault"
             tone="acid"
-            href="/play"
+            href="/play/embergate"
             cta="Is my stuff in there?"
             body="Once the studio seals an epoch, ask whether your items are inside. Your browser reads the root from NEAR and checks your proof itself."
           />

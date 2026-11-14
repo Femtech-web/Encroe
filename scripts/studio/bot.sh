@@ -21,6 +21,8 @@ set -euo pipefail
 cd "$(dirname "$0")/../.."
 source .env
 GAME=${ENCROE_GAME_URL:-http://localhost:3000}
+# Which of the site's games this escrow holds (its world export and its players' proofs): embergate by default.
+STUDIO_GAME=${STUDIO_GAME:-embergate}
 : "${ENCROE_STUDIO_TOKEN:?set ENCROE_STUDIO_TOKEN in .env (the same value the game has)}"
 export ENCROE_CORE=${ENCROE_CORE:-web/public/core/embergate.wasm}
 ESC=scripts/testnet/escrow.sh
@@ -36,7 +38,7 @@ seal() {
   epoch=$(( $(status | field epoch | sed 's/^$/0/') + 1 ))
   world=".secrets/escrow/$NAME-$epoch-world.json"
   if [ -n "${WORLD_FILE:-}" ]; then cp "$WORLD_FILE" "$world"
-  else curl -sf -m 30 -H "authorization: Bearer $ENCROE_STUDIO_TOKEN" "$GAME/api/studio/world" > "$world"; fi
+  else curl -sf -m 30 -H "authorization: Bearer $ENCROE_STUDIO_TOKEN" "$GAME/api/studio/world?game=$STUDIO_GAME" > "$world"; fi
   echo "epoch $epoch: $(python3 -I -c "import json;print(len(json.load(open('$world'))))" ) players from ${WORLD_FILE:-$GAME}, core $ENCROE_CORE"
 
   # The secret row first, then the commit: a failure before the commit leaves nothing on chain, and the players'
@@ -79,7 +81,7 @@ json.dump({"escrow": escrow, "epoch": int(epoch), "root": c["root"],
 print(json.dumps({"escrow": escrow, "epoch": int(epoch), "root": c["root"], "players": len(players)}))
 PY
   curl -sf -m 30 -X POST -H "authorization: Bearer $ENCROE_STUDIO_TOKEN" -H 'content-type: application/json' \
-    --data-binary "@.secrets/escrow/$NAME-$1-sealed.json" "$GAME/api/studio/sealed"
+    --data-binary "@.secrets/escrow/$NAME-$1-sealed.json" "$GAME/api/studio/sealed?game=$STUDIO_GAME"
   echo
 }
 

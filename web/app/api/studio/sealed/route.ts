@@ -1,4 +1,5 @@
 import { json, readBody } from "@/lib/game/http";
+import { isGame } from "@/lib/game/games";
 import { isStudio, writeSealed, type Sealed } from "@/lib/game/server";
 
 const HEX32 = /^[0-9a-f]{64}$/;
@@ -20,6 +21,8 @@ export async function POST(req: Request) {
       { error: "expected {escrow, epoch, root, sealed_at, players: [{index, pk, items, salt, leaf, path}]}" },
       400,
     );
-  await writeSealed(body);
+  const game = new URL(req.url).searchParams.get("game") ?? "embergate";
+  if (!isGame(game)) return json({ error: "no such game" }, 404);
+  await writeSealed(body, game);
   return json({ ok: true, players: body.players.length });
 }

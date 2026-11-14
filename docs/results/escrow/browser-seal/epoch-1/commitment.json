@@ -1,0 +1,13 @@
+{
+ "escrow": "neon-city.encroe.testnet",
+ "game": "neon-city",
+ "epoch": 1,
+ "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj",
+ "app_id": "787b5e986e4d86845f1185f83f10237c4daaf2a131ab8d1bea59fc50f0395d71",
+ "sealed_u": "82f85ab129522f4f321dafe929f184151c1fe7784666adbe507322430eed92c72cf4f5b25ea42d4fc187b23920985e5a14f785352fcfa82925f93f05c0c345f81d3cc66495849a1f21e6b8195d294f093dd387646531db734455c8f89aa41c28",
+ "sealed_v": "bd62c20f0533c99bfe4c09304e8056df48df329797f76a9ff475ba7699b196dc",
+ "pkg_sha256": "44397e819707774c398c8618507f28d479d22cf97b1785dfd4b80453bc20b1fb",
+ "root": "2cfe0fb36b3590e68df5c302b57d0aabae4de085ec6eee8c3533939d81a19e6e",
+ "core_sha256": "3f4a1e626aa6fc2e819aaaf5e3ee718e0e6307de87d47c895a93addb336bb3d2",
+ "players": 2
+}

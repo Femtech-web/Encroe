@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { send } from "@/lib/game/client";
+import type { GameId } from "@/lib/game/games";
 import { ITEMS, type ItemId } from "@/lib/game/items";
 import { viewStatus, type EscrowStatus } from "@/lib/game/near";
 import { playerLeaf, rootFromPath } from "@/lib/game/proof";
@@ -24,7 +25,7 @@ const BADGE: Record<EscrowStatus["badge"], { text: string; tone: string }> = {
  * "Are my items really in there?" The game hands over this player's proof; the browser reads the root from NEAR
  * itself and recomputes the path. Nothing here takes the server's word.
  */
-export function SealCheck({ sk }: { sk: Uint8Array }) {
+export function SealCheck({ sk, game = "embergate" }: { sk: Uint8Array; game?: GameId }) {
   const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -36,7 +37,8 @@ export function SealCheck({ sk }: { sk: Uint8Array }) {
       const { epoch, entry } = await send<{ epoch: Omit<Sealed, "players">; entry: ProofEntry }>(
         sk,
         { kind: "proof" },
-        "/api/proof",
+        game === "embergate" ? "/api/proof" : `/api/games/${game}/proof`,
+        game,
       );
       const status = await viewStatus(epoch.escrow);
       // NEAR holds only the newest epoch's root: a proof for an older one cannot be checked against it.

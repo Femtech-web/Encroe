@@ -52,6 +52,15 @@ export function packageUrl(owner: string, escrow: string, pkgSha256: string): st
   return `https://test.fastfs.io/${owner}/${escrow}/${pkgSha256}.sealed`;
 }
 
+/** The site's relayer, which puts a package on FastFS for a studio that sealed in its browser. */
+export const RELAYER = "encroe-relay-3778.testnet";
+
+/** Every place the package may be, the studio's own upload first. */
+export const packageUrls = (owner: string, escrow: string, pkgSha256: string) => [
+  packageUrl(owner, escrow, pkgSha256),
+  packageUrl(RELAYER, escrow, pkgSha256),
+];
+
 export async function viewState(escrow: string, rpc = RPC): Promise<EscrowState> {
   const res = await fetch(rpc, {
     method: "POST",
@@ -146,8 +155,14 @@ export async function revive(escrow: string, report: (s: Step) => void, from: So
     "e(sig, g2) = e(H(pk‖app id), pk)",
   );
 
-  const url = packageUrl(state.owner, escrow, c.pkg_sha256);
-  const sealed = await from.sealed(url);
+  // The studio's own upload first; the relayer's only if that one is missing. Bytes that are there but wrong still
+  // fail the hash check below: a tampered package is never quietly swapped for another.
+  let sealed: Uint8Array | null = null;
+  for (const url of packageUrls(state.owner, escrow, c.pkg_sha256)) {
+    sealed = await from.sealed(url).catch(() => null);
+    if (sealed) break;
+  }
+  if (!sealed) throw fail("package", "The sealed package is the one committed", "not found on FastFS");
   step(
     "package",
     "The sealed package is the one committed",

@@ -6,8 +6,9 @@ The first release: [docs/releases/v0.1.0.md](docs/releases/v0.1.0.md).
 
 - The escrow contract (`contracts/encroe-escrow`): epochs, heartbeat, end of life, release through NEAR's MPC network,
   verification runs accepted only after NEAR's DCAP verifier checks their TDX quote; locked before sealing.
-- The factory and directory (`contracts/encroe-factory`): escrows keyless from birth (deploys once testnet's faucet
-  allows).
+- The factory and directory (`contracts/encroe-factory`), live at `encroe.testnet`: escrows keyless from birth.
+- Three live games on the site (`/play`): one signed-move API for every game, `/api/games/[game]/…`.
+- The studio console on each escrow page: heartbeat and end of life, signed by the studio's wallet.
 - Sealing (`crates/encore-crypto`, `crates/encore-cli`), the pinned verifier (`crates/encore-verifier`), an
   independent TDX quote check (`crates/encore-attest`).
 - Game cores in Rust (Embergate), C++ (Matchday) and C (Neon City), built with cargo and Zig; the interface any core

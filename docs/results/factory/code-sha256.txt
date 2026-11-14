@@ -1,0 +1,2 @@
+ba05cf668a07bed475af9c315a1d76a7c300e9a881e6c4dfd98694137e1d2930  contracts/encroe-factory/target/near/encroe_factory.wasm
+08d9174fedb6374971b076591d915423d2fab6bc7f5bb056be308178b3901fbf  contracts/encroe-escrow/target/near/encroe_escrow.wasm

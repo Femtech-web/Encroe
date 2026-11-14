@@ -37,6 +37,7 @@ export const GAMES: Record<GameId, GameInfo> = {
     file: "matchday.wasm",
     sha256: "f149751774f754b956636225c79d294494e1b5dc2c523867eeb2d5b3f96dba4a",
     tone: "text-gold",
+    escrow: "matchday.encroe.testnet",
   },
   "neon-city": {
     id: "neon-city",
@@ -47,6 +48,7 @@ export const GAMES: Record<GameId, GameInfo> = {
     file: "neon-city.wasm",
     sha256: "3f4a1e626aa6fc2e819aaaf5e3ee718e0e6307de87d47c895a93addb336bb3d2",
     tone: "text-flare",
+    escrow: "neon-city.encroe.testnet",
   },
 };
 

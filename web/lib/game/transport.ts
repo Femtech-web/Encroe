@@ -1,5 +1,6 @@
 import { getJson, send, type Me } from "./client";
-import { renown, title } from "./items";
+import type { GameId } from "./games";
+import { standing } from "./standing";
 import { signMove, type Move } from "./moves";
 import { CAPACITY, TICK_MS, describe, play, type World } from "./world";
 
@@ -28,14 +29,17 @@ export const SERVER: Transport = {
   world: async () => (await getJson<WorldView>("/api/world"))!,
 };
 
-export function view(world: World, coreSha256: string): WorldView {
+export function view(world: World, coreSha256: string, game: GameId = "embergate"): WorldView {
   return {
     players: world.players.length,
     capacity: CAPACITY,
     tick_ms: TICK_MS,
     core_sha256: coreSha256,
     board: world.players
-      .map((p) => ({ name: p.name, pk: p.pk, title: title(p.items), renown: renown(p.items) }))
+      .map((p) => {
+        const st = standing(game, p.items);
+        return { name: p.name, pk: p.pk, title: st.title, renown: st.score };
+      })
       .sort((a, b) => b.renown - a.renown)
       .slice(0, 10),
     events: world.events

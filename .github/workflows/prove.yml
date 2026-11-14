@@ -1,0 +1,77 @@
+name: prove
+
+# The prover for studios that seal from their browser (encroe.vercel.app/studios/seal): every 30 minutes it takes
+# the verification runs the site has queued, fetches each run's attestation from OutLayer and relays its quote to
+# NEAR's DCAP verifier (prove_run). Anyone may do this; the escrow checks every bound field itself, so the prover
+# can only help a run that really passed, never fake one. Only the stranger's key is used, to pay for the call.
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: prove
+  cancel-in-progress: false
+
+jobs:
+  prove:
+    if: vars.PROVE_ENABLED != 'false'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: anything queued?
+        id: queue
+        run: |
+          curl -sf -m 60 https://encroe.vercel.app/api/seal/prove > queue.json
+          echo "count=$(python3 -c 'import json;print(len(json.load(open("queue.json"))))')" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v4
+        if: steps.queue.outputs.count != '0'
+        with:
+          path: repo
+      - uses: actions/setup-node@v4
+        if: steps.queue.outputs.count != '0'
+        with:
+          node-version: 22
+      - uses: dtolnay/rust-toolchain@stable
+        if: steps.queue.outputs.count != '0'
+      - uses: Swatinem/rust-cache@v2
+        if: steps.queue.outputs.count != '0'
+        with:
+          workspaces: repo
+      - name: tools (near-cli-rs, encore-attest)
+        if: steps.queue.outputs.count != '0'
+        working-directory: repo
+        run: |
+          npm ci
+          cargo build -q --release -p encore-attest
+      - name: the stranger's key (never printed)
+        if: steps.queue.outputs.count != '0'
+        working-directory: repo
+        env:
+          ENCROE_STUDIO_SECRETS: ${{ secrets.ENCROE_STUDIO_SECRETS }}
+        run: |
+          test -n "$ENCROE_STUDIO_SECRETS" || { echo "ENCROE_STUDIO_SECRETS is not set" >&2; exit 1; }
+          umask 077
+          echo "$ENCROE_STUDIO_SECRETS" | base64 -d | tar xzf -
+          mkdir -p "$HOME/.near-credentials/testnet"
+          mv .near-credentials/testnet/*.json "$HOME/.near-credentials/testnet/"
+          rm -rf .near-credentials
+      - name: prove each queued run
+        if: steps.queue.outputs.count != '0'
+        working-directory: repo
+        run: |
+          python3 -c 'import json;[print(e["escrow"], e["index"], e["request_id"]) for e in json.load(open("../queue.json"))]' |
+          while read -r escrow index request; do
+            name=${escrow%.testnet}; name=${name%.encroe}; name=${name#encroe-}
+            export ESCROW_NAME="prove-$name" ESCROW_ACCOUNT="$escrow"
+            approved=$(scripts/near/view.sh "$escrow" get_state | python3 -c 'import json,sys;print(json.load(sys.stdin)["approved_images"])')
+            [ "$approved" -gt 0 ] || scripts/testnet/escrow.sh refresh || true
+            scripts/testnet/escrow.sh prove "$request" "$index" || echo "prove $escrow run $index failed"
+          done
+      - name: remove the keys
+        if: always()
+        run: rm -rf repo/.env repo/.secrets "$HOME/.near-credentials"

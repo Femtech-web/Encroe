@@ -92,3 +92,73 @@ describe("playing Embergate", () => {
     expect(parseSignedMove({ ...s, move: { kind: "steal" } })).toMatch(/kind/);
   });
 });
+
+describe("the other games, through the same signed moves", () => {
+  const matchday = new WebAssembly.Module(readFileSync(path.join(__dirname, "../../public/core/matchday.wasm")));
+  const sk = newSecretKey();
+  const at = (t: number, m: Move, game = "matchday") => signMove(sk, m, t, game);
+
+  it("joins, opens a pack and plays a match in Matchday, the server supplying every tick", async () => {
+    let w = (await play(EMPTY_WORLD, at(T0 + 1, { kind: "join", name: "Club" }), T0 + 1, matchday, "matchday")) as {
+      ok: true;
+      world: World;
+    };
+    expect(w.world.players[0].items).toEqual([
+      [1, 1000],
+      [2, 1],
+      [5, 3],
+    ]);
+    const t = T0 + 20 * TICK_MS;
+    const opened = await play(w.world, at(t, { kind: "call", name: "open_pack", args: [2] }), t, matchday, "matchday");
+    expect(opened.ok).toBe(true);
+    if (!opened.ok) return;
+    w = opened;
+    expect(w.world.players[0].items.filter(([id]) => id >= 100).reduce((n, [, q]) => n + q, 0)).toBe(3);
+
+    const same = await play(
+      w.world,
+      at(t + 1, { kind: "call", name: "play_match", args: [] }),
+      t + 1,
+      matchday,
+      "matchday",
+    );
+    expect(same).toMatchObject({ ok: false, status: 422, reason: "one action per tick: wait a moment" });
+    const next = t + TICK_MS;
+    const match = await play(
+      w.world,
+      at(next, { kind: "call", name: "play_match", args: [] }),
+      next,
+      matchday,
+      "matchday",
+    );
+    expect(match.ok && match.out?.length).toBe(4);
+    expect(match.ok && match.world.events.at(-1)?.text).toMatch(
+      /^You (won|drew|lost) \(squad \d+ v \d+\), \+\d+ coins$/,
+    );
+  });
+
+  it("refuses a move signed for another game, a move the game does not declare, and Embergate's own moves", async () => {
+    const joined = await play(EMPTY_WORLD, at(T0 + 1, { kind: "join", name: "Club" }), T0 + 1, matchday, "matchday");
+    if (!joined.ok) throw new Error(joined.reason);
+    const forEmbergate = at(T0 + 2, { kind: "call", name: "buy_fitness", args: [] }, "embergate");
+    expect(await play(joined.world, forEmbergate, T0 + 2, matchday, "matchday")).toMatchObject({
+      ok: false,
+      status: 401,
+    });
+    expect(
+      await play(
+        joined.world,
+        at(T0 + 3, { kind: "call", name: "restore_tick", args: [0] }),
+        T0 + 3,
+        matchday,
+        "matchday",
+      ),
+    ).toMatchObject({ ok: false, status: 400 });
+    expect(
+      await play(joined.world, at(T0 + 4, { kind: "gather", node: 1 }), T0 + 4, matchday, "matchday"),
+    ).toMatchObject({
+      ok: false,
+      status: 400,
+    });
+  });
+});

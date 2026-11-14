@@ -1,5 +1,7 @@
 import { hexToBytes } from "@noble/hashes/utils.js";
+import { CATALOGS } from "../cores/catalog";
 import { Core } from "./core";
+import { GAMES, type GameId } from "./games";
 import { ITEMS, OUTCOMES, type Items, type ItemId } from "./items";
 import { signatureValid, type SignedMove } from "./moves";
 
@@ -25,10 +27,12 @@ export type Player = {
 export type WorldEvent = {
   at: number;
   name: string;
-  kind: "join" | "gather" | "forge" | "gift";
+  kind: "join" | "gather" | "forge" | "gift" | "move";
   item?: number;
   qty?: number;
   to?: string;
+  /** A catalog move's own words ("You won (squad 71 v 64), +420 coins"), or its label. */
+  text?: string;
 };
 
 /** The live world as the studio's host stores it: players in the order the core indexes them. */
@@ -36,7 +40,17 @@ export type World = { v: 1; players: Player[]; events: WorldEvent[] };
 
 export const EMPTY_WORLD: World = { v: 1, players: [], events: [] };
 
-export type Outcome = { ok: true; world: World; player: Player } | { ok: false; status: number; reason: string };
+export type Outcome =
+  { ok: true; world: World; player: Player; out?: number[] } | { ok: false; status: number; reason: string };
+
+/** What the core's codes mean, for games other than Embergate (whose words are in items.ts). */
+const CODES: Record<number, string> = {
+  1: "not enough for that",
+  2: "no such player",
+  3: "no room for another kind of item",
+  4: "one action per tick: wait a moment",
+  5: "no such thing",
+};
 
 const refuse = (status: number, reason: string): Outcome => ({ ok: false, status, reason });
 
@@ -44,8 +58,17 @@ const refuse = (status: number, reason: string): Outcome => ({ ok: false, status
  * Plays one signed move: the host loads the world into the core, makes the move there, and reads every
  * inventory back. The host only checks who signed and when; the core decides what happens.
  */
-export async function play(world: World, s: SignedMove, now: number, module: WebAssembly.Module): Promise<Outcome> {
-  if (!signatureValid(s)) return refuse(401, "the signature does not match this key");
+export async function play(
+  world: World,
+  s: SignedMove,
+  now: number,
+  module: WebAssembly.Module,
+  game: GameId = "embergate",
+): Promise<Outcome> {
+  if (!signatureValid(s, game))
+    return refuse(401, "the signature does not match this key (if this page is from before an update, reload it)");
+  if (game !== "embergate" && ["gather", "forge", "gift"].includes(s.move.kind))
+    return refuse(400, `${s.move.kind} is Embergate's move`);
   if (Math.abs(now - s.nonce) > FRESH_MS) return refuse(400, "this move was signed too long ago (or in the future)");
   if (s.move.kind === "proof") return refuse(400, "a proof request is not a move");
   const idx = world.players.findIndex((p) => p.pk === s.pk);
@@ -61,10 +84,11 @@ export async function play(world: World, s: SignedMove, now: number, module: Web
   let me = idx;
   let event: WorldEvent;
   let code: number;
+  let out: number[] | undefined;
   switch (move.kind) {
     case "join": {
       me = core.join(hexToBytes(s.pk));
-      if (me < 0) return refuse(403, `the world is full: Embergate holds ${CAPACITY} players`);
+      if (me < 0) return refuse(403, `the world is full: ${GAMES[game].name} holds ${CAPACITY} players`);
       if (me === players.length) players.push({ pk: s.pk, name: move.name, items: [], nonce: 0, tick: 0, since: now });
       else players[me].name = move.name;
       code = 0;
@@ -90,13 +114,30 @@ export async function play(world: World, s: SignedMove, now: number, module: Web
       event = { at: now, name: players[me].name, kind: "gift", item: move.item, qty: move.qty, to: players[to].name };
       break;
     }
+    case "call": {
+      // Only moves the game declares; the server, not the player, supplies the player's index and every tick.
+      const spec = CATALOGS[GAMES[game].sha256]?.moves?.find((m) => m.name === move.name);
+      if (!spec) return refuse(400, `${GAMES[game].name} has no move ${move.name}`);
+      const tick = Math.floor(now / TICK_MS);
+      const given = [...move.args];
+      code = core.call(spec.name, me, ...spec.args.map((a) => (a.kind === "tick" ? tick : (given.shift() ?? 0))));
+      if (code === 0 && spec.args.some((a) => a.kind === "tick")) players[me].tick = tick;
+      out = code === 0 && spec.says ? core.out(spec.says.words) : undefined;
+      event = {
+        at: now,
+        name: players[me].name,
+        kind: "move",
+        text: out && spec.says ? spec.says.read(out) : spec.label,
+      };
+      break;
+    }
   }
-  if (code !== 0) return refuse(422, OUTCOMES[code] ?? `the core refused (${code})`);
+  if (code !== 0) return refuse(422, (game === "embergate" ? OUTCOMES : CODES)[code] ?? `the core refused (${code})`);
 
   players.forEach((p, i) => (p.items = core.items(i)));
   players[me].nonce = s.nonce;
   const events = [...world.events, event].slice(-EVENTS_KEPT);
-  return { ok: true, world: { v: 1, players, events }, player: players[me] };
+  return { ok: true, world: { v: 1, players, events }, player: players[me], out };
 }
 
 function forged(recipe: number): ItemId | undefined {
@@ -114,12 +155,14 @@ export function describe(e: WorldEvent): string {
   const item = e.item && e.item in ITEMS ? ITEMS[e.item as ItemId].name : "";
   switch (e.kind) {
     case "join":
-      return `${e.name} entered the gate`;
+      return `${e.name} joined`;
     case "gather":
       return `${e.name} gathered ${item}`;
     case "forge":
       return `${e.name} forged a ${item}`;
     case "gift":
       return `${e.name} gave ${e.qty} ${item} to ${e.to}`;
+    case "move":
+      return `${e.name}: ${e.text}`;
   }
 }

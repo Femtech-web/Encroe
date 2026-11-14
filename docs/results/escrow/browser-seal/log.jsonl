@@ -1,0 +1,12 @@
+{"at":1794620697,"step":"seal","escrow":"neon-city.encroe.testnet","epoch":1,"players":2,"pkg_sha256":"44397e819707774c398c8618507f28d479d22cf97b1785dfd4b80453bc20b1fb","core_sha256":"3f4a1e626aa6fc2e819aaaf5e3ee718e0e6307de87d47c895a93addb336bb3d2"}
+{"at":1794620702,"step":"key-row","tx":"Hdo33oVo7Zt9GNchxZ1cHMWfESKroxdY6xN1mV5TrvWf","refused":null,"profile":"encroe-neon-city-1"}
+{"at":1794620705,"step":"commit","tx":"AaTVP5Mu5osVjovANGbK5CLpi4G89k1dWbDPJPSbXdK1","refused":null}
+{"at":1794620742,"step":"fastfs","refused":"commit the epoch first: this package is not the one the escrow holds","note":"the route read the escrow before the commit was final; the package was only in memory, so epoch 1 is stranded"}
+{"at":1794620744,"step":"seal","escrow":"neon-city.encroe.testnet","epoch":2,"players":2,"pkg_sha256":"d4a9e7b9d2d41c02212943d9b5e6f96a6b1d54666a90ec19b0e5bc3b4da39fbe","core_sha256":"3f4a1e626aa6fc2e819aaaf5e3ee718e0e6307de87d47c895a93addb336bb3d2"}
+{"at":1794620749,"step":"key-row","tx":"BdEWUTX3eFY53hrigEiirkLfjXxkgiVkdxJwFyRnAxU3","refused":null,"profile":"encroe-neon-city-2"}
+{"at":1794620752,"step":"commit","tx":"2kNgyyNybDFk6JU1Lawe8dXHWbTbNogprqn2fpbaK5f3","refused":null}
+{"at":1794620758,"step":"fastfs","tx":"2DwKbazDKSfrD5fBmc866JzscxppRGDqptJDaxwvy2Et","url":"https://test.fastfs.io/encroe-relay-3778.testnet/neon-city.encroe.testnet/d4a9e7b9d2d41c02212943d9b5e6f96a6b1d54666a90ec19b0e5bc3b4da39fbe.sealed"}
+{"at":1794620759,"step":"fastfs-served","url":"https://test.fastfs.io/encroe-relay-3778.testnet/neon-city.encroe.testnet/d4a9e7b9d2d41c02212943d9b5e6f96a6b1d54666a90ec19b0e5bc3b4da39fbe.sealed","sha256":"d4a9e7b9d2d41c02212943d9b5e6f96a6b1d54666a90ec19b0e5bc3b4da39fbe","matches":true}
+{"at":1794620764,"step":"verify","tx":"6uzmrySmz65rTedQahxYEPGShFFa9voVfBXhuKzFabL3"}
+{"at":1794620844,"step":"verify-done","run":0,"request_id":41937,"output_ok":true}
+{"at":1794620845,"step":"prove-queued","run":0,"request_id":41937,"queued":true}
