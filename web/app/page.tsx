@@ -83,6 +83,12 @@ export default function Home() {
           <Suspense fallback={<KillLink href="/revive" />}>
             <KillLinkNow />
           </Suspense>
+          <a
+            href="https://youtu.be/nnDuYhpsjj0"
+            className="rounded-md border-2 border-line-strong px-7 py-4 font-display font-bold tracking-wide text-ink uppercase transition hover:border-acid hover:text-acid"
+          >
+            Watch the demo
+          </a>
         </div>
       </section>
 

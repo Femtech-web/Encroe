@@ -162,6 +162,12 @@ export default async function JudgesPage() {
         Everything below runs on NEAR testnet with real transactions. Where a run simulates something (a studio going
         silent, scripted test players), it says so.
       </p>
+      <a
+        href="https://youtu.be/nnDuYhpsjj0"
+        className="mt-6 inline-block rounded-md border border-acid/50 px-5 py-3 font-display text-sm font-bold tracking-wide text-acid uppercase transition hover:bg-acid hover:text-void"
+      >
+        Watch the demo first →
+      </a>
 
       <ol className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {PATH.map((s) => (

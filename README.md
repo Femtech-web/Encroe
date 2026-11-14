@@ -9,7 +9,7 @@
 ### When a studio turns off its servers, its game dies. Encroe hands it to the players instead.
 **The game's server is sealed into a NEAR contract that nobody holds a key to. If the studio goes silent, anyone can bring the game back, with everything its players earned.**
 
-[Live site](https://encroe.vercel.app) · [Play Starhaul in 3D](https://encroe.vercel.app/play/starhaul) · [Kill a studio](https://encroe.vercel.app/revive) · [For judges](JUDGES.md) · [For studios](https://encroe.vercel.app/studios) · [For AI agents](#for-ai-agents) · [The thesis](docs/thesis.md)
+[Live site](https://encroe.vercel.app) · [Demo video](https://youtu.be/nnDuYhpsjj0) · [Play Starhaul in 3D](https://encroe.vercel.app/play/starhaul) · [Kill a studio](https://encroe.vercel.app/revive) · [For judges](JUDGES.md) · [For studios](https://encroe.vercel.app/studios) · [For AI agents](#for-ai-agents) · [The thesis](docs/thesis.md)
 
 [![CI](https://github.com/Femtech-web/Encroe/actions/workflows/ci.yml/badge.svg)](https://github.com/Femtech-web/Encroe/actions/workflows/ci.yml)
 [![Studio](https://github.com/Femtech-web/Encroe/actions/workflows/studio.yml/badge.svg)](https://github.com/Femtech-web/Encroe/actions/workflows/studio.yml)
@@ -71,7 +71,8 @@ core, all five players' items under NEAR's root, a boot with no imports. Nobody 
 | **Bring it back** | the same page | Your browser rebuilds the game from NEAR and FastFS alone, with eight checks, then you **play on** with no server at all. |
 | **Try to break it** | [/break](https://encroe.vercel.app/break) | Six real attacks on locked escrows: early release, fake heartbeat, fake seal, tampered build, replayed proof, double release. Each is refused on chain. |
 
-Judges: the guided path is [/judges](https://encroe.vercel.app/judges), and [JUDGES.md](JUDGES.md) has every claim
+**Watch first:** [the demo video](https://youtu.be/nnDuYhpsjj0). Then the guided path is [/judges](https://encroe.vercel.app/judges), and
+[JUDGES.md](JUDGES.md) has every claim
 with its transaction and the commands to check it without our site.
 
 ## Proven on testnet

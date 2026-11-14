@@ -4,6 +4,8 @@
 check the sealed build is real. If it goes silent, anyone can release it, and the game goes to its players. The
 thesis, in one page: [docs/thesis.md](docs/thesis.md).
 
+**Watch first:** [the demo video](https://youtu.be/nnDuYhpsjj0).
+
 Everything below runs on NEAR testnet with real transactions. Nothing is mocked; where a run simulates something
 (a studio going silent, scripted test players), it says so.
 
