@@ -1,0 +1,22 @@
+{
+  "request_id": 65750,
+  "quote_signature_chain_and_tcb_verified": true,
+  "tcb_status": "UpToDate",
+  "advisory_ids": [],
+  "measurements": {
+    "mrtd": "7fe60787222bd394cb516abca2435f22f035ab2cc9c0a4b4b3b148e46297f3d931a237b72f359052c6e657d8c1409173",
+    "rtmr0": "573aadb4d478839c803c4b1d3e03dd748976b63a89622f377e32a54dd60546e88ec2097f595ceafc324f48a0d0d31db6",
+    "rtmr1": "e7b3ffa0e72b50557d85f7ecd8dc98a4ffc3dd6f82d01f122ef522d61361abeac310d70d2877e56be9c9408d9bcc320c",
+    "rtmr2": "764489f277a8540189761e72b4238ba36d4d647e11bd958d8ab5522af2a4867b0ff63e06b0c4967f1857236244040a5d",
+    "rtmr3": "c285a5ce57af2e5be477a8ff687613283376228f317e7d8b52604a13dd4dd968126d7ba9f4d09bdf5f928e8dd9d6c7aa"
+  },
+  "measurements_in_approved_list": true,
+  "report_data_binds_task_fields": true,
+  "executed_wasm_sha256": "9c0eb2e7a47e83c8feaa3d54780bf8848eb5ec13659d4e925b010e4faf756aad",
+  "wasm_hash_equals_executed": true,
+  "input_hash_matches_reconstructed_input": null,
+  "output_hash_matches_contract_output": null,
+  "caller": "encore-stranger-6b4dad.testnet",
+  "secrets_ref": "encore-pub-6b4dad.testnet/encroe-matchday-7",
+  "block_height": 278067888
+}
