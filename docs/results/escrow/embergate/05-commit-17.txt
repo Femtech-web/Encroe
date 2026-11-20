@@ -1,0 +1,51 @@
+├  Unsigned transaction:
+│    signer_id:    encore-pub-6b4dad.testnet
+│    receiver_id:  encroe-embergate.testnet
+│    actions:
+│       -- function call:      
+│                       method name:  commit
+│                       args:         {
+│                                       "commitment": {
+│                                         "app_id": "0cd11e504723619ec5ac514dcbb493505fc1aa17ae44a273ffd66986980fb628",
+│                                         "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj",
+│                                         "core_sha256": "49ff0c57f10f24b9091eae3bd218b28a642d581f698871f6b3c65b7effa9cb62",
+│                                         "epoch": 17,
+│                                         "game": "embergate",
+│                                         "pkg_sha256": "cabbd6fad146f99eb7c2b48e2981b13aa43916a6ac6bc6218fe1f50007b3a1af",
+│                                         "players": 1,
+│                                         "root": "1e89dc1a3574dff88b85e423ef630ce7d6af321efd7cf9ad09b7c1a8f92d97b7",
+│                                         "sealed_u": "88eef93665d49d646a99d48ec7499fb29b5f6fe7b8ee4aa583cd16e9e18cfb9f932bf86486d3c618c1dc824e34529ccd001fef34ef7c5fe5caa5b1d18239fc4fd459921782eabfe8c661f7a63cf613978a084c724b9730e96c78826ba60822d8",
+│                                         "sealed_v": "234d93ee5f3688b87dcc5d8ada0898ebfd6cb9d8316149de24d6c82ae5758cc0"
+│                                       }
+│                                     }
+│                       gas:          50.0 Tgas
+│                       deposit:      0 NEAR
+│     
+├  Your transaction was signed successfully.
+│    Public key: ed25519:454aDeGXb1XDHWKwZTgFS5w75hmdQVyBW1PMn7XAWW8X
+│    Signature:  ed25519:2LdgyYGfaLwdfEqHEaqiB5ewb8nZ8fpK4HVfsYs3us1CVoFhg9QeeZ49cVggP97TgwHrJ3Ui396P74VDwQgtvgz4
+│     
+├  Transaction Execution Info:
+│    Gas used: 10.6 Tgas
+│    Transaction fee: 0.0010335870386217 NEAR
+│    Transaction ID: CtEUf3p2t2kVFQha8U2mzNn9sfVL7TbHgg6JkFVckb2m
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/CtEUf3p2t2kVFQha8U2mzNn9sfVL7TbHgg6JkFVckb2m
+│     
+├  Function execution logs:
+│    Logs [encroe-embergate.testnet]:   No logs
+│    Logs [encore-pub-6b4dad.testnet]:   No logs
+│     
+├  Function execution return value:
+│    Empty return value
+│     
+
+
+The "commit" call to <encroe-embergate.testnet> on behalf of <encore-pub-6b4dad.testnet> succeeded.
+
+
+
+
+Here is your console command if you need to script it or re-run:
+    /home/runner/work/Encroe/Encroe/node_modules/near-cli-rs/node_modules/.bin_real/near contract call-function as-transaction encroe-embergate.testnet commit json-args '{"commitment": {"game": "embergate", "epoch": 17, "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj", "app_id": "0cd11e504723619ec5ac514dcbb493505fc1aa17ae44a273ffd66986980fb628", "pkg_sha256": "cabbd6fad146f99eb7c2b48e2981b13aa43916a6ac6bc6218fe1f50007b3a1af", "root": "1e89dc1a3574dff88b85e423ef630ce7d6af321efd7cf9ad09b7c1a8f92d97b7", "core_sha256": "49ff0c57f10f24b9091eae3bd218b28a642d581f698871f6b3c65b7effa9cb62", "players": 1, "sealed_u": "88eef93665d49d646a99d48ec7499fb29b5f6fe7b8ee4aa583cd16e9e18cfb9f932bf86486d3c618c1dc824e34529ccd001fef34ef7c5fe5caa5b1d18239fc4fd459921782eabfe8c661f7a63cf613978a084c724b9730e96c78826ba60822d8", "sealed_v": "234d93ee5f3688b87dcc5d8ada0898ebfd6cb9d8316149de24d6c82ae5758cc0"}}' prepaid-gas '50.0 Tgas' attached-deposit '0 NEAR' sign-as encore-pub-6b4dad.testnet network-config testnet sign-with-legacy-keychain send
+
