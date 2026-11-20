@@ -1,0 +1,26 @@
+{
+  "verifier": "encore-verifier/0.1.0",
+  "mode": "secret",
+  "game": "matchday",
+  "epoch": 14,
+  "pkg_sha256": "05d4496863fd6b3cf947f711cbbff7d4fe770c38b51f61a7a68db2aea3621c5c",
+  "sealed_key_sha256": "4f3816cf3c7ddbf0b65cda488ce01d9e00bde799d0356c1dfc12bad14f318c84",
+  "root": "2560512bc5af6efe07dea240e5177fed92e1b919f66aa39700de87ff7d149b61",
+  "core_sha256": "f149751774f754b956636225c79d294494e1b5dc2c523867eeb2d5b3f96dba4a",
+  "seed": "81576b630444d19e44612583b8491555f489f900de5e97c21759364d1b6abc6d",
+  "checks": {
+    "app_id": true,
+    "pkg_sha256": true,
+    "key_binding": true,
+    "decrypt": true,
+    "core_sha256": true,
+    "root": true,
+    "states_served": true,
+    "conservation": true
+  },
+  "sampled": 1,
+  "trades_applied": 0,
+  "transcript_sha256": "b16acf23b3cc37190c4d1fa3445122990be4ea5b8d2f0176a2826bcb6cbaaca9",
+  "pass": true,
+  "error": null
+}
