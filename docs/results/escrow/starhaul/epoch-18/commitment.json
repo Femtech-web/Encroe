@@ -1,0 +1,18 @@
+{
+  "v": 1,
+  "game": "starhaul",
+  "epoch": 18,
+  "predecessor": "starhaul.encroe.testnet",
+  "path": "encroe/starhaul/1",
+  "domain_id": 2,
+  "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj",
+  "app_id": "a40d6aab9eecbf5ffe883bc564610c778a64f80d35e96ba7c05370227cbd0c9e",
+  "sealed_key": {
+    "u": "93940d5a02060c88c578ef4c8928b32e121d2c94a727c2fb60cd8a7191c58cfc9602c069104881ec98e57305f9cf873f13e000b4671e5cd4aad3153095c1cf49eeb046f0229436a05ba022654e4ba43008c0c8af1ecbbcc49be24640bf512f17",
+    "v": "4dd7965d8abbd8721591da1b3667ab89126e59527e15f0da7875187572fc7279"
+  },
+  "pkg_sha256": "818b3ffdf41b55244f5f4b28362469f5ce05c777aee18843ddf459228383092c",
+  "root": "4d9edb04a3a5b3b0199689d38c84653cd4bd7c02c615ab704355932364acb1d7",
+  "core_sha256": "f8a50a172e7da0c34c64c08443194d9e737da720749d31b775ada99ad64c463e",
+  "players": 1
+}

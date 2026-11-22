@@ -1,0 +1,26 @@
+{
+  "verifier": "encore-verifier/0.1.0",
+  "mode": "secret",
+  "game": "starhaul",
+  "epoch": 18,
+  "pkg_sha256": "818b3ffdf41b55244f5f4b28362469f5ce05c777aee18843ddf459228383092c",
+  "sealed_key_sha256": "c72ef940e6b525ae3cc62331fae04f757b9594a71c9fb7ff0898eda6d803bfdb",
+  "root": "4d9edb04a3a5b3b0199689d38c84653cd4bd7c02c615ab704355932364acb1d7",
+  "core_sha256": "f8a50a172e7da0c34c64c08443194d9e737da720749d31b775ada99ad64c463e",
+  "seed": "f08ea45b74badc8acae17642ce38b0b2086619415f1aaba2fc1426f3f53cb1ce",
+  "checks": {
+    "app_id": true,
+    "pkg_sha256": true,
+    "key_binding": true,
+    "decrypt": true,
+    "core_sha256": true,
+    "root": true,
+    "states_served": true,
+    "conservation": true
+  },
+  "sampled": 1,
+  "trades_applied": 0,
+  "transcript_sha256": "4252766fde9b9759bd48085627acd1ebdb18a966eb55cfc2714bf6854ee8affe",
+  "pass": true,
+  "error": null
+}
