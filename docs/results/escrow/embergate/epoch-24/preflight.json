@@ -1,0 +1,26 @@
+{
+  "verifier": "encore-verifier/0.1.0",
+  "mode": "secret",
+  "game": "embergate",
+  "epoch": 24,
+  "pkg_sha256": "0056327389a5d73ef1fa2ad4e85b5df4e4daea22204385965db348287e12b489",
+  "sealed_key_sha256": "9f2bba80628889db994d186298298353baac004499c3bfdd4b806ee81468ea9e",
+  "root": "e7c6be3a39a3bdc3be3f0e8a7259a4a60792748272816a9a7ca476e2b4d0ac81",
+  "core_sha256": "49ff0c57f10f24b9091eae3bd218b28a642d581f698871f6b3c65b7effa9cb62",
+  "seed": "ec37ceed8b9d38de52d18236d72c80fcf8001808953ef81572b08619dbd6de9b",
+  "checks": {
+    "app_id": true,
+    "pkg_sha256": true,
+    "key_binding": true,
+    "decrypt": true,
+    "core_sha256": true,
+    "root": true,
+    "states_served": true,
+    "conservation": true
+  },
+  "sampled": 1,
+  "trades_applied": 0,
+  "transcript_sha256": "138fc3da366e7ee5289e9eb0594892e36a8c68a7d2aab361043d6ceee9257ec2",
+  "pass": true,
+  "error": null
+}
