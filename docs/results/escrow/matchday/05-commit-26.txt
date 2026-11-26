@@ -1,0 +1,51 @@
+├  Unsigned transaction:
+│    signer_id:    encore-pub-6b4dad.testnet
+│    receiver_id:  matchday.encroe.testnet
+│    actions:
+│       -- function call:      
+│                       method name:  commit
+│                       args:         {
+│                                       "commitment": {
+│                                         "app_id": "fc3743543beb920f5430a80ed67ba1793a841e09c33b57a177968cf9b4656fd6",
+│                                         "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj",
+│                                         "core_sha256": "f149751774f754b956636225c79d294494e1b5dc2c523867eeb2d5b3f96dba4a",
+│                                         "epoch": 26,
+│                                         "game": "matchday",
+│                                         "pkg_sha256": "6ea589af9ad4d46b7d3657f10c764004d4bb6783793a4cceae2be1d11e959f0d",
+│                                         "players": 1,
+│                                         "root": "eda056ec6760ee9cb7f94febb5561a262bee8e2f9926f0a2edd27524f926ebea",
+│                                         "sealed_u": "ac4a2334bbfeffc4e4384893c8068cd0353f0f99ba7849b4553d2e4105b90603675a45cb654b3433da64d510b27443f70429791c689b05cd694703d60d219369ebe6ad958b29e5449d7f1cacddd994bb49c0ff60812b925a4dc5ea05c1c357b0",
+│                                         "sealed_v": "999210d9130529815f4320bfd840144d0aa04c1d8f922c20e816236197ac76b4"
+│                                       }
+│                                     }
+│                       gas:          50.0 Tgas
+│                       deposit:      0 NEAR
+│     
+├  Your transaction was signed successfully.
+│    Public key: ed25519:454aDeGXb1XDHWKwZTgFS5w75hmdQVyBW1PMn7XAWW8X
+│    Signature:  ed25519:55MnLyeowvgV59fsCS34xs8WHfxEMaxJ7APCJFezysuTd2JYBveEY4K7nqEN1XUmc1vV29epezDbbeSH76p2Yyxq
+│     
+├  Transaction Execution Info:
+│    Gas used: 10.3 Tgas
+│    Transaction fee: 0.0010040252437386 NEAR
+│    Transaction ID: 6eetUA5RL1SWmPADUpiupvWR1Ap6XSiBLQpGKqTYM7p6
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/6eetUA5RL1SWmPADUpiupvWR1Ap6XSiBLQpGKqTYM7p6
+│     
+├  Function execution logs:
+│    Logs [matchday.encroe.testnet]:   No logs
+│    Logs [encore-pub-6b4dad.testnet]:   No logs
+│     
+├  Function execution return value:
+│    Empty return value
+│     
+
+
+The "commit" call to <matchday.encroe.testnet> on behalf of <encore-pub-6b4dad.testnet> succeeded.
+
+
+
+
+Here is your console command if you need to script it or re-run:
+    /home/runner/work/Encroe/Encroe/node_modules/near-cli-rs/node_modules/.bin_real/near contract call-function as-transaction matchday.encroe.testnet commit json-args '{"commitment": {"game": "matchday", "epoch": 26, "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj", "app_id": "fc3743543beb920f5430a80ed67ba1793a841e09c33b57a177968cf9b4656fd6", "pkg_sha256": "6ea589af9ad4d46b7d3657f10c764004d4bb6783793a4cceae2be1d11e959f0d", "root": "eda056ec6760ee9cb7f94febb5561a262bee8e2f9926f0a2edd27524f926ebea", "core_sha256": "f149751774f754b956636225c79d294494e1b5dc2c523867eeb2d5b3f96dba4a", "players": 1, "sealed_u": "ac4a2334bbfeffc4e4384893c8068cd0353f0f99ba7849b4553d2e4105b90603675a45cb654b3433da64d510b27443f70429791c689b05cd694703d60d219369ebe6ad958b29e5449d7f1cacddd994bb49c0ff60812b925a4dc5ea05c1c357b0", "sealed_v": "999210d9130529815f4320bfd840144d0aa04c1d8f922c20e816236197ac76b4"}}' prepaid-gas '50.0 Tgas' attached-deposit '0 NEAR' sign-as encore-pub-6b4dad.testnet network-config testnet sign-with-legacy-keychain send
+
