@@ -1,0 +1,18 @@
+{
+  "v": 1,
+  "game": "matchday",
+  "epoch": 29,
+  "predecessor": "matchday.encroe.testnet",
+  "path": "encroe/matchday/1",
+  "domain_id": 2,
+  "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj",
+  "app_id": "fc3743543beb920f5430a80ed67ba1793a841e09c33b57a177968cf9b4656fd6",
+  "sealed_key": {
+    "u": "a0e7ce72f04f5c4fab98f297f62e9c072825979cf19ce9f8ccd9a3d5060542b6fd6c736b013fb1d860b53fa64af0dd8e05294b2c80294a4076b9f4441f8eb84965b609fef5dbbd81b9ca9ba46b67aac65090676d1a29b3453a2b33e1beaa4554",
+    "v": "f828e6daca85f6ec858499a754abb3b6153acefdddfb7f320b696661c654f4fd"
+  },
+  "pkg_sha256": "ce8b388675b59228233275406c0dff4b29c50a40639c4e5c438a15507bfa7104",
+  "root": "ad7c8cbdd3659c801d534a347a0713aaa05fae93eaf96b337435c77b2df91362",
+  "core_sha256": "f149751774f754b956636225c79d294494e1b5dc2c523867eeb2d5b3f96dba4a",
+  "players": 1
+}
