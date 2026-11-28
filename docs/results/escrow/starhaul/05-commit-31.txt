@@ -1,0 +1,51 @@
+├  Unsigned transaction:
+│    signer_id:    encore-pub-6b4dad.testnet
+│    receiver_id:  starhaul.encroe.testnet
+│    actions:
+│       -- function call:      
+│                       method name:  commit
+│                       args:         {
+│                                       "commitment": {
+│                                         "app_id": "a40d6aab9eecbf5ffe883bc564610c778a64f80d35e96ba7c05370227cbd0c9e",
+│                                         "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj",
+│                                         "core_sha256": "f8a50a172e7da0c34c64c08443194d9e737da720749d31b775ada99ad64c463e",
+│                                         "epoch": 31,
+│                                         "game": "starhaul",
+│                                         "pkg_sha256": "d5bf09b2c77f62b9f87ed1e702472e19c6875778918a96089c43bc968c41204b",
+│                                         "players": 1,
+│                                         "root": "06cd2b403d5484236e9d3d2ba38f3ff943c1d0f4ba32fd7034e47dfaec4998de",
+│                                         "sealed_u": "b1a8b07d0cbb9c0ce15037ad139cb11cc6551957616018cd02ef44f62297dabceacb12aba8af436257dfc644a6b1ee3603dc30ee1fb13fbb257b0542af6657f600ee08b7d25d0316eb9862a823660e961511090adfd9e0a758b9b4b518252e80",
+│                                         "sealed_v": "7f28d4f8b885bb991c13e47c242d6749fa42338d6802fd344d73731771fc1f1a"
+│                                       }
+│                                     }
+│                       gas:          50.0 Tgas
+│                       deposit:      0 NEAR
+│     
+├  Your transaction was signed successfully.
+│    Public key: ed25519:454aDeGXb1XDHWKwZTgFS5w75hmdQVyBW1PMn7XAWW8X
+│    Signature:  ed25519:5CQUxebHTdZXCsmw36ALU2V3SsguVfxHeqMz62ctQDppR15Z9PWRdggMeom4Mf2YnubmfnFeZ4B6pvB34yCbZ7HE
+│     
+├  Transaction Execution Info:
+│    Gas used: 10.3 Tgas
+│    Transaction fee: 0.0010040527941804 NEAR
+│    Transaction ID: EViRXg64PP9kQE5wcQQKeEVbrn7mKxe5UbABsbdYDFnn
+│    To see the transaction in the transaction explorer, please open this url in your browser:
+│    https://explorer.testnet.near.org/transactions/EViRXg64PP9kQE5wcQQKeEVbrn7mKxe5UbABsbdYDFnn
+│     
+├  Function execution logs:
+│    Logs [starhaul.encroe.testnet]:   No logs
+│    Logs [encore-pub-6b4dad.testnet]:   No logs
+│     
+├  Function execution return value:
+│    Empty return value
+│     
+
+
+The "commit" call to <starhaul.encroe.testnet> on behalf of <encore-pub-6b4dad.testnet> succeeded.
+
+
+
+
+Here is your console command if you need to script it or re-run:
+    /home/runner/work/Encroe/Encroe/node_modules/near-cli-rs/node_modules/.bin_real/near contract call-function as-transaction starhaul.encroe.testnet commit json-args '{"commitment": {"game": "starhaul", "epoch": 31, "ckd_pk": "bls12381g2:xeYho48G2Sr9oJz4gw9sLGZGspeeKpHZvMDAwWvoNTRnVMFJH96GxX98TT2MRhTtsot1wcGR1Ti2Xh8PCsbYJ2enbLNdJXDvTYSK8aTE3nJ5NZXU7Kt1F6mFtReWs5pR4kj", "app_id": "a40d6aab9eecbf5ffe883bc564610c778a64f80d35e96ba7c05370227cbd0c9e", "pkg_sha256": "d5bf09b2c77f62b9f87ed1e702472e19c6875778918a96089c43bc968c41204b", "root": "06cd2b403d5484236e9d3d2ba38f3ff943c1d0f4ba32fd7034e47dfaec4998de", "core_sha256": "f8a50a172e7da0c34c64c08443194d9e737da720749d31b775ada99ad64c463e", "players": 1, "sealed_u": "b1a8b07d0cbb9c0ce15037ad139cb11cc6551957616018cd02ef44f62297dabceacb12aba8af436257dfc644a6b1ee3603dc30ee1fb13fbb257b0542af6657f600ee08b7d25d0316eb9862a823660e961511090adfd9e0a758b9b4b518252e80", "sealed_v": "7f28d4f8b885bb991c13e47c242d6749fa42338d6802fd344d73731771fc1f1a"}}' prepaid-gas '50.0 Tgas' attached-deposit '0 NEAR' sign-as encore-pub-6b4dad.testnet network-config testnet sign-with-legacy-keychain send
+
